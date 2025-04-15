@@ -24,3 +24,5 @@ yarn-error.log*
 
 # 忽略前端的 node_modules
 /frontend/node_modules/
+
+.env
