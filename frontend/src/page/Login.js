@@ -1,28 +1,8 @@
-import React, { useState } from 'react';
-import './Login.css'; 
+import React, {useState} from "react";
+import "./login.css";
+import {loginApi} from "../api/loginApi";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // 在這裡處理登入邏輯，例如發送 API 請求
-    try {
-        const response = await fetch('http://localhost:3000/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-        const data = await response.json();
-        console.log('Response:', data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-  };
-
   return (
     <div className="login-container">
       <h1>登入</h1>
@@ -49,7 +29,9 @@ function Login() {
             required
           />
         </div>
-        <button type="submit" className="login-button">登入</button>
+        <button type="submit" className="login-button">
+          登入
+        </button>
       </form>
     </div>
   );
