@@ -2,12 +2,13 @@ const db = require('./dbConnection'); // Import the database connection module
 
 //建Tables
 const createUsersTable = 
-`CREATE TABLE IF NOT EXISTS users (
+`CREATE TABLE IF NOT EXISTS User (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    point INT DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'unbanned',
 );`
 ;
 
