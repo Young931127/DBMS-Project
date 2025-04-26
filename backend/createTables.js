@@ -18,6 +18,10 @@ const createTasksTable =
     Task_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     task_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    deadline DATETIME NOT NULL,
+    reward INT DEFAULT 0,
+    is_top BOOLEAN DEFAULT FALSE,
     status ENUM("pending", "completed") DEFAULT "pending",
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
