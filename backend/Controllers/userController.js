@@ -6,12 +6,11 @@ const mysqlConnectionPool = require('../db/mysql');
 async function signup(req, res) {
     const { name, email, password } = req.body;
     const mysql = await mysqlConnectionPool.getConnection();
-
     try {
         await mysql.query(
             `
-    INSERT INTO User (user_id, username, password, email, point, status)
-    VALUES (?, ?, ?, ?, ?, )`,
+    INSERT INTO User ( username, password, email, point, status)
+    VALUES (?, ?, ?, ?, ?)`,
             [name, email, password, 0, "unbanned"],
         );
         // return succcessfully created
