@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import "./login.css";
-import {loginApi} from "../api/loginApi";
+import {login} from "../api/loginApi";
 
 function Login() {
   return (
