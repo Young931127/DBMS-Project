@@ -57,19 +57,34 @@ const creatRateTable =
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
- const creatUserRatingSummaryTable =
-`CREATE TABLE IF NOT EXISTS user_rating_summary (
-  user_id                INT           PRIMARY KEY,                   -- 對應 users.user_id
-  avg_rating_as_accepter DECIMAL(3,2)  NOT NULL DEFAULT 0.00,        -- 接單者平均分
-  avg_rating_as_poster   DECIMAL(3,2)  NOT NULL DEFAULT 0.00,        -- 發布者平均分
-  last_updated           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
-    ON UPDATE CURRENT_TIMESTAMP       -- 最後一次更新時間
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;   
+ const creatUserAccepterRatingTable =
+`CREATE TABLE IF NOT EXISTS accepter_ratings (
+  rating_id    INT            AUTO_INCREMENT PRIMARY KEY,
+  accepter_id  INT            NOT NULL,                       -- 接單者的 user_id
+  score         TINYINT       NOT NULL,                       -- 評分分數 (1~5)
+  comment      VARCHAR(255),                                 -- 評語
+  rating_time  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (accepter_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 
+`
+const createReporterRatingTable=
+`CREATE TABLE IF NOT EXISTS reporter_ratings (
+  rating_id    INT            AUTO_INCREMENT PRIMARY KEY,
+  reporter_id  INT            NOT NULL,                       -- 發布者的 user_id
+  score         TINYINT       NOT NULL,                       -- 評分分數 (1~5)
+  comment      VARCHAR(255),                                 -- 評語
+  rating_time  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (reporter_id) REFERENCES users(user_id)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 `
 
 ;
 
-//資料庫操作邏輯
+//資料庫操作邏輯 
 db.query(createUsersTable, (err, result) => {
     if (err) {
         console.error('Error creating users table:', err);
