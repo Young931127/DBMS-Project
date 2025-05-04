@@ -57,6 +57,16 @@ const creatRateTable =
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+ const creatUserRatingSummaryTable =
+`CREATE TABLE IF NOT EXISTS user_rating_summary (
+  user_id                INT           PRIMARY KEY,                   -- 對應 users.user_id
+  avg_rating_as_accepter DECIMAL(3,2)  NOT NULL DEFAULT 0.00,        -- 接單者平均分
+  avg_rating_as_poster   DECIMAL(3,2)  NOT NULL DEFAULT 0.00,        -- 發布者平均分
+  last_updated           TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ON UPDATE CURRENT_TIMESTAMP       -- 最後一次更新時間
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;   
+`
+
 ;
 
 //資料庫操作邏輯
