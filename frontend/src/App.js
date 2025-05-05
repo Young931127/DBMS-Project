@@ -11,11 +11,7 @@ import Sidebar from "./components/Sidebar";*/
 import LoginPage from "./page/LoginPage";
 
 const App = () => {
-  /*//搜尋框操作邏輯
-  const handleSearch = (inputValue) => {
-    console.log("Search value:", inputValue);
-  };*/
-
+  // 假資料，實際上應該從API獲取
   const topTasks = [
     { title: "任務1", description: "這是任務1的描述", date: "2023-10-01" },
     { title: "任務2", description: "這是任務2的描述", date: "2023-10-02" },
