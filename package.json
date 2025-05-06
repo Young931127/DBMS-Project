@@ -1,6 +1,10 @@
 {
-	"dependencies": {
-		"bootstrap": "^5.3.5",
-		"jose": "^6.0.10"
-	}
+  "name": "dbms_project",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"npm start --prefix frontend\" \"npm run dev --prefix backend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
 }
