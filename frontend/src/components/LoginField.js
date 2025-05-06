@@ -1,13 +1,21 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LoginField.css";
 
 const LoginField = ({ onLogin }) => {
   const [username, setUsername] = useState(""); //定義狀態變數userid，setuserid用來更新狀態變數，useState("")表示初始為空字串
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   //登入處理
-  const handleLogin = ({ username, password }) => {
-    alert(`Username: ${username}, Password: ${password}`);
+  const handleLogin = () => {
+    
+    //發送API到後端進行驗證
+
+    //按下登入後跳轉到主畫面
+    navigate("/HomePage"); 
+    
   };
 
   const handleRegister = ()=>{

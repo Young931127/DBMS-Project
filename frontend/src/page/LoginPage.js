@@ -3,9 +3,9 @@ import LoginField from "../components/LoginField";
 
 function Login() {
   return (
-    <div className = "login">
+    <div className="login">
       <LoginField />
-      </div> 
+    </div>
   );
 }
 

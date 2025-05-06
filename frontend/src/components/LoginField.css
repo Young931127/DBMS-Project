@@ -1,5 +1,5 @@
 .login-container {
-  display: flex;
+  display: block;
   flex-direction: column; /* 垂直排列 */
   justify-content: center; /* 垂直置中 */
   align-items: center; /* 水平置中 */
@@ -14,20 +14,17 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .form-content {
-  margin-top : 5px;
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 80%;
-  
-  
 }
 .header {
   font-size: 30px;
   font-weight: bold;
   margin-top: 1px;
   color: #333; /* 標題顏色 */
-
 }
 .input-group {
   display: flex;
@@ -51,7 +48,7 @@
   font-size: 14px;
 }
 
-.login-btn, 
+.login-btn,
 .register-btn {
   display: block; /* 按鈕獨佔一行 */
   padding: 8px 24px;
@@ -72,9 +69,7 @@
 .login-btn:hover,
 .register-btn:hover {
   background-color: #1c6007; /* 滑鼠懸停時的顏色 */
-
 }
-
 
 .divider {
   display: flex;
@@ -85,7 +80,6 @@
   margin-top: 10px;
   width: 100%;
 }
-
 
 .divider::before,
 .divider::after {
