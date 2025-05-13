@@ -1,39 +1,50 @@
 /* 大容器樣式 */
 .input-container {
-  border: 2px solid #d6cf42; /* 邊框顏色 */
-  border-radius: 10px; /* 圓角 */
-  padding: 5px; /* 內邊距 */
-  width: 80%; /* 滿寬 */
-  max-width: 300px; /* 最大寬度 */
-  margin-left: auto; /* 置右 */
+  
+  display: flex;
+  border: 2px solid #292927; 
+  border-radius: 10px; 
+  padding: 5px;
+  width: 300px;
+  height: 50px;
+  margin-left: 70px;
+  margin-top: 5px ;
+  margin-bottom: 40px;
   display: flex; /* 使用 Flexbox 排版 */
   align-items: center; /* 垂直置中 */
-  gap: 10px; /* 元素間距 */
+  box-sizing: border-box;
+  background-color: #ffffff;
 }
 
 /* 輸入框樣式 */
 .input {
-  flex: 1; /* 讓輸入框填滿剩餘空間 */
-  border: none; /* 無邊框 */
-  outline: none; /* 移除聚焦時的外框 */
-  padding: 10px; /* 內邊距 */
-  font-size: 16px; /* 字體大小 */
+  flex: 1; /* 讓輸入框佔滿剩餘空間 */
+  border: none; 
+  padding: 10px; 
+  font-size: 14px; 
 }
 
-/* 搜尋按鈕樣式 */
+.input:focus{
+  outline: none;
+}
+
+
 .search-button {
-  background-color: #d6cf42; /* 按鈕背景顏色 */
-  color: white; /* 按鈕文字顏色 */
-  border: none; /* 無邊框 */
-  border-radius: 5px; /* 圓角 */
-  padding: 10px 20px; /* 內邊距 */
-  font-size: 16px; /* 字體大小 */
+  background-color: #5b5b59; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  padding: 8px 10px; 
+  font-size: 16px; 
   font-weight: bold;
-  cursor: pointer; /*滑鼠移上時顯示手型 */
+  cursor: pointer;
+  box-sizing: border-box;
+  z-index: 10;
+  
   /*transition: background-color 0.3s; /* 背景顏色過渡效果 */
 }
 
-/* 搜尋按鈕的 hover 效果 */
+
 .search-button:hover {
-  background-color: #45a049; /* 滑鼠移上時的背景顏色 */
+  background-color: #818481; /* 滑鼠移上時的背景顏色 */
 }

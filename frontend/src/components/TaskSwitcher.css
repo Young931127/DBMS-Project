@@ -1,13 +1,26 @@
+.task-container {
+  display : flex;
+  flex-direction:column; /* 子元素垂直排列 */
+  align-items: center; /* 子元素水平置中 */
+  height: 100vh; /* 高度為視窗高度 */
+  padding: 0 20px;
+  background-color: rgb(255, 255, 255);
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 100%;
+  
+}
 /* 切換按鈕容器 */
 .task-switcher {
+  position : fixed; /* 固定在視窗上 */
+
   display: flex;
   justify-content: center; /* 按鈕置中 */
-  padding: 10px 0;
+  padding: 10px 10px 20px 10px; /*上 右 下 左*/
   position: relative;
-  width: 300px;
-  margin: auto;
+  width: 100%; 
   overflow: hidden;
-}
+  }
 
 /* 切換按鈕樣式 */
 .task-btn {
@@ -17,44 +30,47 @@
   font-weight: bold;
   background-color: transparent;
   border: none; /* 移除邊框 */
-  color: #898787; /* 預設灰色文字 */
+  color: #898484; /* 預設灰色文字 */
   transition: background-color 0.3s, color 0.3s; /* 過渡效果 */
   text-align: center;
   min-width: 150px; /* 按鈕最小寬度 */
+  width:100% ;
 }
 
 .task-btn.active {
   color: #060606; /* 點擊後的黑色文字 */
-  border-radius: 5px;
+  /*border-radius: 5px;*/
+  
 }
 
 
 .task-list {
   
-  margin-top: 20px;
+  margin-top :10px;
   list-style: none;
   padding: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
-  margin: 20px auto; /* 列表置中 */
+  margin: 0; /* 列表置中 */
   gap: 5px;
   transition: transform 0.3s; /* 過渡效果 */
+  overflow-y: auto;
 }
 
 /* 列表項目 */
 .task-item {
   margin-bottom: 10px;
-  padding: 10px;
+  padding:10px ;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #fff; /* 預設白色背景 */
+  background-color: #ffffff; /* 預設白色背景 */
   cursor: pointer;
   transition: background-color 0.3s; /* 背景顏色過渡效果 */
 }
 
 /* 滑鼠懸停效果 */
 .task-item:hover {
-  background-color: #f9f9f9; /* 懸停時的背景顏色 */
+  background-color: #ccc8c8; /* 懸停時的背景顏色 */
 }
+
