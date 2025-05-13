@@ -1,0 +1,105 @@
+/* 整個註冊頁面的容器 */
+.register {
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background-color: #d0cccc;
+  
+  box-sizing: border-box;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 30%;
+  padding: 20px;
+  background-color: #d0cccc;
+  overflow: visible;
+ 
+}
+.header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  width : 100%;
+  justify-content: center;
+}  
+/* 標題樣式 */
+.header {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #333;
+  
+}
+
+.back-link {
+  font-size: 20px;
+  color: #050505;
+  text-decoration: none;
+  margin-left: 20px;
+  cursor: pointer;
+  position: relative;
+  top:20px;
+}
+
+
+/* 每個輸入框的容器 */
+.input-group {
+  margin-bottom: 15px;
+  width: 100%;
+  overflow: visible;
+  
+  
+}
+
+/* 標籤樣式 */
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #555;
+}
+
+/* 輸入框樣式 */
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  align-self: flex-end;
+}
+
+/* 輸入框聚焦時的樣式 */
+.input-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* 提交按鈕樣式 */
+.register-btn {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* 提交按鈕懸停時的樣式 */
+.register-btn:hover {
+  background-color: #06386e;
+}

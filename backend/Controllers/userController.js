@@ -1,4 +1,5 @@
 const mysqlConnectionPool = require('../db/mysql');
+import jwt from 'jsonwebtoken';
 /**
  * @param {express.Request} req
  * @param {express.Response} res
@@ -39,16 +40,15 @@ async function login(req, res) {
         WHERE Email=? AND Password=?
         `, [email, password]
         );
-        const token = await new jose.SignJWT(
-            { id: result[0]["UserId"] }
-        )
-            .setProtectedHeader({ alg: "HS256" })
-            .setExpirationTime("2h")
-            .sign(new TextEncoder().encode("secret"));
-            res.status(200).json({
-                id: result[0]["UserId"],
-                token: token
-            })
+
+        const user = result[0][0];
+        const token = jwt.sign(
+            { sub: user.UserId, name: user.Name },
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' }
+          );
+
+          res.status(200).json({token: token});
     } catch (err) {
         res.status(403).json({ error: err.toString() })
     }
