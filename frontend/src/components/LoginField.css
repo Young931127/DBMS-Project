@@ -1,5 +1,5 @@
 .login-container {
-  display: block;
+  display: flex; /* 使用 Flexbox 排版 */
   flex-direction: column; /* 垂直排列 */
   justify-content: center; /* 垂直置中 */
   align-items: center; /* 水平置中 */
@@ -25,6 +25,7 @@
   font-weight: bold;
   margin-top: 1px;
   color: #333; /* 標題顏色 */
+  text-align: center; /* 文字置中 */
 }
 .input-group {
   display: flex;
@@ -48,8 +49,7 @@
   font-size: 14px;
 }
 
-.login-btn,
-.register-btn {
+.login-btn {
   display: block; /* 按鈕獨佔一行 */
   padding: 8px 24px;
   width: 50%;
@@ -66,8 +66,7 @@
   cursor: pointer;
 }
 
-.login-btn:hover,
-.register-btn:hover {
+.login-btn:hover{
   background-color: #1c6007; /* 滑鼠懸停時的顏色 */
 }
 
@@ -87,4 +86,17 @@
   flex: 1;
   border-bottom: 1px solid #504f4f;
   margin: 0 10px;
+}
+
+.register-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.register-link:hover {
+  color: darkblue;
 }

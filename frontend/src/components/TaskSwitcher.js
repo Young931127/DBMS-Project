@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./TaskSwitcher.css";
 
-const TaskSwitcher = ({ topTasks, normalTasks}) => {
+const TaskSwitcher = ({ topTasks, normalTasks }) => {
   //定義狀態變數為activeTab，setActiveTab用來更新activeTab，activeTab預設為"置頂任務"
   const [activeTab, setActiveTab] = useState("置頂任務");
 
@@ -31,17 +31,21 @@ const TaskSwitcher = ({ topTasks, normalTasks}) => {
         </button>
       </div>
       <ul className="task-list">
-        {tasks.map((task, index) => (
-          <li
-            key={index}
-            className="task-item"
-            onClick={() => handleTaskClick(task)} //點擊任務時觸發handleTaskClick函數
-          >
-            <h5 className="mb-1">{task.title}</h5>
-            <p className="mb-1">{task.description}</p>
-            <small>{task.date}</small>
-          </li>
-        ))}
+        {tasks.length > 0 ? (
+          tasks.map((task, index) => (
+            <li
+              key={index}
+              className="task-item"
+              onClick={() => handleTaskClick(task)} //點擊任務時觸發handleTaskClick函數
+            >
+              <h5 className="mb-1">{task.title}</h5>
+              <p className="mb-1">{task.description}</p>
+              <small>{task.date}</small>
+            </li>
+          ))
+        ) : (
+          <p>目前沒有任務</p>
+        )}
       </ul>
     </div>
   );
