@@ -4,7 +4,7 @@ const taskRoute = require("./Routes/taskRoute");
 
 const app = express();
 const db = require('./dbConnection');
-const mysqlConnectionPool = require('./dbConnection.js');
+
 
 //中間件
 app.use(cors()); //允許跨域請求

@@ -1,4 +1,4 @@
-const mysqlConnectionPool = require('../db/mysql');
+const mysqlConnectionPool = require('../dbConnection');
 /**
  * @param {express.Request} req
  * @param {express.Response} res
