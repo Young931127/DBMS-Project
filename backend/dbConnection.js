@@ -1,6 +1,6 @@
 import mysqlConnectionPool from "./createTables.js";
 
-const mysql = require('mysql2');
+const mysql = require('mysql');
 const mysqlConnectionPool = mysql.createPool(access);
 
 require('dotenv').config();
