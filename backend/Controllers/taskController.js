@@ -11,7 +11,7 @@ exports.getNormalTasks = async (req, res) => {
         const [normalTask] = await mysql.query(
             `SELECT * 
             FROM tasks
-            WHERE isTop = 'false'`
+            WHERE isTop = 'false'` 
         );
         res.status(200).json({
             success: true,
