@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>任務表單</title>
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- flatpickr -->
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <!-- 自訂 CSS -->
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-4">
+    <form id="task-form">
+      <!-- 任務標題 -->
+      <div class="form-group mb-3">
+        <label for="task-title" class="form-label fw-bold">任務標題</label>
+        <input type="text" class="form-control" id="task-title" placeholder="請輸入本次任務的標題" required>
+      </div>
+
+      <!-- 任務內容 -->
+      <div class="form-group mb-3">
+        <label for="task-content" class="form-label fw-bold">任務內容</label>
+        <textarea class="form-control task-content-box" id="task-content" placeholder="請輸入本次任務的內容" required></textarea>
+      </div>
+
+      <!-- 新增的功能區塊 -->
+      <div class="form-group mb-3">
+        <label class="form-label fw-bold">報酬</label>
+        <div class="d-flex align-items-center">
+          <span>新台幣</span>
+          <input type="number" class="form-control mx-2" id="reward-ntd" placeholder="金額" min="0" style="width: 120px;">
+          <span>元</span>
+          <span class="mx-3">+</span>
+          <span>自己的積分</span>
+          <input type="number" class="form-control mx-2" id="reward-points" placeholder="積分" min="0" style="width: 120px;">
+          <span>點</span>
+        </div>
+      </div>
+
+      <!-- 任務開始 -->
+      <div class="mb-3">
+        <label for="start-date" class="form-label fw-bold">任務開始日期</label>
+        <div class="date-time-group">
+          <input type="text" class="form-control date-input" id="start-date" placeholder="請選擇任務開始日期" required>
+          <div class="time-input">
+            <select id="start-hour" class="form-select time-select"></select>
+            <span class="input-group-text">點</span>
+            <select id="start-minute" class="form-select time-select"></select>
+            <span class="input-group-text">分</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 任務結束 -->
+      <div class="mb-3">
+        <label for="end-date" class="form-label fw-bold">任務結束日期</label>
+        <div class="date-time-group">
+          <input type="text" class="form-control date-input" id="end-date" placeholder="請選擇任務結束日期" required>
+          <div class="time-input">
+            <select id="end-hour" class="form-select time-select"></select>
+            <span class="input-group-text">點</span>
+            <select id="end-minute" class="form-select time-select"></select>
+            <span class="input-group-text">分</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 區塊 -->
+      <div class="mb-3">
+        <label class="form-label fw-bold">區域</label>
+        <div class="checkbox-container">
+          <div class="checkbox-item">
+            <input type="checkbox" id="region1" value="自強五、六舍">
+            <label for="region1">自強五、六舍</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region2" value="自強七、八舍">
+            <label for="region2">自強七、八舍</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region3" value="自強九舍">
+            <label for="region3">自強九舍</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region4" value="自強九舍D區">
+            <label for="region4">自強九舍D區</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region5" value="自強十舍">
+            <label for="region5">自強十舍</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region6" value="莊敬一舍">
+            <label for="region6">莊敬一舍</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region7" value="莊敬二舍">
+            <label for="region7">莊敬二舍</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="region8" value="莊敬三舍">
+            <label for="region8">莊敬三舍</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- 送出按鈕 -->
+      <div class="d-flex justify-content-end mt-4">
+        <button class="btn btn-primary" id="submit-button" type="submit">送出</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- 引入 JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="main.js"></script>
+</body>
+</html>

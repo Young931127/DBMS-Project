@@ -1,0 +1,105 @@
+/* 日期 + 時間欄位整體排版 */
+.date-time-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* 日期欄位樣式 */
+.date-input {
+  width: 200px;
+  background-color: #e4e4e4;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+/* 時間欄位區塊 */
+.time-input {
+  display: flex;
+  align-items: center;
+  background-color: #e4e4e4;
+  border-radius: 8px;
+  padding: 6px 8px;
+  gap: 4px;
+}
+
+/* 時間欄位內 select 樣式 */
+.time-select {
+  width: 60px;
+  background-color: transparent;
+  border: none;
+  padding: 3px 5px; /* 減少內部 padding */
+}
+
+/* "點" 和 "分" 的樣式 */
+.input-group-text {
+  background-color: transparent;
+  border: none;
+  font-weight: bold;
+  padding: 0 4px;
+}
+
+/* 任務標題與任務內容樣式 */
+.form-group {
+  max-width: 75%; /* 設置為 3/4 寬度 */
+  text-align: left; /* 確保內容置左 */
+}
+
+#task-title,
+#task-content {
+  width: 100%; /* 讓文字方塊與父容器一致 */
+  display: block; /* 保證元素獨占一行 */
+  text-align: left; /* 確保文字內容置左 */
+  background-color: #f9f9f9; /* 與任務內容一致的背景色 */
+  border: 1px solid #ced4da; /* 與任務內容一致的邊框 */
+  border-radius: 4px; /* 圓角邊框 */
+  padding: 8px 12px; /* 內部間距 */
+  font-size: 1rem; /* 字體大小 */
+}
+
+/* 任務內容文字方塊樣式 */
+.task-content-box {
+  height: 120px; /* 設置高度 */
+  resize: none; /* 禁止用戶調整大小 */
+}
+
+/* 響應式排版 */
+@media (max-width: 576px) {
+  .date-time-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .form-group {
+    max-width: 100%; /* 小螢幕時調整為全寬 */
+  }
+}
+
+/* 區塊容器 */
+.checkbox-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 四個一排 */
+  gap: 6px; /* 減少水平和垂直間距 */
+  max-width: 800px;
+  margin-top: 8px; /* 與標題間距更小 */
+  text-align: left; /* 確保 checkbox 標題置左 */
+}
+
+/* 單個 checkbox 項目 */
+.checkbox-item {
+  display: flex;
+  align-items: center; /* 確保文字與 checkbox 對齊 */
+  gap: 4px; /* 減少文字與 checkbox 的間距 */
+  box-sizing: border-box;
+  padding: 3px; /* 減少內部間距 */
+}
+
+/* 區域標題樣式 */
+.checkbox-container + .form-label {
+  margin-bottom: 6px; /* 與第一排間距一致 */
+  display: block; /* 確保標題在獨立一行 */
+  text-align: left; /* 確保標題置左 */
+}
