@@ -61,7 +61,9 @@ exports.submitTask = async (req, res) => {
     let mysql;
     try {
         mysql = await mysqlConnectionPool.getConnection();
-        const {userID, taskName, taskDescription, deadline, reward, isTop} = req.body;
+
+        const {userID} = req.user.sub; // 從請求中獲取 userID
+        const {taskName, taskDescription, deadline, reward, isTop} = req.body;
         const createdAt = new Date();
         const status = 'pending';
         // 檢查必填欄位
@@ -74,7 +76,7 @@ exports.submitTask = async (req, res) => {
 
         // 插入任務
         const [result] = await mysql.query(
-            `INSERT INTO tasks (userID, taskName, status, createdAt, taskDescription, deadline, reward, isTop) 
+            `INSERT INTO tasks (userID, taskName, status, created_at, description, deadline, reward, isTop) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             [ userID, taskName, status, createdAt, taskDescription, deadline, reward, isTop]
         );
@@ -154,6 +156,32 @@ exports.completeTask = async (req, res) => {
         res.status(500).json({
             success: false,
             message: 'Failed to complete task',
+        });
+    } finally {
+        if (mysql) mysql.release(); // 確保釋放連線
+    }
+}
+
+exports.searchTask = async (req, res) => {
+    let mysql;
+    try {
+        mysql = await mysqlConnectionPool.getConnection();
+        const {query} = req.query;
+        const [tasks] = await mysql.query(
+            `SELECT * 
+            FROM tasks
+            WHERE taskName LIKE ? OR taskDescription LIKE ?`,
+            [`%${query}%`, `%${query}%`]
+        );
+        res.status(200).json({
+            success: true,
+            data: tasks,
+        });
+    } catch (error) {
+        console.error('Error searching tasks:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to search tasks',
         });
     } finally {
         if (mysql) mysql.release(); // 確保釋放連線
