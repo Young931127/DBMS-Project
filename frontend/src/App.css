@@ -1,0 +1,18 @@
+.phone {
+  width: 350px;      /* iPhone 11 寬度 */
+  height: 670px;     /* iPhone 11 高度 */
+  margin: 40px auto;
+  border: 1px solid #000000;
+  border-radius: 35px;
+  border-width: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
