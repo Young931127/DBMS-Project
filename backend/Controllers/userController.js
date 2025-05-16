@@ -8,6 +8,15 @@ async function signup(req, res) {
     const { name, email, password } = req.body;
     const mysql = await mysqlConnectionPool.getConnection();
     try {
+        const check = await mysql.query(
+            `
+            SELECT COUNT(email)
+            FROM \`User\`
+            WHERE Email=?
+            `, [email])
+        if(check > 0){
+            
+        }
         await mysql.query(
             `
     INSERT INTO User ( username, password, email, point, status)
