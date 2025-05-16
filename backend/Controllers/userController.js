@@ -65,9 +65,9 @@ async function login(req, res) {
           );
 
           res.status(200).json({token: token});
-    } catch (err) {
+  } catch (err) {
         res.status(403).json({ error: err.toString() })
-    }
+  }
 }
 app.post("/user/login", login);
 
