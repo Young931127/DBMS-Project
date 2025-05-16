@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import InputField from "../components/InputField";
 import Postbtn from "../components/Postbtn";

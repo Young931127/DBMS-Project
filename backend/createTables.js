@@ -1,5 +1,5 @@
 const db = require('./dbConnection'); // Import the database connection module
-
+const db2 = require ('./dbConnection');
 //建Tables
 const createUsersTable = 
 `CREATE TABLE IF NOT EXISTS Users (
@@ -105,4 +105,51 @@ db.query(createUsersTable, (err, result) => {
         });
     });
 });
+
+
+db2.connect(err => {
+    if (err) {
+      console.error('db2 connect error:', err);
+      return;
+    }
+    console.log('db2 connected');
+  
+    // 1. point_transactions
+    db2.query(createPoint_transactionTable, err => {
+      if (err) console.error('Error creating point_transactions:', err);
+      else     console.log('point_transactions ready');
+  
+      // 2. violation
+      db2.query(createViolationTable, err => {
+        if (err) console.error('Error creating violation:', err);
+        else     console.log('violation ready');
+  
+        // 3. rate
+        db2.query(creatRateTable, err => {
+          if (err) console.error('Error creating rate:', err);
+          else     console.log('rate ready');
+  
+          // 4. accepter_ratings
+          db2.query(creatUserAccepterRatingTable, err => {
+            if (err) console.error('Error creating accepter_ratings:', err);
+            else     console.log('accepter_ratings ready');
+  
+            // 5. reporter_ratings
+            db2.query(createReporterRatingTable, err => {
+              if (err) console.error('Error creating reporter_ratings:', err);
+              else     console.log('reporter_ratings ready');
+  
+              // 全部都跑完才關連線
+              db2.end(() => console.log('db2 connection closed'));
+            });
+  
+          });
+  
+        });
+  
+      });
+  
+    });
+  });
+
 
