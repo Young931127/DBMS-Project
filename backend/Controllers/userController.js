@@ -15,9 +15,10 @@ async function signup(req, res) {
             WHERE Email=?
             `, [email])
         if(check > 0){
-            
+            res.status(400).json({error: "Email has been used!"});
         }
-        await mysql.query(
+        else{
+            await mysql.query(
             `
     INSERT INTO User ( username, password, email, point, status)
     VALUES (?, ?, ?, ?, ?)`,
@@ -25,6 +26,8 @@ async function signup(req, res) {
         );
         // return succcessfully created
         res.status(201).json({ status: "created" });
+    }
+        
     } catch (err) {
         // return error
         return res.status(400).json({
@@ -63,3 +66,21 @@ async function login(req, res) {
     }
 }
 app.post("/user/login", login);
+
+async function getUserPoints(req, res){
+    const {userID} = req.user.sub;
+    const mysql = await mysqlConnectionPool.getConnection();
+    try {
+        const [points] = mysql.query(
+            `
+            SELECT point
+            FROM \`User\`
+            WHERE UserId=?
+            `, [userID]
+        )
+    res.status(200).json({points: points});
+    }
+    catch (err) {
+        res.status(404).json({ error: "User not Found" })
+    }
+}
