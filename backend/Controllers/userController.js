@@ -8,7 +8,17 @@ async function signup(req, res) {
     const { username, user_id, password, phoneNum } = req.body;
     const mysql = await mysqlConnectionPool.getConnection();
     try {
-        await mysql.query(
+        const check = await mysql.query(
+            `
+            SELECT COUNT(email)
+            FROM \`User\`
+            WHERE Email=?
+            `, [email])
+        if(check > 0){
+            res.status(400).json({error: "Email has been used!"});
+        }
+        else{
+            await mysql.query(
             `
     INSERT INTO users ( username, user_id, password, phoneNum, point, status)
     VALUES (?, ?, ?, ?, ?, ?)`,
@@ -16,6 +26,8 @@ async function signup(req, res) {
         );
         // return succcessfully created
         res.status(201).json({ status: "created" });
+    }
+        
     } catch (err) {
         // return error
         return res.status(400).json({
@@ -51,6 +63,25 @@ async function login(req, res) {
           res.status(200).json({token: token});
     } catch (err) {
         res.status(403).json({ error: err.toString() })
+    }
+}
+app.post("/user/login", login);
+
+async function getUserPoints(req, res){
+    const {userID} = req.user.sub;
+    const mysql = await mysqlConnectionPool.getConnection();
+    try {
+        const [points] = mysql.query(
+            `
+            SELECT point
+            FROM \`User\`
+            WHERE UserId=?
+            `, [userID]
+        )
+    res.status(200).json({points: points});
+    }
+    catch (err) {
+        res.status(404).json({ error: "User not Found" })
     }
 }
 //app.post("/user/login", login);
