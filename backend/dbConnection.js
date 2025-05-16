@@ -1,23 +1,13 @@
-import mysqlConnectionPool from "./createTables.js";
-
-const mysql = require('mysql');
-const mysqlConnectionPool = mysql.createPool(access);
-
+const mysql = require('mysql2/promise');
 require('dotenv').config();
-const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+
+const connection = mysql.createPool({
+    host: process.env.DB_HOST || 'localhost',
+    port: process.env.DB_PORT || 3306,
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || '1183',
+    database: process.env.DB_NAME || 'project_db',
 });
 
-connection.connect((err) => {
-    if (err) {
-        console.error('Error connecting to the database:', err);
-        return;
-    }
-    console.log('Connected to the database.');
-});
 
 module.exports = connection;

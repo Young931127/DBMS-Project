@@ -1,4 +1,4 @@
-const mysqlConnectionPool = require('../db/mysql');
+const mysqlConnectionPool = require('../db/dbConnection.js');
 import jwt from 'jsonwebtoken';
 /**
  * @param {express.Request} req
