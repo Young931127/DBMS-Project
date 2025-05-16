@@ -60,6 +60,7 @@
 
 /* 列表項目 */
 .task-item {
+  position: relative;
   margin-bottom: 10px;
   padding:10px ;
   border: 1px solid #ccc;
@@ -74,3 +75,16 @@
   background-color: #ccc8c8; /* 懸停時的背景顏色 */
 }
 
+.task-reward {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ebca0d;
+  margin-top: 5px;
+}
+.task-time {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  color: #888;
+  font-size: 0.9em;
+}
