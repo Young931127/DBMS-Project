@@ -1,9 +1,5 @@
 const mysqlConnectionPool = require('../dbConnection');
-<<<<<<< HEAD
-import jwt from 'jsonwebtoken';
-=======
 const jwt = require('jsonwebtoken');
->>>>>>> 112306085-frontend
 /**
  * @param {express.Request} req
  * @param {express.Response} res
