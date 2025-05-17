@@ -1,5 +1,5 @@
 const mysqlConnectionPool = require('../dbConnection');
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 /**
  * @param {express.Request} req
  * @param {express.Response} res
@@ -10,12 +10,12 @@ async function signup(req, res) {
     try {
         const check = await mysql.query(
             `
-            SELECT COUNT(email)
-            FROM \`User\`
-            WHERE Email=?
-            `, [email])
+            SELECT COUNT(user_id)
+            FROM users
+            WHERE user_id=?
+            `, [user_id])
         if(check > 0){
-            res.status(400).json({error: "Email has been used!"});
+            res.status(400).json({error: "This ID has been REGISTERED!"});
         }
         else{
             await mysql.query(
@@ -61,9 +61,9 @@ async function login(req, res) {
           );
 
           res.status(200).json({token: token});
-  } catch (err) {
+    } catch (err) {
         res.status(403).json({ error: err.toString() })
-  }
+    }
 }
 app.post("/user/login", login);
 
