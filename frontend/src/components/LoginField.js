@@ -18,7 +18,7 @@ const LoginField = () => {
 
   return (
     <div className="login-container">
-      <h1 className="header">登入</h1>
+      <h1 className="login-header">登入</h1>
 
       <div className="form-content">
         <div className="input-group">

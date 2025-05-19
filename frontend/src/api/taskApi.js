@@ -4,7 +4,7 @@ import api from "./axiosInstance";
 export const fetchTopTasks = async()=>{
     try{
         const response = await api.get(`tasks/top`)
-        console.log("Response:", response);
+
         return response.data;//返回後端的資料
     }catch(error){
         console.error("Error fetching top tasks:", error);
