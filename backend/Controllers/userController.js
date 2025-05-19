@@ -19,7 +19,10 @@ async function signup(req, res) {
             WHERE user_id=?
             `, [user_id])
         if(check > 0){
-            res.status(400).json({error: "This ID has been REGISTERED!"});
+            res.status(400).json({error: "This ID has been registered."});
+        }
+        if (!/^\d{10}$/.test(phoneNum)) {
+    return res.status(400).json({ error: "Phone number must be exactly 10 digits and only numbers." });
         }
         else{
             await mysql.query(
@@ -28,7 +31,6 @@ async function signup(req, res) {
     VALUES (?, ?, ?, ?, ?, ?)`,
             [username, user_id, password, phoneNum, 0, "unbanned"],
         );
-        // return succcessfully created
         res.status(201).json({ status: "created" });
     }
         
