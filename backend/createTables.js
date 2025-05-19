@@ -7,7 +7,8 @@ const createUsersTable =
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
-    point INT DEFAULT 0,
+    point INT DEFAULT 20,
+    rate INT DEFAULT 0,
     status VARCHAR(50) DEFAULT 'unbanned'
 );`
 ;
@@ -106,7 +107,7 @@ db.query(createUsersTable, (err, result) => {
     });
 });
 
-
+//新增的db2 
 db2.connect(err => {
     if (err) {
       console.error('db2 connect error:', err);
