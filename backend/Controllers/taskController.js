@@ -11,7 +11,7 @@ exports.getNormalTasks = async (req, res) => {
         const [normalTask] = await mysql.query(
             `SELECT * 
             FROM tasks
-            WHERE isTop = 'false'` 
+            WHERE isTop = false` 
         );
         res.status(200).json({
             success: true,
@@ -40,7 +40,7 @@ exports.getTopTasks = async (req, res) => {
         const [topTask] = await mysql.query(
             `SELECT * 
             FROM tasks
-            WHERE isTop = 'true'`
+            WHERE isTop = true`
         );
         res.status(200).json({
             success: true,
@@ -62,7 +62,7 @@ exports.submitTask = async (req, res) => {
     try {
         mysql = await mysqlConnectionPool.getConnection();
 
-        const {userID} = req.user.sub; // 從請求中獲取 userID
+        const userID = req.user.sub; // 從請求中獲取 userID
         const {taskName, taskDescription, deadline, reward, isTop} = req.body;
         const createdAt = new Date();
         const status = 'pending';
@@ -87,7 +87,7 @@ exports.submitTask = async (req, res) => {
         // 插入任務
         const [result] = await mysql.query(
             `INSERT INTO tasks (userID, taskName, status, created_at, description, deadline, reward, isTop) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
             [ userID, taskName, status, createdAt, taskDescription, deadline, reward, isTop]
         );
         const newPoints = currentPoints - deduction;
@@ -182,12 +182,7 @@ exports.completeTask = async (req, res) => {
        // ★ ② 根據 isTop 決定本次要加的分數
       const bonus = isTop ? 10 : 5;
       // ③ 更新任務狀態為已完成
-      await mysql.query(
-        `UPDATE tasks 
-            SET status = 'completed' 
-          WHERE taskID = ?`,
-        [taskID]
-      );
+      
         res.status(200).json({
             success: true,
             message: 'Task completed successfully',
@@ -212,7 +207,12 @@ exports.completeTask = async (req, res) => {
             : 'mission complete (normal)'
         ]
       );
-    
+      await mysql.query(
+        `UPDATE tasks 
+            SET status = 'completed' 
+          WHERE taskID = ?`,
+        [taskID]
+      );
     } catch (error) {
         console.error('Error completing task:', error);
         res.status(500).json({
@@ -249,23 +249,40 @@ exports.searchTask = async (req, res) => {
         if (mysql) mysql.release(); // 確保釋放連線
     }
 }
-exports.Getpoint = async (req, res) => {
-    let mysql
+exports.getPoint = async (req, res) => {
+    let conn;
     try {
-        mysql = await mysqlConnectionPool.getConnection();
-        const userId = req.body.userId;
-        const [rows] = await mysql.query(
-            `SELECT point FROM Users WHERE user_id = ?`,
+        conn = await mysqlConnectionPool.getConnection();
+        const { userId } = req.body;
+        // 檢查是否有傳入 userId
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing userId in request body',
+            });
+        }
+        // 查詢 Users 表中的點數
+        const [rows] = await conn.query(
+            'SELECT point FROM Users WHERE user_id = ?',
             [userId]
-          );
-          const currentPoints = rows[0]?.point || 20;
-
-            
-    }catch (error) {
+        );
+        // 若查無此使用者，預設回傳 20 點
+        const currentPoints = rows.length > 0 ? rows[0].point : 20;
+        // 回傳結果
+        return res.status(200).json({
+            success: true,
+            data: {
+                userId,
+                point: currentPoints,
+            },
+        });
+    } catch (error) {
         console.error('Error fetching user point:', error);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: 'Failed to fetch user point',
         });
+    } finally {
+        if (conn) conn.release();
     }
-}
+};
