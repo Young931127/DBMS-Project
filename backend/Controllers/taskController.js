@@ -74,7 +74,7 @@ exports.submitTask = async (req, res) => {
             });
         }
         const [pointRows] = await mysql.query(
-            `SELECT point FROM Users WHERE user_id = ?`,
+            `SELECT point FROM users WHERE user_id = ?`,
             [userID]
         );
         const currentPoints = pointRows[0]?.point ?? 20;
@@ -92,7 +92,7 @@ exports.submitTask = async (req, res) => {
         );
         const newPoints = currentPoints - deduction;
         await mysql.query(
-            `UPDATE Users SET point = ? WHERE user_id = ?`,
+            `UPDATE users SET point = ? WHERE user_id = ?`,
              [newPoints, userID]
         );
         const [txResult] = await mysql.query(
