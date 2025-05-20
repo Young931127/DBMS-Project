@@ -4,7 +4,6 @@ const taskRoute = require("./Routes/taskRoute");
 const userRoute = require("./Routes/userRoute");
 
 const app = express();
-require('./dbConnection');
 
 
 //中間件

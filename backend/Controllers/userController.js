@@ -1,6 +1,6 @@
 const mysqlConnectionPool = require('../dbConnection');
 
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 
 
@@ -71,7 +71,7 @@ async function login(req, res) {
         res.status(403).json({ error: err.toString() })
     }
 }
-app.post("/user/login", login);
+//app.post("/user/login", login);
 
 async function getUserPoints(req, res){
     const {userID} = req.user.sub;
@@ -80,8 +80,8 @@ async function getUserPoints(req, res){
         const [points] = mysql.query(
             `
             SELECT point
-            FROM \`User\`
-            WHERE UserId=?
+            FROM users
+            WHERE user_id=?
             `, [userID]
         )
     res.status(200).json({points: points});
