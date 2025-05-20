@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-
-import "./PostPage.css";
 import { Link } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "./PostPage.css";
 
 const regions = [
   "自強五、六舍",
@@ -19,12 +19,15 @@ function PostPage() {
   const [content, setContent] = useState("");
   const [rewardNTD, setRewardNTD] = useState("");
   const [rewardPoints, setRewardPoints] = useState("");
-  const [startDate, setStartDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
-  const [endDate, setEndDate] = useState("");
+
   const [endTime, setEndTime] = useState("");
   const [selectedRegions, setSelectedRegions] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   // 區域勾選
   const handleRegionChange = (region) => {
@@ -89,83 +92,58 @@ function PostPage() {
             className="task-title-input"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="請輸入本次任務的標題"
+            placeholder="任務標題(最多20個字)"
+            maxLength={20}
             required
           />
         </div>
-        <div className="form-group mb-3">
-          <label className="form-label fw-bold">報酬</label>
-          <span>新台幣</span>
+        <div className="reward-group">
+          <label className="reward-label">報酬</label>
           <input
             type="number"
-            className="form-control mx-2"
+            className="reward-input"
             value={rewardNTD}
             onChange={(e) => setRewardNTD(e.target.value)}
-            placeholder="金額"
-            min="0"
-            style={{ width: "120px" }}
+            placeholder="請輸入報酬  例: 現金100元、手搖飲一杯"
             required
+            min={0}
           />
-          <span>元</span>
         </div>
-        <div className="form-group mb-3">
-          <label className="form-label fw-bold">任務內容</label>
+        <div className="task-content-group">
+          <label className="task-content-label">任務內容</label>
           <textarea
-            className="task-content-box"
+            className="task-content-input"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="請輸入本次任務的內容"
+            placeholder="請輸入任務內容..."
             required
           />
         </div>
 
-        <div className="mb-3">
-          <label className="form-label fw-bold">任務開始日期</label>
-          <div className="date-time-group d-flex">
+        <div className="date-time-group">
+          <label className="date-label">任務日期</label>
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <input
               type="date"
-              className="form-control"
-              value={startDate}
-              onChange={(e) => setStartDate(e.target.value)}
-              required
-              style={{ maxWidth: "160px" }}
+              className="start-date-input"
+              placeholder="開始日期"
             />
-            <input
-              type="time"
-              className="form-control ms-2"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-              required
-              style={{ maxWidth: "120px" }}
-            />
-          </div>
-        </div>
-        <div className="mb-3">
-          <label className="form-label fw-bold">任務結束日期</label>
-          <div className="date-time-group d-flex">
+            <span>-</span>
             <input
               type="date"
-              className="form-control"
-              value={endDate}
-              onChange={(e) => setEndDate(e.target.value)}
-              required
-              style={{ maxWidth: "160px" }}
-            />
-            <input
-              type="time"
-              className="form-control ms-2"
-              value={endTime}
-              onChange={(e) => setEndTime(e.target.value)}
-              required
-              style={{ maxWidth: "120px" }}
+              className="end-date-input"
+              placeholder="結束日期"
             />
           </div>
+
+          <label className="time-label">任務時間</label>
+          <div style={{ display: "flex", flexDirection: "row" }}></div>
         </div>
-        <div className="mb-3">
-          <label className="form-label fw-bold">區域</label>
-          <div className="checkbox-container d-flex flex-wrap">
+        <div className="region-group">
+          <label className="region-label">區域</label>
+          <div className="region-checkboxes">
             {regions.map((region, idx) => (
-              <div className="checkbox-item me-3 mb-2" key={region}>
+              <div className="checkbox-item" key={region}>
                 <input
                   type="checkbox"
                   id={`region${idx + 1}`}
@@ -180,15 +158,27 @@ function PostPage() {
             ))}
           </div>
         </div>
-        <div className="d-flex justify-content-end mt-4">
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            送出
-          </button>
+
+        <div className="pay-day-group">
+          <label className="pay-day-label">支薪日</label>
         </div>
+        <div className="contact-info-group">
+          <label className="contact-info-label">聯絡資訊</label>
+          <input
+            type="text"
+            className="contact-info-input"
+            placeholder="請輸入聯絡資訊 例:行動電話、LINE ID"
+            required
+          />
+        </div>
+
+        <button
+          className="btn btn-primary"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          送出
+        </button>
       </div>
     </div>
   );

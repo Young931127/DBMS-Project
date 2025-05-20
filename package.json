@@ -10,7 +10,10 @@
     "dependencies": {
         "axios": "^1.9.0",
         "cors": "^2.8.5",
-        "jose": "^6.0.10"
+        "date-fns": "^4.1.0",
+        "datepicker": "^0.0.0",
+        "jose": "^6.0.10",
+        "react-mobile-datepicker": "^4.0.2"
     },
     "type": "module"
 }
