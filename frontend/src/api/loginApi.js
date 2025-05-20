@@ -1,9 +1,9 @@
-import axios from 'axios';
+import api from './axiosInstance';
 
-export const login = async (email, password) => {
+export const login = async (user_id, password) => {
   try {
-    const { data } = await axios.post('/api/auth/login', {
-      email,
+    const { data } = await api.post('/api/auth/login', {
+      user_id,
       password
     });
     // 假設 data = { token, user: { id, name, email } }

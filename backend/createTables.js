@@ -3,13 +3,13 @@ const db2 = require ('./dbConnection');
 //建Tables
 const createUsersTable = 
 `CREATE TABLE IF NOT EXISTS Users (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,    -- 使用者唯一識別碼，自動遞增
-    username VARCHAR(255) NOT NULL UNIQUE,     -- 使用者帳號名稱，必須唯一
-    password VARCHAR(255) NOT NULL,            -- 使用者密碼（建議先加密後存放）
-    email VARCHAR(255) NOT NULL UNIQUE,        -- 使用者電子郵件，必須唯一
-    point INT DEFAULT 0,                       -- 使用者積分，初始預設為 0
-    status VARCHAR(50) DEFAULT 'unbanned'      -- 帳號狀態，預設為 未禁用
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    point INT DEFAULT 0,
+    status VARCHAR(50) DEFAULT 'unbanned'
+);`
 ;
 
 // --- 建立 Tasks 表格 ---
@@ -127,7 +127,7 @@ db.query(createUsersTable, (err, result) => {
     });
 });
 
-
+//新增的db2 
 db2.connect(err => {
     if (err) {
       console.error('db2 connect error:', err);
