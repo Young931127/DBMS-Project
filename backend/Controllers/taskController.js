@@ -133,8 +133,8 @@ exports.acceptTask = async (req, res) => {
     let mysql;
     try {
         mysql = await mysqlConnectionPool.getConnection();
-        const {taskID, accepterID} = req.body;
-
+        const {taskID} = req.body;
+        const {accepterID} = req.user.sub;
         // 更新任務狀態為已接受
         const [result] = await mysql.query(
             `UPDATE tasks 
@@ -232,7 +232,8 @@ exports.searchTask = async (req, res) => {
         const [tasks] = await mysql.query(
             `SELECT * 
             FROM tasks
-            WHERE taskName LIKE ? OR taskDescription LIKE ?`,
+            WHERE taskName LIKE ? OR taskDescription LIKE ?
+            AND status = 'pending'`,
             [`%${query}%`, `%${query}%`]
         );
         res.status(200).json({
@@ -407,3 +408,59 @@ exports.rateReporter = async (req, res) => {
       if (conn) conn.release();
     }
   };
+
+
+exports.deleteOvertimeTask = async (req, res) => {
+    let mysql;
+    mysql = await mysqlConnectionPool.getConnection();
+    const currentDate = new Date();
+    try{
+        const [result] = await mysql.query(
+            `DELETE FROM tasks 
+            WHERE task_id = 
+                SELECT task_id
+                FROM tasks
+                WHERE DATEDIFF(day, ?, deadline) < -2
+                AND status = 'pending'`,
+            [currentDate]
+        );
+        res.status(200).json({
+            success: true,
+            message: 'Overtime tasks deleted successfully',
+        });
+    }
+    catch{
+        res.status(500).json({
+            success: false,
+            message: 'Overtime tasks are not deleted successfully',
+        });
+    }finally {
+        if (mysql) mysql.release(); // 確保釋放連線
+    }
+}
+
+exports.getTaskDetails = async (req, res) => {
+    let mysql;
+    try {
+        mysql = await mysqlConnectionPool.getConnection();
+        const {taskID} = req.params;
+        const [taskDetails] = await mysql.query(
+            `SELECT * 
+            FROM tasks
+            WHERE taskID = ?`,
+            [taskID]
+        );
+        res.status(200).json({
+            success: true,
+            data: taskDetails,
+        });
+    } catch (error) {
+        console.error('Error fetching task details:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch task details',
+        });
+    } finally {
+        if (mysql) mysql.release(); // 確保釋放連線
+    }
+}
