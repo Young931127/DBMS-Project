@@ -1,7 +1,7 @@
 const db = require('./dbConnection'); // Import the database connection module
 //建Tables
 const createUsersTable = 
-`CREATE TABLE IF NOT EXISTS Users (
+`CREATE TABLE IF NOT EXISTS sers (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -18,14 +18,15 @@ const createTasksTable =
     task_name VARCHAR(255) NOT NULL,
     description TEXT,
     deadline DATETIME NOT NULL,
-    reward INT DEFAULT 0,// 這裡的 reward 是任務的獎勵金額 可能最後會改成文字？
-    is_top BOOLEAN DEFAULT FALSE,//////////
+    reward INT DEFAULT 0,   -- 這裡的 reward 是任務的獎勵金額 可能最後會改成文字？
+    is_top BOOLEAN DEFAULT FALSE,
     status ENUM("pending", "completed") DEFAULT "pending",
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
 );`
 const createPoint_transactionTable =
 `CREATE TABLE IF NOT EXISTS point_transactions (
+   user_id INT NOT NULL,
    transaction_id   INT AUTO_INCREMENT PRIMARY KEY,
    change_amount    INT            NOT NULL,
    reason           VARCHAR(255),
@@ -105,7 +106,7 @@ const createReporterRatingTable=
         });
     });
 
-});*/
+});
 db.query(createUsersTable, (err,result) => {
   if (err) {
     console.error('Error creating users table:', err);
@@ -165,5 +166,27 @@ db.query(createUsersTable, (err,result) => {
       });
     });
   });
-});
+}); */
 
+async function init() {
+  try {
+    for (const sql of [
+      createUsersTable,
+      createTasksTable,
+      createPoint_transactionTable,
+      createViolationTable,
+      creatRateTable,
+      creatUserAccepterRatingTable,
+      createReporterRatingTable
+    ]) {
+      await db.promise().query(sql);
+      console.log('Executed:', sql.split('\n')[0]);
+    }
+  } catch (err) {
+    console.error('Error creating tables:', err);
+  } finally {
+    db.end();
+  }
+}
+
+init();
