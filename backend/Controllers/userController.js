@@ -53,13 +53,17 @@ async function login(req, res) {
     try {
         const result = await mysql.query(
             `
-        SELECT user_id, password       
+        SELECT user_id, username, password       
         FROM users
         WHERE user_id=? AND password=?
         `, [user_id, password]
         );
 
         const user = result[0][0];
+        if (!user) {
+            // 查無此帳號密碼
+            return res.status(403).json({ code: 'VALIDATION_ERROR', message: '帳號或密碼錯誤' });
+        }
         const token = jwt.sign(
             { sub: user.user_id, name: user.username },
             process.env.JWT_SECRET,
@@ -68,7 +72,7 @@ async function login(req, res) {
 
           res.status(200).json({token: token});
     } catch (err) {
-        res.status(403).json({ error: err.toString() })
+        res.status(500).json({ error: err.toString() })
     }
 }
 //app.post("/user/login", login);
