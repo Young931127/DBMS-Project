@@ -42,45 +42,53 @@ function RegisterPage() {
     <div className="register">
       <div className="signup-container">
         <Link to="/Login" className="back-link">
-          &lt;返回
+          <i class="bi bi-arrow-left-circle-fill"></i>
         </Link>
         <h1 className="signup-header">創建帳號</h1>
 
-        <div className="input-group">
+        <div className="register-input-group">
           <label htmlFor="username">使用者名稱</label>
-          <input
-            type="text"
-            id="username"
-            placeholder="請輸入使用者名稱"
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="text"
+              id="username"
+              placeholder="請輸入使用者名稱"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
         </div>
-        <div className="input-group">
+        <div className="register-input-group">
           <label htmlFor="stu_id">帳號</label>
-          <input
-            type="number"
-            id="stu_id"
-            placeholder="請輸入學號"
-            onChange={(e) => setUserId(e.target.value)}
-          />
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="number"
+              id="stu_id"
+              placeholder="請輸入學號"
+              onChange={(e) => setUserId(e.target.value)}
+            />
+          </div>
         </div>
-        <div className="input-group">
+        <div className="register-input-group">
           <label htmlFor="password">密碼</label>
-          <input
-            type="password"
-            id="password"
-            placeholder="請輸入密碼"
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="text"
+              id="password"
+              placeholder="請輸入密碼"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
-        <div className="input-group">
-          <label htmlFor="phoneNum">連絡電話</label>
-          <input
-            type="tel"
-            id="phoneNum"
-            placeholder="請輸入連絡電話"
-            onChange={(e) => setPhoneNum(e.target.value)}
-          />
+        <div className="register-input-group">
+          <label htmlFor="phoneNum">行動電話</label>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="tel"
+              id="phoneNum"
+              placeholder="請輸入行動電話"
+              onChange={(e) => setPhoneNum(e.target.value)}
+            />
+          </div>
         </div>
 
         <Registerbtn onClick={handleRegister} />

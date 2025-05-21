@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./PostPage.css";
 
 const regions = [
@@ -80,10 +81,16 @@ function PostPage() {
   };
 
   return (
-    <div className="post-page">
-      <div className="header-container">
-        <h1 className="post-header">發布任務</h1>
-      </div>
+    <div className="post-container">
+      <header className="header-container">
+        <div className="header-content">
+          <Link to="/HomePage" className="back-link">
+            <i class="bi bi-arrow-left-circle-fill"></i>
+          </Link>
+          <h1 className="header-title">發佈任務</h1>
+        </div>
+      </header>
+
       <div className="post-content">
         <div className="task-title">
           <label className="task-title-label">任務標題</label>
@@ -120,24 +127,36 @@ function PostPage() {
           />
         </div>
 
-        <div className="date-time-group">
+        <div className="date-group">
           <label className="date-label">任務日期</label>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <input
-              type="date"
-              className="start-date-input"
-              placeholder="開始日期"
-            />
-            <span>-</span>
-            <input
-              type="date"
-              className="end-date-input"
-              placeholder="結束日期"
-            />
+          <div className="date-picker-container">
+          <DatePicker
+            className="start-date-picker"
+            selected={startDate}
+            onChange={(date) => setStartDate(date)}
+            dateFormat="yyyy/MM/dd"
+            placeholderText="請選擇日期"
+            popperContainer={({ children }) => (
+              <div className="datepicker-pop">{children}</div>
+            )}
+          />
+          <span>-</span>
+          <DatePicker
+            className="end-date-picker"
+            selected={endDate}
+            onChange={(date) => setEndDate(date)}
+            dateFormat="yyyy/MM/dd"
+            placeholderText="請選擇日期"
+            popperContainer={({ children }) => (
+              <div className="datepicker-pop">{children}</div>
+            )}
+          />
           </div>
+          
+        </div>
 
+        <div className="time-group">
           <label className="time-label">任務時間</label>
-          <div style={{ display: "flex", flexDirection: "row" }}></div>
         </div>
         <div className="region-group">
           <label className="region-label">區域</label>

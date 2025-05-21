@@ -19,3 +19,6 @@
   justify-content: center; /* 水平置中 */
   align-items: center; /* 垂直置中 */
 }
+.content::-webkit-scrollbar {
+  display: none;                /* Chrome/Safari 隱藏滾動軸 */
+}
