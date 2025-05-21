@@ -74,7 +74,7 @@ exports.submitTask = async (req, res) => {
             });
         }
         const [pointRows] = await mysql.query(
-            `SELECT point FROM users WHERE user_id = ?`,
+            `SELECT point FROM Users WHERE user_id = ?`,
             [userID]
         );
         const currentPoints = pointRows[0]?.point ?? 20;
@@ -92,7 +92,7 @@ exports.submitTask = async (req, res) => {
         );
         const newPoints = currentPoints - deduction;
         await mysql.query(
-            `UPDATE users SET point = ? WHERE user_id = ?`,
+            `UPDATE Users SET point = ? WHERE user_id = ?`,
              [newPoints, userID]
         );
         const [txResult] = await mysql.query(
@@ -286,3 +286,124 @@ exports.getPoint = async (req, res) => {
         if (conn) conn.release();
     }
 };
+exports.rateReporter = async (req, res) => {
+    const taskId        = +req.params.taskId;
+    const { score, comment = '' } = req.body;
+    // req.user.id 經 JWT middleware 自動掛載，這裡是「接收者」(accepter) 的 user_id
+    const accepterId    = req.user.id;
+  
+    let conn;
+    try {
+      conn = await mysqlPool.getConnection();
+      await conn.beginTransaction();
+  
+      // 1. 確認任務存在並撈出 reporter_id
+      const [[{ reporter_id }]] = await conn.query(
+        `SELECT reporter_id
+           FROM tasks
+          WHERE id = ?`,
+        [ taskId ]
+      );
+      if (!reporter_id) {
+        await conn.rollback();
+        return res.status(404).json({ success: false, message: '任務不存在' });
+      }
+  
+      // 2. 寫入 reporter_ratings
+      //    - rate_id AUTO_INCREMENT
+      //    - reporter_id 從上面自動撈出
+      //    - score, comment 從 req.body
+      //    - rating_time 欄位定義預設 CURRENT_TIMESTAMP
+      await conn.query(
+        `INSERT INTO reporter_ratings
+           (reporter_id, score, comment)
+         VALUES (?, ?, ?)`,
+        [ reporter_id, score, comment ]
+      );
+  
+      // 3. 重新計算該 reporter 的平均分
+      const [[{ avgScore }]] = await conn.query(
+        `SELECT AVG(score) AS avgScore
+           FROM reporter_ratings
+          WHERE reporter_id = ?`,
+        [ reporter_id ]
+      );
+  
+      // 4. 把新的 avgScore 更新回 users.rate
+      await conn.query(
+        `UPDATE users
+            SET rate = ?
+          WHERE user_id = ?`,
+        [ avgScore, reporter_id ]
+      );
+  
+      await conn.commit();
+      return res.json({ success: true, avgScore });
+    } catch (err) {
+      if (conn) await conn.rollback();
+      console.error('rateReporter 錯誤：', err);
+      return res.status(500).json({ success: false, message: '評分失敗' });
+    } finally {
+      if (conn) conn.release();
+    }
+  };
+  exports.rateAccepter = async (req, res) => {
+    const taskId     = +req.params.taskId;
+    const { score, comment = '' } = req.body;
+    const reporterId = req.user.id;      // 現在「誰在評分」──發佈者
+  
+    let conn;
+    try {
+      conn = await mysqlPool.getConnection();
+      await conn.beginTransaction();
+  
+      // 1. 確認任務存在，並撈出真正執行者 (accepter) 的 user_id
+      const [[{ accepter_id }]] = await conn.query(
+        `SELECT accepter_id
+           FROM tasks
+          WHERE id = ?`,
+        [ taskId ]
+      );
+      if (!accepter_id) {
+        await conn.rollback();
+        return res.status(404).json({ success: false, message: '任務不存在或尚未被接取' });
+      }
+  
+      // 2. 寫入 accepter_ratings
+      //    - rate_id 自增，不需手動傳
+      //    - accepter_id 自動從 tasks 拿
+      //    - score, comment 由前端傳入
+      //    - rating_time 採欄位預設 CURRENT_TIMESTAMP
+      await conn.query(
+        `INSERT INTO accepter_ratings
+           (accepter_id, score, comment)
+         VALUES (?, ?, ?)`,
+        [ accepter_id, score, comment ]
+      );
+  
+      // 3. 重新計算這位執行者的平均分
+      const [[{ avgScore }]] = await conn.query(
+        `SELECT AVG(score) AS avgScore
+           FROM accepter_ratings
+          WHERE accepter_id = ?`,
+        [ accepter_id ]
+      );
+  
+      // 4. 更新 users 表裡的 rate 欄位
+      await conn.query(
+        `UPDATE users
+            SET rate = ?
+          WHERE user_id = ?`,
+        [ avgScore, accepter_id ]
+      );
+  
+      await conn.commit();
+      return res.json({ success: true, avgScore });
+    } catch (err) {
+      if (conn) await conn.rollback();
+      console.error('rateAccepter 錯誤：', err);
+      return res.status(500).json({ success: false, message: '評分失敗' });
+    } finally {
+      if (conn) conn.release();
+    }
+  };
