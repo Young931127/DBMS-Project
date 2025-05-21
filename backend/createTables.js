@@ -120,7 +120,7 @@ db.query(createUsersTable, (err,result) => {
     }
     console.log('Tasks table created or already exists.');
 
-    db.query(createPointTransactionsTable, (err,result) => {
+    db.query(createPoint_transactionTable , (err,result) => {
       if (err) {
         console.error('Error creating point_transactions table:', err);
         return;
@@ -134,21 +134,21 @@ db.query(createUsersTable, (err,result) => {
         }
         console.log('Violation table created or already exists.');
 
-        db.query(createRateTable, (err,result) => {
+        db.query(creatRateTable, (err,result) => {
           if (err) {
             console.error('Error creating rate table:', err);
             return;
           }
           console.log('Rate table created or already exists.');
 
-          db.query(createAccepterRatingsTable, (err,result) => {
+          db.query(creatUserAccepterRatingTable, (err,result) => {
             if (err) {
               console.error('Error creating accepter_ratings table:', err);
               return;
             }
             console.log('Accepter_ratings table created or already exists.');
 
-            db.query(createReporterRatingsTable, (err,result) => {
+            db.query(createReporterRatingTable, (err,result) => {
               if (err) {
                 console.error('Error creating reporter_ratings table:', err);
                 return;
