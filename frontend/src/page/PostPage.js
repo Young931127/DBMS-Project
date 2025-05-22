@@ -3,33 +3,34 @@ import { Link } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./PostPage.css";
-
-const regions = [
-  "自強五、六舍",
-  "自強七、八舍",
-  "自強九舍",
-  "自強九舍D區",
-  "自強十舍",
-  "莊敬一舍",
-  "莊敬二舍",
-  "莊敬三舍",
-];
+import { submitTask } from "../api/taskApi";
 
 function PostPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [rewardNTD, setRewardNTD] = useState("");
-  const [rewardPoints, setRewardPoints] = useState("");
+  const [reward, setReward] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
-
   const [endTime, setEndTime] = useState("");
   const [selectedRegions, setSelectedRegions] = useState([]);
+  const [payDate, setPayDate] = useState("");
+  const [contactInfo, setContactInfo] = useState("");
+  const [isUpgrade, setIsUpgrade] = useState(false);
+  const [rewardPoints, setRewardPoints] = useState("");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const [isOpen, setIsOpen] = useState(false);
-
+  const regions = [
+    "自強五、六舍",
+    "自強七、八舍",
+    "自強九舍",
+    "自強九舍D區",
+    "自強十舍",
+    "莊敬一舍",
+    "莊敬二舍",
+    "莊敬三舍",
+  ];
   // 區域勾選
   const handleRegionChange = (region) => {
     setSelectedRegions((prev) =>
@@ -40,11 +41,11 @@ function PostPage() {
   };
 
   // 表單送出
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isSubmitting) return;
 
-    if (parseFloat(rewardNTD) <= 0 || parseFloat(rewardPoints) <= 0) {
+    if (parseFloat(reward) <= 0 || parseFloat(rewardPoints) <= 0) {
       alert("金額與積分皆須大於 0！");
       return;
     }
@@ -75,9 +76,29 @@ function PostPage() {
     }
 
     setIsSubmitting(true);
-    // 這裡可以送出表單資料到後端
-    alert("表單已提交！");
-    setIsSubmitting(false);
+    // 送出表單資料
+    const submitData = {
+      title,
+      reward,
+      content,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      regions,
+      payDate,
+      contactInfo,
+      isUpgrade,
+    };
+    try {
+      await submitTask(submitData);
+      alert("任務發布成功！");
+    } catch (error) {
+      console.error("Error submitting task:", error);
+      alert("任務發布失敗，請稍後再試！");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -109,8 +130,8 @@ function PostPage() {
           <input
             type="number"
             className="reward-input"
-            value={rewardNTD}
-            onChange={(e) => setRewardNTD(e.target.value)}
+            value={reward}
+            onChange={(e) => setReward(e.target.value)}
             placeholder="請輸入報酬  例: 現金100元、手搖飲一杯"
             required
             min={0}
@@ -130,33 +151,54 @@ function PostPage() {
         <div className="date-group">
           <label className="date-label">任務日期</label>
           <div className="date-picker-container">
-          <DatePicker
-            className="start-date-picker"
-            selected={startDate}
-            onChange={(date) => setStartDate(date)}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="請選擇日期"
-            popperContainer={({ children }) => (
-              <div className="datepicker-pop">{children}</div>
-            )}
-          />
-          <span>-</span>
-          <DatePicker
-            className="end-date-picker"
-            selected={endDate}
-            onChange={(date) => setEndDate(date)}
-            dateFormat="yyyy/MM/dd"
-            placeholderText="請選擇日期"
-            popperContainer={({ children }) => (
-              <div className="datepicker-pop">{children}</div>
-            )}
-          />
+            <DatePicker
+              className="start-date-picker"
+              selected={startDate}
+              onChange={(date) => setStartDate(date)}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="請選擇日期"
+              portalId="datepicker-portal"
+              popperPlacement="bottom-start"
+            />
+            <span>-</span>
+            <DatePicker
+              className="end-date-picker"
+              selected={endDate}
+              onChange={(date) => setEndDate(date)}
+              dateFormat="yyyy/MM/dd"
+              placeholderText="請選擇日期"
+              portalId="datepicker-portal"
+              popperPlacement="bottom-end"
+            />
           </div>
-          
         </div>
-
         <div className="time-group">
           <label className="time-label">任務時間</label>
+          <div className="date-picker-container">
+            <DatePicker
+              className="start-time-picker"
+              selected={startTime}
+              onChange={(date) => setStartTime(date)}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              timeCaption="開始"
+              dateFormat="HH:mm"
+              placeholderText="開始時間"
+            />
+            <span>-</span>
+            <DatePicker
+              className="end-time-picker"
+              selected={endTime}
+              onChange={(date) => setEndTime(date)}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={15}
+              timeCaption="結束"
+              dateFormat="HH:mm"
+              placeholderText="結束時間"
+            />
+          </div>
         </div>
         <div className="region-group">
           <label className="region-label">區域</label>
@@ -180,24 +222,53 @@ function PostPage() {
 
         <div className="pay-day-group">
           <label className="pay-day-label">支薪日</label>
+          <input
+            className="pay-day-input"
+            type="text"
+            value={payDate}
+            onChange={(e) => setPayDate(e.target.value)}
+            placeholder="請輸入支薪日 例:當日現領、月/日"
+            required
+          />
         </div>
         <div className="contact-info-group">
           <label className="contact-info-label">聯絡資訊</label>
           <input
             type="text"
             className="contact-info-input"
+            value={contactInfo}
+            onChange={(e) => setContactInfo(e.target.value)}
             placeholder="請輸入聯絡資訊 例:行動電話、LINE ID"
             required
           />
         </div>
-
-        <button
-          className="btn btn-primary"
-          type="submit"
-          disabled={isSubmitting}
-        >
-          送出
-        </button>
+        <div className="upgrade-group">
+          <label className="upgrade-label">升級任務</label>
+          <h3 className="upgrade-text">
+            花費5點積分即可將任務升級為置頂任務，任務將優先顯示於主頁。
+          </h3>
+          <div className="upgrade-checkbox">
+            <input
+              type="checkbox"
+              checked={isUpgrade}
+              onChange={() => setIsUpgrade(!isUpgrade)}
+            />
+            <p className="small-text">使用積分，剩餘X點</p>
+          </div>
+        </div>
+      </div>
+      <div className="footer-container">
+        <div className="footer-content">
+          <button
+            className="submit-btn"
+            type="submit"
+            disabled={isSubmitting}
+            onClick={handleSubmit}
+          >
+            <i className="bi bi-send-fill" style={{ marginRight: "6px" }}></i>
+            發佈
+          </button>
+        </div>
       </div>
     </div>
   );

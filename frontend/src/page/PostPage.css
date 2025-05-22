@@ -1,31 +1,30 @@
-.post-container {  
+.post-container {
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: beige;  
-  /*overflow-y: auto;*/
+  background-color: beige;
   height: 100%;
 }
 
-
-.header-container {
+.header-container {  
   display: flex;
   flex-direction: row;
-  height: 64px; 
-  background-color: transparent
+  height: 60px;
+  background-color: transparent;
 }
-.header-container::-webkit-scrollbar {
-  display: none;                /* Chrome/Safari 隱藏滾動軸 */
-}
+ 
+/*.header-container::-webkit-scrollbar {
+  display: none; 
+}*/
 .header-content {
   position: relative;
-  background-color: #6d5050;
-  
+  background-color: #dabcbc;
+  border-bottom: 0.7px solid #614747df;
   width: 100%;
   height: 100%;
   padding: 20px;
 }
-.header-title{
+.header-title {
   font-size: 30px;
   font-weight: bold;
   color: #000000;
@@ -42,24 +41,24 @@
   color: #050505;
   text-decoration: none;
   cursor: pointer;
-  margin-right: 0; 
+  margin-right: 0;
 }
 
 .post-content {
   height: 100vh;
   position: relative;
-  background-color: transparent; 
+  background-color: transparent;
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 0;
-  padding-top: 20px;
+  padding-top: 10px;
   overflow-y: auto;
 }
 .post-content::-webkit-scrollbar {
-  display: none;                /* Chrome/Safari 隱藏滾動軸 */
+  display: none; /* 隱藏滾動軸 */
 }
 .post-page::-webkit-scrollbar {
-  display: none;                /* Chrome/Safari 隱藏滾動軸 */
+  display: none; /* 隱藏滾動軸 */
 }
 .task-title {
   width: 100%;
@@ -70,19 +69,19 @@
   font-size: 16px;
   font-weight: bold;
   color: #000000;
-  margin-bottom: 0; /* 與輸入框間距 */
-  text-align: left; /* 確保標題置左 */
+  margin-bottom: 0;
+  text-align: left;
 }
 
 .task-title-input {
-  width: 100%; /* 讓文字方塊與父容器一致 */
-  display: block; /* 保證元素獨占一行 */
-  text-align: left; /* 確保文字內容置左 */
-  background-color: #f9f9f9; /* 與任務內容一致的背景色 */
-  border: 1px solid #ced4da; /* 與任務內容一致的邊框 */
-  border-radius: 4px; /* 圓角邊框 */
-  padding: 8px 12px; /* 內部間距 */
-  font-size: 12px; /* 字體大小 */
+  width: 100%; 
+  display: block;
+  text-align: left; 
+  background-color: #f9f9f9; 
+  border: 1px solid #ced4da;
+  border-radius: 4px; 
+  padding: 8px 12px; 
+  font-size: 12px; 
 }
 .reward-group {
   display: flex;
@@ -102,11 +101,11 @@
   width: 100%;
   display: block;
   text-align: left;
-  background-color: #f9f9f9; 
-  border: 1px solid #ced4da; 
+  background-color: #f9f9f9;
+  border: 1px solid #ced4da;
   border-radius: 4px;
   padding: 8px 12px;
-  font-size: 12px; 
+  font-size: 12px;
 }
 /* 隱藏數字輸入框的上下箭頭 */
 input[type="number"]::-webkit-inner-spin-button,
@@ -131,18 +130,19 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 /* 任務內容文字方塊樣式 */
 .task-content-input {
-  width: 100%; /* 讓文字方塊與父容器一致 */
-  display: block; /* 保證元素獨占一行 */
-  text-align: left; /* 確保文字內容置左 */
-  background-color: #f9f9f9; /* 與任務內容一致的背景色 */
-  border: 1px solid #ced4da; /* 與任務內容一致的邊框 */
-  border-radius: 4px; /* 圓角邊框 */
-  padding: 8px 12px; /* 內部間距 */
-  font-size: 12px; /* 字體大小 */
-  resize: none; /* 禁止用戶調整大小 */
+  width: 100%; 
+  display: block; 
+  text-align: left; 
+  background-color: #f9f9f9; 
+  border: 1px solid #ced4da; 
+  border-radius: 4px; 
+  padding: 8px 12px; 
+  font-size: 12px; 
+  resize: none; /* 禁止調整大小 */
 }
 
-.date-group {
+.date-group,
+.time-group {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -159,6 +159,7 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: left;
 }
 .date-picker-container {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -166,98 +167,69 @@ input[type="number"]::-webkit-outer-spin-button {
   gap: 20px;
   overflow: visible;
 }
-.date-picker-container span{
+.date-picker-container span {
   font-size: 20px;
   font-weight: bold;
   color: #000000;
 }
-.start-date-picker{
-  width: 100%;
-  text-align: left;
-  justify-content: flex-start;
-  background-color: #f9f9f9; 
-  border: 1px solid #ced4da; 
-  border-radius: 4px;
-  padding: 8px 12px; 
-  
-  font-size: 12px;
-}
+
+.start-date-picker,
 .end-date-picker{
   width: 100%;
   text-align: left;
-  justify-content: flex-end;
-  background-color: #f9f9f9; 
-  border: 1px solid #ced4da; 
+  justify-content: flex-start;
+  background-color: #f9f9f9;
+  border: 1px solid #ced4da;
   border-radius: 4px;
-  padding: 8px 12px; 
+  padding: 8px 12px;
   font-size: 12px;
-  
-} 
-
-.datepicker-pop {
-  position: absolute;
-  z-index: 1000;
-  top: 0;
-  left: 0;
-  width: 100%;
-  overflow: auto;
-  pointer-events: auto;
 }
 
-
 .time-label {
-  display: block; /* 確保標題在獨立一行 */
+  display: block; 
   font-size: 16px;
   font-weight: bold;
   color: #000000;
   margin-bottom: 0;
   text-align: left;
 }
-.time-input {
+.start-time-picker,
+.end-time-picker {
+  width: 100%;
+  text-align: left;
+  justify-content: flex-start;
+  background-color: #f9f9f9;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
+  
+}
+.date-picker-container .react-datepicker__input-container {
+  width: 100%;
   display: flex;
   align-items: center;
-  /*background-color: #e4e4e4;*/
-  border-radius: 8px;
-  padding: 6px 8px;
-  gap: 4px;
 }
 
-/* 時間欄位內 select 樣式 */
-.time-select {
-  width: 60px;
-  background-color: transparent;
-  border: none;
-  padding: 3px 5px; /* 減少內部 padding */
+/* 讓 input 不預留右側空間 */
+.date-picker-container input.start-date-picker,
+.date-picker-container input.end-date-picker,
+.date-picker-container input.start-time-picker,
+.date-picker-container input.end-time-picker {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding-right: 0 !important;
 }
 
-/* "點" 和 "分" 的樣式 */
-.input-group-text {
-  background-color: transparent;
-  border: none;
-  font-weight: bold;
-  padding: 0 4px;
+/* 隱藏 icon 並讓它不佔空間 */
+.react-datepicker__calendar-icon,
+.react-datepicker__close-icon {
+  display: none !important;
+  width: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
-
-/* 任務標題與任務內容樣式 */
-.form-group {
-  max-width: 75%; /* 設置為 3/4 寬度 */
-  text-align: left; /* 確保內容置左 */
-}
-
-/* 響應式排版 */
-@media (max-width: 576px) {
-  .date-time-group {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .form-group {
-    max-width: 100%; /* 小螢幕時調整為全寬 */
-  }
-}
-
-/* 區塊容器 */
 .region-group {
   width: 100%;
   display: flex;
@@ -265,8 +237,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 10px;
 }
 .region-label {
-  display: block; /* 確保標題在獨立一行 */
-  font-size: 16px;
+  display: block; 
   font-weight: bold;
   color: #000000;
   margin-bottom: 0;
@@ -277,26 +248,12 @@ input[type="number"]::-webkit-outer-spin-button {
   grid-template-columns: repeat(2, 1fr); /* 四個一排 */
   gap: 4px; /* 減少文字與 checkbox 的間距 */
   box-sizing: border-box;
-  /*padding: 3px; /* 減少內部間距 */
 }
 .checkbox-item {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
-}
-.region-group {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-}
-.region-label {
-  display: block; /* 確保標題在獨立一行 */
-  font-size: 16px;
-  font-weight: bold;
-  color: #000000;
-  margin-bottom: 0;
-  text-align: left;
+  font-size: 12px; 
 }
 
 .pay-day-group {
@@ -306,12 +263,22 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 10px;
 }
 .pay-day-label {
-  display: block; 
+  display: block;
   font-size: 16px;
   font-weight: bold;
   color: #000000;
   margin-bottom: 0;
   text-align: left;
+}
+.pay-day-input {
+  width: 100%;
+  display: block;
+  text-align: left;
+  background-color: #f9f9f9;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
 }
 
 .contact-info-group {
@@ -321,21 +288,88 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 10px;
 }
 .contact-info-label {
-  display: block; 
+  display: block;
   font-size: 16px;
   font-weight: bold;
   color: #000000;
   margin-bottom: 0;
   text-align: left;
 }
-
 .contact-info-input {
   width: 100%;
   display: block;
   text-align: left;
-  background-color: #f9f9f9; 
-  border: 1px solid #ced4da; 
-  border-radius: 4px; 
-  padding: 8px 12px; 
-  font-size: 12px; 
+  background-color: #f9f9f9;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 12px;
 }
+
+.upgrade-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+.upgrade-label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 0;
+  text-align: left;
+}
+.upgrade-text {
+  font-size: 12px;
+
+  color: #292828;
+  margin-bottom: 5px;
+  text-align: left;
+}
+.upgrade-checkbox {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+
+  overflow: visible;
+}
+.small-text {
+  font-size: 10px;
+  color: #6a6a6a;
+  margin-bottom: 0;
+  text-align: left;
+}
+
+.footer-container {  
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  background-color: transparent;
+}
+.footer-content {
+  display: flex;
+  position: relative;
+  background-color: #dabcbc;
+  border-top: 0.7px solid #614747df;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  justify-content: center;
+}
+.submit-btn {
+  font-size: 14px;
+  font-weight: bold;
+  width: 60%;
+  height: 90%;
+  border-radius: 4px;
+  border: none;
+  background-color: #857575;
+  
+  
+}
+/*.submit-btn:hover {
+  background-color: #4e4b4b;
+  color: #9a8d8d;
+}*/

@@ -24,4 +24,13 @@ export const fetchNormalTasks=async()=>{
 };
 
 //發布任務
+export const submitTask = async (submitData) =>{
+    try{
+        const response = await api.post(`tasks/submit`, submitData)
+        return response.data;
+    }catch(error){
+        console.error("Error submitting task:", error);
+        throw error;
+    }
+};
 //接受任務

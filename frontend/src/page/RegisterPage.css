@@ -9,65 +9,74 @@
   background-color: beige;
 }
 
-.signup-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  height: 100%;
-  overflow: visible; /* 讓內容不會被隱藏 */
-  margin: auto; /* 容器本身置中 */
-  width: 100%;
-  padding: 20px;
-  background-color: #fff;
-  overflow: visible;
-}
-.header-container {
+.register-header-container {
+  
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 40px; /* 設定高度 */
+  background-color: transparent; /* 設定背景顏色 */
+}
+.register-header-content{
+  position: relative;
+  background-color: #fff;
   width: 100%;
-  justify-content: center;
+  height: 100%;
+  padding: 40px;
 }
-
-.header-container {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-/* 標題樣式 */
-.signup-header {
-  font-size: 30px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  color: #333;
-  text-align: center; /* 標題置中 */
-}
-
 .back-link {
   position: absolute;
   font-size: 30px;
   font-weight: bold;
-  color: #050505;
-  text-decoration: none;
-  margin-right: 80%;
+  color: #050505; 
   cursor: pointer;
-  position: relative;
-  top: 0;
 }
+
+.signup-container { 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100% - 80px);
+  width: 100%;
+  background-color: transparent;
+
+}
+.signup-content{
+  position: relative;
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  padding-top: 0;
+}
+
+
+.title {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  margin-top: 0px;
+  color: #333;
+  text-align: center; /* 標題置中 */
+}
+
+
 
 /* 每個輸入框的容器 */
 .register-input-group {
-  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column; /* 標籤、輸入框垂直排列 */
+  margin-bottom: 15px;
+  padding-bottom: 17px;
   width: 100%;
-  overflow: visible;
+  
 }
 
 /* 標籤樣式 */
 .register-input-group label {
   display: block;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   font-size: 1rem;
   font-weight: bold;
   color: #555;
@@ -75,20 +84,34 @@
 
 /* 輸入框樣式 */
 .register-input-group input {
+
+  display: block; /* 輸入框獨佔一行 */
   width: 100%;
   padding: 10px;
   font-size: 14px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
   box-sizing: border-box;
   transition: border-color 0.3s ease;
-  align-self: flex-end;
+  
 }
 
 /* 輸入框聚焦時的樣式 */
 .register-input-group input:focus {
   border-color: #007bff;
   outline: none;
+}
+.register-input-group input.error {
+  border: 1px solid red; 
+}
+
+.error-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: rgba(255, 0, 0, 0.658);
+  font-size: 12px;
+  font-weight: bold;
 }
 
 /* 提交按鈕樣式 */

@@ -1,8 +1,8 @@
 const db = require('./dbConnection'); // Import the database connection module
 //建Tables
 const createUsersTable = 
-`CREATE TABLE IF NOT EXISTS sers (
-    user_id INT AUTO_INCREMENT PRIMARY KEY,
+`CREATE TABLE IF NOT EXISTS users (
+    user_id char(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
@@ -14,7 +14,7 @@ const createUsersTable =
 const createTasksTable =
 `CREATE TABLE IF NOT EXISTS tasks (
     Task_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
+    user_id char(9) NOT NULL,
     task_name VARCHAR(255) NOT NULL,
     description TEXT,
     deadline DATETIME NOT NULL,
@@ -26,7 +26,7 @@ const createTasksTable =
 );`
 const createPoint_transactionTable =
 `CREATE TABLE IF NOT EXISTS point_transactions (
-   user_id INT NOT NULL,
+   user_id char(9) UNSIGNED NOT NULL,
    transaction_id   INT AUTO_INCREMENT PRIMARY KEY,
    change_amount    INT            NOT NULL,
    reason           VARCHAR(255),
@@ -36,7 +36,7 @@ const createPoint_transactionTable =
 const createViolationTable =
 `CREATE TABLE IF NOT EXISTS violation (
     violation_id   INT AUTO_INCREMENT PRIMARY KEY,
-    user_id        INT            NOT NULL, 
+    user_id        char(9) UNSIGNED NOT NULL, 
     count          INT            NOT NULL DEFAULT 1,
     reason         VARCHAR(255),
     create_time    TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -45,8 +45,8 @@ const createViolationTable =
 const creatRateTable =
 `CREATE TABLE IF NOT EXISTS rate (
   rate_id     INT AUTO_INCREMENT PRIMARY KEY,
-  accepter_id INT            NOT NULL,
-  poster_id   INT            NOT NULL,
+  accepter_id char(9) UNSIGNED NOT NULL,
+  poster_id   char(9) UNSIGNED NOT NULL,
   score       TINYINT        NOT NULL,
   comment     VARCHAR(255),
   rate_time   TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -61,7 +61,7 @@ const creatRateTable =
  const creatUserAccepterRatingTable =
 `CREATE TABLE IF NOT EXISTS accepter_ratings (
   rate_id    INT            AUTO_INCREMENT PRIMARY KEY,
-  accepter_id  INT            NOT NULL,                       -- 接單者的 user_id
+  accepter_id  char(9) UNSIGNED NOT NULL,                       -- 接單者的 user_id
   score         TINYINT       NOT NULL,                       -- 評分分數 (1~5)
   comment      VARCHAR(255),                                 -- 評語
   rating_time  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -73,7 +73,7 @@ const creatRateTable =
 const createReporterRatingTable=
 `CREATE TABLE IF NOT EXISTS reporter_ratings (
   rate_id    INT            AUTO_INCREMENT PRIMARY KEY,
-  reporter_id  INT            NOT NULL,                       -- 發布者的 user_id
+  reporter_id  char(9) UNSIGNED NOT NULL,                       -- 發布者的 user_id
   score         TINYINT       NOT NULL,                       -- 評分分數 (1~5)
   comment      VARCHAR(255),                                 -- 評語
   rating_time  TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -179,7 +179,7 @@ async function init() {
       creatUserAccepterRatingTable,
       createReporterRatingTable
     ]) {
-      await db.promise().query(sql);
+      await db.query(sql);
       console.log('Executed:', sql.split('\n')[0]);
     }
   } catch (err) {

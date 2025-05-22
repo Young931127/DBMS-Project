@@ -4,7 +4,6 @@ import { login } from "../api/loginApi";
 import "./LoginField.css";
 
 const LoginField = () => {
-  
   const [userid, setUserid] = useState(""); //定義狀態變數userid，setuserid用來更新狀態變數，useState("")表示初始為空字串
   const [password, setPassword] = useState("");
   const [useridError, setUseridError] = useState(false);
@@ -32,7 +31,6 @@ const LoginField = () => {
       await login(userid, password);
       navigate("/HomePage");
     } catch (err) {
-      
       setPasswordError(err.message);
     }
   };
@@ -44,7 +42,7 @@ const LoginField = () => {
       <div className="form-content">
         <div className="login-input-group">
           <label htmlFor="stu_id"> 帳號</label>
-          <div style={{ display: "flex", flexDirection: "row"}}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <input
               type="text"
               id="stu_id"
@@ -53,14 +51,16 @@ const LoginField = () => {
               placeholder="請輸入學號"
               maxLength={9}
               pattern="\d{9}"
-              className={useridError ? "error" : ""}
+              className={useridError ? "error" : ""}//如果useridError為true，則渲染下面錯誤樣式
             />
           </div>
-          {useridError && <div className="error-text">{useridError}</div>}
+          <div className={`error-text ${useridError ? "" : "hidden"}`}>
+            {useridError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
         <div className="login-input-group">
           <label htmlFor="password">密碼</label>
-          <div className = "input-wrapper">
+          <div className="input-wrapper">
             <input
               type={showPassword ? "password" : "text"}
               id="password"
@@ -76,9 +76,11 @@ const LoginField = () => {
               onClick={() => setShowPassword((showPassword) => !showPassword)} //當點擊眼睛圖示時，顯示或隱藏密碼
             ></i>
           </div>
-          {passwordError && <div className="error-text">{passwordError}</div>}
+          <div className={`error-text ${passwordError ? "" : "hidden"}`}>
+            {passwordError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
-          
+
         <button className="login-btn" onClick={handleLogin}>
           登入
         </button>
