@@ -37,7 +37,7 @@ const createViolationTable =
 `CREATE TABLE IF NOT EXISTS violation (
     violation_id   INT AUTO_INCREMENT PRIMARY KEY,
     user_id        INT            NOT NULL, 
-    count          INT            NOT NULL DEFAULT 1,
+    count          INT            NOT NULL DEFAULT 0,-- 這裡的 count 是違規次數預設為 0
     reason         VARCHAR(255),
     create_time    TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE

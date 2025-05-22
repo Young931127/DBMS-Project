@@ -464,3 +464,47 @@ exports.getTaskDetails = async (req, res) => {
         if (mysql) mysql.release(); // 確保釋放連線
     }
 }
+// POST /violations
+exports.violation = async (req, res) => {
+    let mysql;
+    try {
+      // 1. 拿連線
+      mysql = await mysqlConnectionPool.getConnection();
+  
+      // 2. 取出當前 user_id 和請求參數
+      const currentUserId = req.user.id;
+      const { reason = '' } = req.body;
+  
+      // 3. 查這個 user 之前有幾次違規
+      const [[{ total }]] = await mysql.query(
+        'SELECT COUNT(*) AS total FROM violation WHERE user_id = ?',
+        [currentUserId]
+      );
+      const nextCount = total + 1;
+  
+      // 4. 插入新的一筆違規紀錄（violation_id 自增、create_time 由 CURRENT_TIMESTAMP 填入）
+      await mysql.query(
+        `INSERT INTO violation (user_id, count, reason)
+         VALUES (?, ?, ?)`,
+        [currentUserId, nextCount, reason]
+      );
+  
+      // 5. 回傳成功
+      res.status(200).json({
+        success: true,
+        message: 'Violation recorded',
+        data: { user_id: currentUserId, count: nextCount, reason }
+      });
+  
+    } catch (error) {
+      console.error('Error recording violation:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to record violation'
+      });
+    } finally {
+      // 6. 釋放連線
+      if (mysql) mysql.release();
+    }
+  };
+  
