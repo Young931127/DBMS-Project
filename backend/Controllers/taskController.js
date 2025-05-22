@@ -164,9 +164,9 @@ exports.completeTask = async (req, res) => {
         const {taskID} = req.body;
 
         
-    // ★ ① 先查出這筆任務的 is_top（BOOLEAN）和接案者 accepterID
+    // 先查出這筆任務的 isTop 和接案者 accepterID
       const [[taskRow]] = await mysql.query(
-        `SELECT is_top, accepterID 
+        `SELECT isTop, accepterID, reward 
            FROM tasks 
           WHERE taskID = ?`,
         [taskID]
@@ -174,34 +174,34 @@ exports.completeTask = async (req, res) => {
       if (!taskRow) {
         return res.status(404).json({
           success: false,
-          message: '找不到該任務',
+          message: 'Task not found',
         });
       }
-      const isTop      = taskRow.is_top;
-      const accepterID = taskRow.accepterID;
-       // ★ ② 根據 isTop 決定本次要加的分數
-      const bonus = isTop ? 10 : 5;
-      // ③ 更新任務狀態為已完成
+    const isTop      = taskRow.isTop;
+    const accepterID = taskRow.accepterID;
+    const reward     = taskRow.reward;
+    const bonus = isTop ? 10 : 5;
+        //更新任務狀態為已完成
       
         res.status(200).json({
             success: true,
             message: 'Task completed successfully',
         });
-        // ★ ④ 更新使用者的 point（加上 bonus）
+        //更新使用者的 point（加上 bonus）
         await mysql.query(
             `UPDATE Users 
                 SET point = point + ? 
               WHERE user_id = ?`,
-            [bonus, accepterID]
+            [bonus + reward, accepterID]
           );
-    // ★ ⑤ 記錄這次分數變動在 point_transactions 表格
+    //記錄這次分數變動在 point_transactions 表格
     const [txResult] = await mysql.query(
         `INSERT INTO point_transactions 
            (user_id, change_amount, reason)
          VALUES (?, ?, ?)`,
         [
           accepterID,
-          bonus,
+          bonus + reward,
           isTop 
             ? 'mission complete (top)' 
             : 'mission complete (normal)'
@@ -287,11 +287,12 @@ exports.getPoint = async (req, res) => {
         if (conn) conn.release();
     }
 };
-exports.rateReporter = async (req, res) => {
-    const taskId        = +req.params.taskId;
+
+exports.rateSubmitter = async (req, res) => {
+    const taskId = +req.params.taskId;
     const { score, comment = '' } = req.body;
     // req.user.id 經 JWT middleware 自動掛載，這裡是「接收者」(accepter) 的 user_id
-    const accepterId    = req.user.id;
+    const accepterId    = req.user.sub;
   
     let conn;
     try {
@@ -348,6 +349,7 @@ exports.rateReporter = async (req, res) => {
       if (conn) conn.release();
     }
   };
+ 
   exports.rateAccepter = async (req, res) => {
     const taskId     = +req.params.taskId;
     const { score, comment = '' } = req.body;
