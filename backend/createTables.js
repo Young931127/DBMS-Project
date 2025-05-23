@@ -37,18 +37,14 @@ const createPoint_transactionTable =
 );`
 const createViolationTable =
 `CREATE TABLE IF NOT EXISTS violation (
-    violation_id   INT AUTO_INCREMENT PRIMARY KEY,           -- 違規紀錄編號，自動遞增
-    user_id        INT            NOT NULL,                 -- 關聯到 Users.user_id，表示違規者
-    count          INT            NOT NULL DEFAULT 1,       -- 累計違規次數，預設為 1
-    reason         VARCHAR(255),                               -- 違規原因說明
-    create_time    TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,  -- 紀錄時間
-    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE  -- 刪除使用者時，同步刪除此違規紀錄
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
-;
-
-// --- 建立 Rate 表格 ---
-// 提供使用者間互評功能，並限制每對使用者只能評分一次
-const createRateTable =
+    violation_id   INT AUTO_INCREMENT PRIMARY KEY,
+    user_id        INT            NOT NULL, 
+    count          INT            NOT NULL DEFAULT 0,-- 這裡的 count 是違規次數預設為 0
+    reason         VARCHAR(255),
+    create_time    TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
+);`
+const creatRateTable =
 `CREATE TABLE IF NOT EXISTS rate (
   rate_id     INT AUTO_INCREMENT PRIMARY KEY,               -- 評分紀錄編號，自動遞增
   accepter_id INT            NOT NULL,                      -- 被評分者 (Users.user_id)
