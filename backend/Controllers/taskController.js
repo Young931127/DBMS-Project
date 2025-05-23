@@ -63,8 +63,8 @@ exports.submitTask = async (req, res) => {
         mysql = await mysqlConnectionPool.getConnection();
 
         const userID = req.user.sub; // 從請求中獲取 userID
-        const {taskName, taskDescription, deadline, reward, isTop} = req.body;
-        const createdAt = new Date();
+        const {title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo} = req.body;
+        const created_at = new Date();
         const status = 'pending';
         // 檢查必填欄位
         if (!taskName || !taskDescription) {
@@ -86,28 +86,27 @@ exports.submitTask = async (req, res) => {
         }
         // 插入任務
         const [result] = await mysql.query(
-            `INSERT INTO tasks (userID, taskName, status, created_at, description, deadline, reward, isTop) 
+            `INSERT INTO tasks (userID, title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [ userID, taskName, status, createdAt, taskDescription, deadline, reward, isTop]
+            [ userID, title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo]
         );
         const newPoints = currentPoints - deduction;
+        // 更新使用者的點數
         await mysql.query(
             `UPDATE Users SET point = ? WHERE user_id = ?`,
              [newPoints, userID]
         );
-        const [txResult] = await mysql.query(
+        //記錄分數變動
+        await mysql.query(
             `INSERT INTO point_transactions
                (user_id, change_amount, reason)
              VALUES (?, ?, ?)`,
             [
-              userID,
-              -deduction,
-              isTop
+              userID, -deduction, isTop
                 ? 'publish TOP task deduction'
                 : 'publish normal task deduction'
             ]
           );
-          const transactionId = txResult.insertId;
         res.status(201).json({
             success: true,
             data: {
@@ -133,10 +132,10 @@ exports.acceptTask = async (req, res) => {
     let mysql;
     try {
         mysql = await mysqlConnectionPool.getConnection();
-        const {taskID} = req.body;
+        const taskID = +req.params.taskID;
         const {accepterID} = req.user.sub;
         // 更新任務狀態為已接受
-        const [result] = await mysql.query(
+        await mysql.query(
             `UPDATE tasks 
             SET status = 'accepted', accepterID = ?
             WHERE taskID = ?`,
@@ -164,9 +163,11 @@ exports.completeTask = async (req, res) => {
         const {taskID} = req.body;
 
         
-    // ★ ① 先查出這筆任務的 is_top（BOOLEAN）和接案者 accepterID
+    // 先查出這筆任務的 isTop 和接案者 accepterID
       const [[taskRow]] = await mysql.query(
+
         `SELECT is_top, accepterID,reporter_id
+
            FROM tasks 
           WHERE taskID = ?`,
         [taskID]
@@ -174,20 +175,23 @@ exports.completeTask = async (req, res) => {
       if (!taskRow) {
         return res.status(404).json({
           success: false,
-          message: '找不到該任務',
+          message: 'Task not found',
         });
       }
+
       const isTop      = taskRow.is_top;
       const accepterID = taskRow.accepter_id;
       const posterID = taskRow.reporter_id;
        // ★ ② 根據 isTop 決定本次要加的分數
       const bonus = isTop ? 10 : 5;
       // ③ 更新任務狀態為已完成
+
       
         res.status(200).json({
             success: true,
             message: 'Task completed successfully',
         });
+
         // ★ ④ 更新使用者的 point（加上 bonus）
         const [[{ score }]] = await mysql.query(
             `SELECT score 
@@ -218,13 +222,14 @@ exports.completeTask = async (req, res) => {
         );
         }
     // ★ ⑤ 記錄這次分數變動在 point_transactions 表格
+
     const [txResult] = await mysql.query(
         `INSERT INTO point_transactions 
            (user_id, change_amount, reason)
          VALUES (?, ?, ?)`,
         [
           accepterID,
-          bonus,
+          bonus + reward,
           isTop 
             ? 'mission complete (top)' 
             : 'mission complete (normal)'
@@ -310,25 +315,24 @@ exports.getPoint = async (req, res) => {
         if (conn) conn.release();
     }
 };
-exports.rateReporter = async (req, res) => {
-    const taskId        = +req.params.taskId;
+
+exports.rateSubmitter = async (req, res) => {
+    const taskID = +req.params.taskID;
     const { score, comment = '' } = req.body;
-    // req.user.id 經 JWT middleware 自動掛載，這裡是「接收者」(accepter) 的 user_id
-    const accepterId    = req.user.id;
-  
+    const accepterID = req.user.sub; // 記錄評分的人(accepter)的ID
     let conn;
     try {
       conn = await mysqlPool.getConnection();
       await conn.beginTransaction();
   
-      // 1. 確認任務存在並撈出 reporter_id
-      const [[{ reporter_id }]] = await conn.query(
-        `SELECT reporter_id
+      // 確認任務存在並撈出 submitterID
+      const [[{ submitterID }]] = await conn.query(
+        `SELECT userID
            FROM tasks
-          WHERE id = ?`,
-        [ taskId ]
+          WHERE taskID = ?`,
+        [ taskID ]
       );
-      if (!reporter_id) {
+      if (!submitterID) {
         await conn.rollback();
         return res.status(404).json({ success: false, message: '任務不存在' });
       }
@@ -371,6 +375,7 @@ exports.rateReporter = async (req, res) => {
       if (conn) conn.release();
     }
   };
+ 
   exports.rateAccepter = async (req, res) => {
     const taskId     = +req.params.taskId;
     const { score, comment = '' } = req.body;
