@@ -37,7 +37,7 @@ async function signup(req, res) {
     } catch (err) {
         // return error
         return res.status(400).json({
-            error: "User account has been used!"
+            error: "error!"
         });
     }
 }
