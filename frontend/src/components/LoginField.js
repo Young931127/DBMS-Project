@@ -32,6 +32,8 @@ const LoginField = () => {
       navigate("/HomePage");
     } catch (err) {
       setPasswordError(err.message);
+      setUseridError(err.message);
+
     }
   };
 
@@ -51,7 +53,7 @@ const LoginField = () => {
               placeholder="請輸入學號"
               maxLength={9}
               pattern="\d{9}"
-              className={useridError ? "error" : ""}//如果useridError為true，則渲染下面錯誤樣式
+              className={useridError ? "error" : ""} //如果useridError為true，則渲染下面錯誤樣式
             />
           </div>
           <div className={`error-text ${useridError ? "" : "hidden"}`}>

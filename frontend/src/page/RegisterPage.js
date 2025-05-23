@@ -11,7 +11,7 @@ function RegisterPage() {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
-  const [userid, setUserId] = useState("");
+  const [user_id, setUserId] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNum, setPhoneNum] = useState("");
   const [message, setMessage] = useState("");
@@ -31,10 +31,10 @@ function RegisterPage() {
       setUsernameError("請填寫用戶名稱");
       hasError = true;
     }
-    if (!userid) {
+    if (!user_id) {
       setUserIdError("請填寫學號");
       hasError = true;
-    } else if (userid.length !== 9) {
+    } else if (user_id.length !== 9) {
       setUserIdError("學號格式錯誤");
       hasError = true;
     }
@@ -61,7 +61,7 @@ function RegisterPage() {
     if (hasError) return;
 
     try {
-      await registerUser({ username, userid, password, phoneNum });
+      await registerUser({ username, user_id, password, phoneNum });
       Swal.fire({
         icon: "success",
         title: "註冊成功",
@@ -74,21 +74,12 @@ function RegisterPage() {
           navigate("/Login"); // 跳轉到登入頁
         }
       });
-
-      // 可以在這裡處理註冊成功的邏輯，例如跳轉到登入頁面
     } catch (err) {
-      if (err.response && err.response.status === 409) {
-        setUserIdError("用戶已註冊");
-      } else if (
-        err.response &&
-        err.response.data &&
-        err.response.data.message === "用戶已註冊"
-      ) {
+      if (err.error=== "用戶已註冊") {
         setUserIdError("用戶已註冊");
       } else {
-        setMessage(err.message);
-      }
-      console.log(err);
+        setMessage(err.error || "發生錯誤，請稍後再試");
+      } 
     }
   };
 
@@ -139,7 +130,7 @@ function RegisterPage() {
             <label htmlFor="password">密碼</label>
             <div style={{ display: "flex", flexDirection: "row" }}>
               <input
-                type=""
+                type="text"
                 id="password"
                 placeholder="請輸入密碼"
                 onChange={(e) => {

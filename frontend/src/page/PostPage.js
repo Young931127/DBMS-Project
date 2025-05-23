@@ -105,6 +105,8 @@ function PostPage() {
     <div className="post-container">
       <header className="header-container">
         <div className="header-content">
+          
+          
           <Link to="/HomePage" className="back-link">
             <i class="bi bi-arrow-left-circle-fill"></i>
           </Link>

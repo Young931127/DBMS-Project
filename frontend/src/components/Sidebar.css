@@ -2,14 +2,17 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -50%; /* 初始位置在視窗外 */
+
   width: 50%; /*側欄寬度*/
   height: 100%;
   background-color: #f4f4f4;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
-  transform: translateX(-100%); /* 初始隱藏 */
-  z-index: 1000;
+  transform: translateX(-100%); /* 初始狀態隱藏 */
+  z-index: 1000; /* 確保側欄在其他元素之上 */
+
+
 }
 
 .sidebar.open {
@@ -40,14 +43,17 @@
 }
 
 .menu-icon {
-  position: fixed;
-  top: 16px; /* 距離視窗頂部 20px */
-  left: 20px; /* 距離視窗左側 20px */
-  font-size: 30px; /* 圖示大小 */
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  display: block;  
+  font-size: 40px; 
   background: none;
   border: none;
   cursor: pointer;
-  z-index: 1100; /* 確保圖示在側欄之上 */
+  margin-bottom: 0;
+  line-height: 1;  
+  /*z-index: 1100; /* 確保圖示在側欄之上 */
 }
 
 /* 下拉選單樣式 */

@@ -23,7 +23,7 @@ const InputField = ({ placeholder, onSearch }) => {
         className="search-button"
         onClick={handleSearch} //當按鈕被點擊時，執行handleSearch函數
       >
-        搜尋
+        <i class="bi bi-search"></i>
       </button>
     </div>
   );

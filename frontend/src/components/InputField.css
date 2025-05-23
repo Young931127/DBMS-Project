@@ -1,17 +1,14 @@
 /* 大容器樣式 */
-.input-container {
-  
+.input-container { 
+  position: absolute;
+  top: 40px;
+  right: 20px;
   display: flex;
-  border: 2px solid #292927; 
+  border: 1px solid #292927; 
   border-radius: 10px; 
   padding: 5px;
-  width: 300px;
-  height: 50px;
-  margin-left: 70px;
-  margin-top: 5px ;
-  margin-bottom: 40px;
-  display: flex; /* 使用 Flexbox 排版 */
-  align-items: center; /* 垂直置中 */
+  width: 200px;
+  height: 40px;
   box-sizing: border-box;
   background-color: #ffffff;
 }
@@ -20,8 +17,8 @@
 .input {
   flex: 1; /* 讓輸入框佔滿剩餘空間 */
   border: none; 
-  padding: 10px; 
-  font-size: 14px; 
+  padding: 3px; 
+  font-size: 12px; 
 }
 
 .input:focus{
@@ -34,8 +31,7 @@
   color: white; 
   border: none; 
   border-radius: 5px; 
-  padding: 8px 10px; 
-  font-size: 16px; 
+  height: 100%;
   font-weight: bold;
   cursor: pointer;
   box-sizing: border-box;

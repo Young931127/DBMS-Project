@@ -37,16 +37,24 @@ function HomePage() {
   if (error) return <div>錯誤：{error.message}</div>;
 
   return (
-    <>
-      <div className="homepage-header">
-        <Sidebar />
-        <InputField />
+    <div className="homepage">
+      
+      <div className="homepage-header-container">
+        <div className="homepage-header-content">
+          <Sidebar />
+          <InputField />
+        </div>
       </div>
       <div className="main-content">
         <TaskSwitcher topTasks={topTasks} normalTasks={normalTasks} />
-        <Postbtn />
+        
       </div>
-    </>
+      <div className="homepage-footer-container">
+        <div className="homepage-footer-content">
+          <Postbtn />
+        </div>
+      </div>
+    </div>
   );
 }
 export default HomePage;

@@ -50,6 +50,13 @@
   border-radius: 5px;
   font-size: 14px;
 }
+.login-input-group input:focus {
+  outline: none; /* 去掉輸入框的藍色邊框 */
+  border-color: #007bff; /* 輸入框獲得焦點時的邊框顏色 */
+}
+.login-input-group input.error {
+  border: 1px solid red; 
+}
 .input-wrapper {
   position: relative;
   width: 100%;

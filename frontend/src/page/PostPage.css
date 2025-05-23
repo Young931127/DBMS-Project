@@ -9,21 +9,19 @@
 .header-container {  
   display: flex;
   flex-direction: row;
-  height: 60px;
+  height: 100px;
   background-color: transparent;
 }
- 
-/*.header-container::-webkit-scrollbar {
-  display: none; 
-}*/
+
 .header-content {
   position: relative;
   background-color: #dabcbc;
   border-bottom: 0.7px solid #614747df;
   width: 100%;
   height: 100%;
-  padding: 20px;
+  padding: 10px 20px;
 }
+
 .header-title {
   font-size: 30px;
   font-weight: bold;
@@ -45,7 +43,7 @@
 }
 
 .post-content {
-  height: 100vh;
+  height: calc(100% - 160px); /* 減去標題和按鈕的高度 */
   position: relative;
   background-color: transparent;
   margin-left: 20px;
@@ -205,31 +203,7 @@ input[type="number"]::-webkit-outer-spin-button {
   font-size: 12px;
   
 }
-.date-picker-container .react-datepicker__input-container {
-  width: 100%;
-  display: flex;
-  align-items: center;
-}
 
-/* 讓 input 不預留右側空間 */
-.date-picker-container input.start-date-picker,
-.date-picker-container input.end-date-picker,
-.date-picker-container input.start-time-picker,
-.date-picker-container input.end-time-picker {
-  width: 100%;
-  min-width: 0;
-  box-sizing: border-box;
-  padding-right: 0 !important;
-}
-
-/* 隱藏 icon 並讓它不佔空間 */
-.react-datepicker__calendar-icon,
-.react-datepicker__close-icon {
-  display: none !important;
-  width: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
-}
 .region-group {
   width: 100%;
   display: flex;
@@ -355,19 +329,23 @@ input[type="number"]::-webkit-outer-spin-button {
   border-top: 0.7px solid #614747df;
   width: 100%;
   height: 100%;
-  padding: 5px;
+  padding: 10px;
   justify-content: center;
 }
 .submit-btn {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: bold;
   width: 60%;
   height: 90%;
-  border-radius: 4px;
+  border-radius: 12px;
   border: none;
   background-color: #857575;
   
   
+}
+.submit-btn:hover{
+    transform: scale(0.95);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
 }
 /*.submit-btn:hover {
   background-color: #4e4b4b;

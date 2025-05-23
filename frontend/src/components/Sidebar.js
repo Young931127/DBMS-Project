@@ -20,7 +20,6 @@ const Sidebar = () => {
     setIsOpen(false); // 點擊後關閉側欄
   };
 
-  
   const handleOverlayClick = (e) => {
     // 如果點擊的區域不是側欄，則關閉側欄
     if (!e.target.closest(".sidebar")) {
@@ -31,11 +30,12 @@ const Sidebar = () => {
   return (
     <>
       {/* 左上角的三條線圖示 */}
-      {!isOpen && (
-        <button className="menu-icon" onClick={toggleSidebar}>
-          ☰
-        </button>
-      )}
+     
+        <i className="bi bi-list-ul menu-icon" 
+        onClick={toggleSidebar}
+        
+        ></i>
+    
       {/* 側欄 */}
       {isOpen && (
         <div className="overlay" onClick={handleOverlayClick}>
