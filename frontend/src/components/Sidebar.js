@@ -30,19 +30,14 @@ const Sidebar = () => {
   return (
     <>
       {/* 左上角的三條線圖示 */}
-     
-        <i className="bi bi-list-ul menu-icon" 
-        onClick={toggleSidebar}
-        
-        ></i>
-    
-      {/* 側欄 */}
+
+      <i className="bi bi-list-ul menu-icon" onClick={toggleSidebar}></i>
+
       {isOpen && (
-        <div className="overlay" onClick={handleOverlayClick}>
+        <>
+          <div className="overlay" onClick={handleOverlayClick}></div>
           <div className={`sidebar ${isOpen ? "open" : ""}`}>
-            <button className="close-btn" onClick={toggleSidebar}>
-              &times;
-            </button>
+            
             <div className="sidebar-content">
               <ul>
                 <li onClick={() => handleNavigation("/profile")}>Profile</li>
@@ -68,7 +63,7 @@ const Sidebar = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

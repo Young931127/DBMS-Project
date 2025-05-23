@@ -14,17 +14,32 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
   };
 
   function formatDate(startDate, endDate) {
+    console.log("startDate in formatDate:", startDate, typeof startDate);
     if (!startDate) return "";
-    if (!endDate ||startDate === endDate) {
-      return startDate.slice(0, 10); // 只顯示日期
-    };
-    return `${startDate.slice(0, 10)} ~ ${endDate.slice(0, 10)}`;
+
+    
+    const formattedStartDate = startDate.slice(0, 10); 
+    if (!endDate || startDate === endDate) {
+      return formattedStartDate; // 只顯示日期
+    }
+    const formattedEndDate = endDate.slice(0, 10);
+    return `${formattedStartDate} ~ ${formattedEndDate}`;
+  }
+
+  function parseDateString(dateStr) {
+    // 將 "2025-05-23 14:00:00" 轉成 "2025-05-23T14:00:00"
+    if (!dateStr) return null;
+    if (dateStr.length === 10) {
+      // 僅有日期
+      return new Date(dateStr + "T00:00:00");
+    }
+    return new Date(dateStr.replace(" ", "T"));
   }
 
   function timeAgo(created_at) {
     if (!created_at) return "";
     const now = new Date();
-    const created = new Date(created_at);
+    const created = parseDateString(created_at);
     const diffMs = now - created;
     const diffMins = Math.floor(diffMs / 60000);
     if (diffMins < 1) return "剛剛發布";
@@ -65,7 +80,9 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
                 <h5 className="task-title">{task.title}</h5>
                 <div className="task-reward">報酬：{task.reward} 元</div>
                 <div className="task-region">地點：{task.region}</div>
-                <small className ="task-date">任務日期：{formatDate(task.startDate, task.endDate)}</small>
+                <small className="task-date">
+                  任務日期：{formatDate(task.startDate, task.endDate)}
+                </small>
               </li>
             ))
           ) : (
