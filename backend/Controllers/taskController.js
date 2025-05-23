@@ -165,7 +165,9 @@ exports.completeTask = async (req, res) => {
         
     // 先查出這筆任務的 isTop 和接案者 accepterID
       const [[taskRow]] = await mysql.query(
-        `SELECT isTop, accepterID, reward 
+
+        `SELECT is_top, accepterID,reporter_id
+
            FROM tasks 
           WHERE taskID = ?`,
         [taskID]
@@ -176,24 +178,51 @@ exports.completeTask = async (req, res) => {
           message: 'Task not found',
         });
       }
-    const isTop      = taskRow.isTop;
-    const accepterID = taskRow.accepterID;
-    const reward     = taskRow.reward;
-    const bonus = isTop ? 10 : 5;
-        //更新任務狀態為已完成
+
+      const isTop      = taskRow.is_top;
+      const accepterID = taskRow.accepter_id;
+      const posterID = taskRow.reporter_id;
+       // ★ ② 根據 isTop 決定本次要加的分數
+      const bonus = isTop ? 10 : 5;
+      // ③ 更新任務狀態為已完成
+
       
         res.status(200).json({
             success: true,
             message: 'Task completed successfully',
         });
-        //更新使用者的 point（加上 bonus）
+
+        // ★ ④ 更新使用者的 point（加上 bonus）
+        const [[{ score }]] = await mysql.query(
+            `SELECT score 
+               FROM rate 
+              WHERE accepter_id = ? 
+                AND poster_id   = ?`,
+            [accepterID, posterID]
+          );
+        // ④-2. 如果有分數，就把 score 當 bonus，加到接案者身上
+        if (score != null) {
+        // 更新 users.point
         await mysql.query(
             `UPDATE Users 
                 SET point = point + ? 
-              WHERE user_id = ?`,
-            [bonus + reward, accepterID]
-          );
-    //記錄這次分數變動在 point_transactions 表格
+            WHERE user_id = ?`,
+            [score, accepterID]
+        );
+        // 記錄到 point_transactions
+        await mysql.query(
+            `INSERT INTO point_transactions 
+            (user_id, change_amount, reason)
+            VALUES (?, ?, ?)`,
+            [
+            accepterID,
+            score,
+            `rating bonus (${score} 分評價獎勵)`
+            ]
+        );
+        }
+    // ★ ⑤ 記錄這次分數變動在 point_transactions 表格
+
     const [txResult] = await mysql.query(
         `INSERT INTO point_transactions 
            (user_id, change_amount, reason)
@@ -483,7 +512,7 @@ exports.violation = async (req, res) => {
   
       // 4. 插入新的一筆違規紀錄（violation_id 自增、create_time 由 CURRENT_TIMESTAMP 填入）
       await mysql.query(
-        `INSERT INTO violation (user_id, count, reason)
+        `INSERT INTO violation (user_id,count, reason)
          VALUES (?, ?, ?)`,
         [currentUserId, nextCount, reason]
       );
