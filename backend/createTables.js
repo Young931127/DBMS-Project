@@ -1,7 +1,7 @@
 const db = require('./dbConnection'); // Import the database connection module
 //建Tables
 const createUsersTable = 
-`CREATE TABLE IF NOT EXISTS sers (
+`CREATE TABLE IF NOT EXISTS users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
