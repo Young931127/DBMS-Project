@@ -77,7 +77,7 @@ async function login(req, res) {
       { expiresIn: "1h" }
     ); 
 
-    res.status(200).json({ token: token });
+    res.status(200).json({ token , user: { id: user.user_id, name: user.username } });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }

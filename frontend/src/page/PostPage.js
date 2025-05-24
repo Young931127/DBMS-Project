@@ -7,13 +7,14 @@ import { submitTask } from "../api/taskApi";
 
 function PostPage() {
   const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [description, setDescription] = useState("");
   const [reward, setReward] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [selectedRegions, setSelectedRegions] = useState([]);
+  /*const [selectedRegions, setSelectedRegions] = useState([]);*/
+  const [region, setRegion] = useState([]);
   const [payDate, setPayDate] = useState("");
   const [contactInfo, setContactInfo] = useState("");
   const [isUpgrade, setIsUpgrade] = useState(false);
@@ -21,9 +22,9 @@ function PostPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const regions = [
-    "自強五、六舍",
-    "自強七、八舍",
+  const regionOption = [
+    "自強五六舍",
+    "自強七八舍",
     "自強九舍",
     "自強九舍D區",
     "自強十舍",
@@ -33,7 +34,7 @@ function PostPage() {
   ];
   // 區域勾選
   const handleRegionChange = (region) => {
-    setSelectedRegions((prev) =>
+    setRegion((prev) =>
       prev.includes(region)
         ? prev.filter((r) => r !== region)
         : [...prev, region]
@@ -57,7 +58,7 @@ function PostPage() {
       alert("請填寫任務結束日期與時間！");
       return;
     }
-    if (selectedRegions.length === 0) {
+    if (region.length === 0) {
       alert("請至少勾選一個區域！");
       return;
     }
@@ -79,22 +80,24 @@ function PostPage() {
     // 送出表單資料
     const submitData = {
       title,
-      reward,
-      content,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      regions,
+      reward:Number(reward),
+      description,
+      startDate: startDate.toISOString().slice(0, 10), // 格式化為 YYYY-MM-DD
+      endDate: endDate.toISOString().slice(0, 10),
+      startTime:startTime.toISOString().slice(11, 16), // 格式化為 HH:mm
+      endTime:endTime.toISOString().slice(11, 16),
+      region:region.join(", "), 
       payDate,
       contactInfo,
-      isUpgrade,
+      isTop:isUpgrade?1:0,
     };
     try {
       await submitTask(submitData);
+      console.log("submitData", submitData);
       alert("任務發布成功！");
     } catch (error) {
       console.error("Error submitting task:", error);
+      console.log("submitData", submitData);
       alert("任務發布失敗，請稍後再試！");
     } finally {
       setIsSubmitting(false);
@@ -143,8 +146,8 @@ function PostPage() {
           <label className="task-content-label">任務內容</label>
           <textarea
             className="task-content-input"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             placeholder="請輸入任務內容..."
             required
           />
@@ -205,17 +208,17 @@ function PostPage() {
         <div className="region-group">
           <label className="region-label">區域</label>
           <div className="region-checkboxes">
-            {regions.map((region, idx) => (
-              <div className="checkbox-item" key={region}>
+            {regionOption.map((item, idx) => (
+              <div className="checkbox-item" key={item}>
                 <input
                   type="checkbox"
                   id={`region${idx + 1}`}
-                  value={region}
-                  checked={selectedRegions.includes(region)}
-                  onChange={() => handleRegionChange(region)}
+                  value={item}
+                  checked={region.includes(item)}
+                  onChange={() => handleRegionChange(item)}
                 />
                 <label htmlFor={`region${idx + 1}`} className="ms-1">
-                  {region}
+                  {item}
                 </label>
               </div>
             ))}
@@ -265,6 +268,7 @@ function PostPage() {
             className="submit-btn"
             type="submit"
             disabled={isSubmitting}
+            
             onClick={handleSubmit}
           >
             <i className="bi bi-send-fill" style={{ marginRight: "6px", color: "#ffffff" }}></i>

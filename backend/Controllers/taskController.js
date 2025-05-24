@@ -60,46 +60,74 @@ exports.getTopTasks = async (req, res) => {
 exports.submitTask = async (req, res) => {
   let mysql;
   try {
+    console.log("進入 submitTask controller");
     mysql = await mysqlConnectionPool.getConnection();
-
-   //     const userID = req.user.sub; // 從請求中獲取 userID
-          const userID = 113306089;
-        const {title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime} = req.body;
-        const created_at = new Date();
-   //     const status = 'pending';
-        // 檢查必填欄位
-        if (!title || !description) {
-            return res.status(400).json({
-                success: false,
-                message: 'Task name and description are required',
-            });
-        }
-        const [pointRows] = await mysql.query(
-            `SELECT point FROM Users WHERE user_id = ?`,
-            [userID]
-        );
-        const currentPoints = pointRows[0]?.point ?? 20;
-        const deduction = isTop ? 10 : 5;
-        if(currentPoints < deduction) {
-             return res.status(400).json({
-                success: false,
-                message: 'Insufficient points to submit task',})
-        }
-        // 插入任務
-        const [result] = await mysql.query(
-            `INSERT INTO tasks (userID, title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime, created_at) 
+    
+    const userID = req.user.sub; // 從請求中獲取 userID
+    
+    const {
+      title,
+      description,
+      startDate,
+      reward,
+      isTop,
+      region,
+      endDate,
+      payDate,
+      contactInfo,
+      startTime,
+      endTime,
+    } = req.body;
+    const created_at = new Date();
+    //     const status = 'pending';
+    // 檢查必填欄位
+    if (!title || !description) {
+      return res.status(400).json({
+        success: false,
+        message: "Task name and description are required",
+      });
+    }
+    const [pointRows] = await mysql.query(
+      `SELECT point FROM users WHERE user_id = ?`,
+      [userID]
+    );
+    const currentPoints = pointRows[0]?.point ?? 20;
+    const deduction = isTop ? 10 : 5;
+    if (currentPoints < deduction) {
+      return res.status(400).json({
+        success: false,
+        message: "Insufficient points to submit task",
+      });
+    }
+    // 插入任務
+    const [result] = await mysql.query(
+      `INSERT INTO tasks (userID, title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime, created_at) 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [ userID, title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime, created_at ]
-        );
-        const newPoints = currentPoints - deduction;
-        // 更新使用者的點數
-        await mysql.query(
-            `UPDATE Users SET point = ? WHERE user_id = ?`,
-             [newPoints, userID]
-        );
-        //記錄分數變動
-        await mysql.query(
-            `INSERT INTO point_transactions
+      [
+        userID,
+        title,
+        description,
+        startDate,
+        reward,
+        isTop,
+        region,
+        endDate,
+        payDate,
+        contactInfo,
+        startTime,
+        endTime,
+        created_at,
+      ]
+    );
+    const newPoints = currentPoints - deduction;
+    // 更新使用者的點數
+    await mysql.query(`UPDATE users SET point = ? WHERE user_id = ?`, [
+      newPoints,
+      userID,
+    ]);
+    //記錄分數變動
+    /*await mysql.query(
+      `INSERT INTO point_transactions
                (user_id, change_amount, reason)
              VALUES (?, ?, ?)`,
       [
@@ -107,18 +135,19 @@ exports.submitTask = async (req, res) => {
         -deduction,
         isTop ? "publish TOP task deduction" : "publish normal task deduction",
       ]
-    );
+    );*/
     res.status(201).json({
       success: true,
       data: {
         id: result.insertId,
-        taskName,
-        taskDescription,
+        title,
+        description,
         isTop,
       },
     });
   } catch (error) {
-    console.error("Error submitting task:", error);
+    console.log("進入 catch 區塊");
+    console.error("Error submitting task:", error) && (error.stack || error);
     res.status(500).json({
       success: false,
       message: "Failed to submit task backend",
@@ -252,7 +281,7 @@ exports.searchTask = async (req, res) => {
       `SELECT * 
             FROM tasks
             WHERE (title LIKE ? OR description LIKE ?)
-            `,
+            AND status = 'pending'`,
       [`%${query}%`, `%${query}%`]
     );
     res.status(200).json({
@@ -437,10 +466,10 @@ exports.deleteOvertimeTask = async (req, res) => {
   try {
     const [result] = await mysql.query(
       `DELETE FROM tasks 
-            WHERE task_id = 
-                SELECT task_id
+            WHERE taskID = 
+                SELECT taskID
                 FROM tasks
-                WHERE DATEDIFF(day, ?, deadline) < -2
+                WHERE DATEDIFF(endDate, ?) > 2
                 AND status = 'pending'`,
       [currentDate]
     );
