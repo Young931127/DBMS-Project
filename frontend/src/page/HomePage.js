@@ -14,6 +14,7 @@ function HomePage() {
   const [isOpen, setIsOpen] = useState(false); // 控制側欄開關
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 控制下拉選單開關
   const navigate = useNavigate();
+  const [result, setResult] = useState([]); // 用於存儲搜尋結果
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen); // 切換側欄狀態
@@ -97,11 +98,16 @@ function HomePage() {
         <div className="homepage-header-content">
           <i className="bi bi-list-ul menu-icon" onClick={toggleSidebar}></i>
 
-          <InputField />
+          <InputField onSearch={setResult} />
         </div>
       </div>
       <div className="main-content">
+        {result&&result.length > 0 ? (
+          <TaskSwitcher topTasks={[]} normalTasks={result} />
+        ) : (
+          // 如果沒有搜尋結果，則顯示置頂任務和一般任務
         <TaskSwitcher topTasks={topTasks} normalTasks={normalTasks} />
+        )}
       </div>
       <div className="homepage-footer-container">
         <div className="homepage-footer-content">

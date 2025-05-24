@@ -1,5 +1,6 @@
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./TaskSwitcher.css";
 
 
@@ -11,8 +12,9 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
     setActiveTab(tab); //更新activeTab為點擊的選項
   };
   //任務點擊處理
+  const navigate = useNavigate(); 
   const handleTaskClick = (task) => {
-    alert(`click : ${task.title}`);
+    navigate(`/task/${task.taskID}`);
   };
 
   function formatDate(startDate, endDate) {
@@ -71,7 +73,7 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
       <div className="task-content">
         
             <ul className="task-list">
-              {tasks.length > 0 ? (
+              {Array.isArray(tasks) && tasks.length > 0 ? (
                 tasks.map((task) => (
                   <li
                     key={task.taskID}

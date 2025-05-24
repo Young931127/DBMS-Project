@@ -150,7 +150,7 @@ exports.submitTask = async (req, res) => {
     console.error("Error submitting task:", error) && (error.stack || error);
     res.status(500).json({
       success: false,
-      message: "Failed to submit task backend",
+      message: error.message,
     });
   } finally {
     if (mysql) mysql.release(); // 確保釋放連線
@@ -162,7 +162,7 @@ exports.acceptTask = async (req, res) => {
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const taskID = +req.params.taskID;
-    const { accepterID } = req.user.sub;
+    const accepterID  = req.user.sub;
     // 更新任務狀態為已接受
     await mysql.query(
       `UPDATE tasks 
@@ -278,11 +278,15 @@ exports.searchTask = async (req, res) => {
     mysql = await mysqlConnectionPool.getConnection();
     const { query } = req.query;
     const [tasks] = await mysql.query(
+<<<<<<< HEAD
       `SELECT title, region 
+=======
+      `SELECT title, description, startDate, endDate, reward, isTop, region
+>>>>>>> 4173692f5fa790fc6d359339ab45c6aeebbfc2bd
             FROM tasks
-            WHERE (title LIKE ? OR description LIKE ?)
+            WHERE (title LIKE ? OR description LIKE ? OR region LIKE ?)
             AND status = 'pending'`,
-      [`%${query}%`, `%${query}%`]
+      [`%${query}%`, `%${query}%`, `%${query}%`]
     );
     res.status(200).json({
       success: true,
