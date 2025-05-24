@@ -62,10 +62,10 @@ exports.submitTask = async (req, res) => {
     try {
         mysql = await mysqlConnectionPool.getConnection();
 
-        const userID = req.user.sub; // 從請求中獲取 userID
-        const {title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo} = req.body;
+   //     const userID = req.user.sub; // 從請求中獲取 userID
+        const {title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime} = req.body;
         const created_at = new Date();
-        const status = 'pending';
+   //     const status = 'pending';
         // 檢查必填欄位
         if (!taskName || !taskDescription) {
             return res.status(400).json({
@@ -86,9 +86,9 @@ exports.submitTask = async (req, res) => {
         }
         // 插入任務
         const [result] = await mysql.query(
-            `INSERT INTO tasks (userID, title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-            [ userID, title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo]
+            `INSERT INTO tasks (userID, title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [ 1, title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime, created_at ]
         );
         const newPoints = currentPoints - deduction;
         // 更新使用者的點數
