@@ -180,6 +180,7 @@ exports.acceptTask = async (req, res) => {
 };
 
 exports.completeTask = async (req, res) => {
+<<<<<<< HEAD
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
@@ -265,6 +266,95 @@ exports.completeTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
+=======
+    let mysql;
+    try {
+      // 1. 取得連線 & 開 transaction
+      mysql = await mysqlConnectionPool.getConnection();
+      await mysql.beginTransaction();
+  
+      // 2. 拿前端參數 & 讀出任務
+      const { taskID, score, comment = '' } = req.body;
+      const [[taskRow]] = await mysql.query(
+        `SELECT is_top, accepterID, reporter_id
+           FROM tasks
+          WHERE taskID = ?`,
+        [taskID]
+      );
+      if (!taskRow) {
+        return res.status(404).json({ success: false, message: '找不到該任務' });
+      }
+  
+      const isTop     = taskRow.is_top;
+      const accepterID= taskRow.accepterID;
+      const posterID  = taskRow.reporter_id;
+  
+      // 3. 寫入或更新評分（rate 表）
+      await mysql.query(
+        `INSERT INTO rate
+           (accepter_id, poster_id, score, comment, rating_time)
+         VALUES (?, ?, ?, ?, NOW())
+         ON DUPLICATE KEY UPDATE
+           score       = VALUES(score),
+           comment     = VALUES(comment),
+           rating_time = NOW()`,
+        [accepterID, posterID, score, comment]
+      );
+  
+      // 4. 計算總加分
+      const bonus = isTop ? 10 : 5;
+      const total = bonus + score;
+  
+      // 5a. 更新使用者總分
+      await mysql.query(
+        `UPDATE users
+            SET point = point + ?
+          WHERE user_id = ?`,
+        [total, accepterID]
+      );
+  
+      // 5b. 記一筆積分變動流水
+      await mysql.query(
+        `INSERT INTO point_transactions
+           (user_id, change_amount, reason)
+         VALUES (?, ?, ?)`,
+        [
+          accepterID,
+          total,
+          `complete task (${isTop ? 'top' : 'normal'}) + rating bonus (${score})`
+        ]
+      );
+  
+      // 6. 把任務標記為完成
+      await mysql.query(
+        `UPDATE tasks
+            SET status = 'completed'
+          WHERE taskID = ?`,
+        [taskID]
+      );
+  
+      // 7. 提交 transaction 並回應
+      await mysql.commit();
+      return res.status(200).json({
+        success: true,
+        message: '任務完成並記分成功！'
+      });
+  
+    } catch (err) {
+      // 發生錯誤，回滾並回錯
+      if (mysql) await mysql.rollback();
+      console.error('Error completing task:', err);
+      return res.status(500).json({
+        success: false,
+        message: '完成任務失敗'
+      });
+  
+    } finally {
+      // 一定要釋放連線
+      if (mysql) mysql.release();
+    }
+}
+>>>>>>> 112306085-frontend
 
 exports.searchTask = async (req, res) => {
   let mysql;
