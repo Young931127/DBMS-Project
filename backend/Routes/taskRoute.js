@@ -2,6 +2,7 @@ const express = require("express");
 const { getNormalTasks, 
         getTopTasks,
         submitTask, 
+        searchTask,
         acceptTask,
         getTaskDetails ,
         getPoint,

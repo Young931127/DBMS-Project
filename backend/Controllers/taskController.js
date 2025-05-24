@@ -9,7 +9,7 @@ exports.getNormalTasks = async (req, res) => {
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const [normalTask] = await mysql.query(
-      `SELECT *,
+      `SELECT *
       FROM tasks
       WHERE isTop = false ORDER BY created_at DESC`
     );
@@ -63,12 +63,12 @@ exports.submitTask = async (req, res) => {
     mysql = await mysqlConnectionPool.getConnection();
 
    //     const userID = req.user.sub; // 從請求中獲取 userID
-          const userID = 1;
+          const userID = 113306089;
         const {title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime} = req.body;
         const created_at = new Date();
    //     const status = 'pending';
         // 檢查必填欄位
-        if (!taskName || !taskDescription) {
+        if (!title || !description) {
             return res.status(400).json({
                 success: false,
                 message: 'Task name and description are required',
@@ -121,7 +121,7 @@ exports.submitTask = async (req, res) => {
     console.error("Error submitting task:", error);
     res.status(500).json({
       success: false,
-      message: "Failed to submit task",
+      message: "Failed to submit task backend",
     });
   } finally {
     if (mysql) mysql.release(); // 確保釋放連線
@@ -251,8 +251,8 @@ exports.searchTask = async (req, res) => {
     const [tasks] = await mysql.query(
       `SELECT * 
             FROM tasks
-            WHERE taskName LIKE ? OR taskDescription LIKE ?
-            AND status = 'pending'`,
+            WHERE (title LIKE ? OR description LIKE ?)
+            `,
       [`%${query}%`, `%${query}%`]
     );
     res.status(200).json({
