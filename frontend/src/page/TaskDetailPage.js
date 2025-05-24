@@ -1,8 +1,8 @@
 // src/page/TaskDetailsPage.js
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { fetchTaskDetails } from '../api/taskApi';
-import './TaskDetailsPage.css';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { fetchTaskDetails } from "../api/taskApi";
+import "./TaskDetailsPage.css";
 
 import {
   ArrowLeft,
@@ -12,15 +12,15 @@ import {
   FileText,
   Heart,
   MessageCircle,
-  CheckCircle
-} from 'lucide-react';
+  CheckCircle,
+} from "lucide-react";
 
 export default function TaskDetailsPage() {
   const { taskID } = useParams();
   const nav = useNavigate();
-  const [task, setTask]       = useState(null);
+  const [task, setTask] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError]     = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -36,9 +36,9 @@ export default function TaskDetailsPage() {
     })();
   }, [taskID]);
 
-  if (loading) return <p style={{padding:16}}>載入中…</p>;
-  if (error)   return <p style={{padding:16}}>讀取失敗：{error.message}</p>;
-  if (!task)   return <p style={{padding:16}}>找不到此任務</p>;
+  if (loading) return <p style={{ padding: 16 }}>載入中…</p>;
+  if (error) return <p style={{ padding: 16 }}>讀取失敗：{error.message}</p>;
+  if (!task) return <p style={{ padding: 16 }}>找不到此任務</p>;
 
   return (
     <div className="page">
@@ -48,7 +48,12 @@ export default function TaskDetailsPage() {
           <ArrowLeft size={24} />
         </button>
         <div className="title">任務說明</div>
-        <button className="icon-btn share" onClick={() => {/* TODO: share */}}>
+        <button
+          className="icon-btn share"
+          onClick={() => {
+            /* TODO: share */
+          }}
+        >
           <Share2 size={24} />
         </button>
       </div>
@@ -59,7 +64,9 @@ export default function TaskDetailsPage() {
 
         {/* 刊登案主 */}
         <div className="section">
-          <div className="section-icon"><Building2 size={20} /></div>
+          <div className="section-icon">
+            <Building2 size={20} />
+          </div>
           <div className="section-body">
             <div className="label">刊登案主</div>
             <div className="value">{task.userID}</div>
@@ -68,7 +75,9 @@ export default function TaskDetailsPage() {
 
         {/* 任務待遇 */}
         <div className="section">
-          <div className="section-icon"><DollarSign size={20} /></div>
+          <div className="section-icon">
+            <DollarSign size={20} />
+          </div>
           <div className="section-body">
             <div className="label">任務待遇</div>
             <div className="value">單次 ${task.reward}</div>
@@ -77,7 +86,9 @@ export default function TaskDetailsPage() {
 
         {/* 任務內容 */}
         <div className="section">
-          <div className="section-icon"><FileText size={20} /></div>
+          <div className="section-icon">
+            <FileText size={20} />
+          </div>
           <div className="section-body">
             <div className="label">任務內容</div>
             <div className="value">{task.description}</div>
