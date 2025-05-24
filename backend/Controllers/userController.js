@@ -75,7 +75,7 @@ async function login(req, res) {
       { sub: user.user_id, name: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
-    );
+    ); 
 
     res.status(200).json({ token: token });
   } catch (err) {
