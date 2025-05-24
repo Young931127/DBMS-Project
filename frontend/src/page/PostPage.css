@@ -2,11 +2,11 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: beige;
   height: 100%;
+  background-color: transparent;
 }
 
-.header-container {  
+.header-container {
   display: flex;
   flex-direction: row;
   height: 100px;
@@ -15,8 +15,8 @@
 
 .header-content {
   position: relative;
-  background-color: #dabcbc;
-  border-bottom: 0.7px solid #614747df;
+  background-color: #40b2a4;
+  border-bottom: 0.7px solid rgb(126, 126, 122);
   width: 100%;
   height: 100%;
   padding: 10px 20px;
@@ -28,6 +28,7 @@
   color: #000000;
   text-align: center;
   margin: 0;
+  margin-top: 20px;
   line-height: 40px;
 }
 .back-link {
@@ -43,13 +44,14 @@
 }
 
 .post-content {
+  width: 100%;
   height: calc(100% - 160px); /* 減去標題和按鈕的高度 */
   position: relative;
-  background-color: transparent;
-  margin-left: 20px;
-  margin-right: 20px;
+  background-color: #eff2ec;
+  /*margin-left: 20px;
+  margin-right: 20px;*/
   margin-top: 0;
-  padding-top: 10px;
+  padding: 20px;
   overflow-y: auto;
 }
 .post-content::-webkit-scrollbar {
@@ -72,14 +74,25 @@
 }
 
 .task-title-input {
-  width: 100%; 
+  width: 100%;
   display: block;
-  text-align: left; 
-  background-color: #f9f9f9; 
-  border: 1px solid #ced4da;
-  border-radius: 4px; 
-  padding: 8px 12px; 
-  font-size: 12px; 
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+.task-title-input:focus,
+.reward-input:focus,
+.task-content-input:focus,
+.start-date-picker:focus,
+.end-date-picker:focus,
+.start-time-picker:focus,
+.end-time-picker:focus,
+.pay-day-input:focus,
+.contact-info-input:focus {
+  outline: none;
+  border-color: #32887e; /* 輸入框獲得焦點時的邊框顏色 */
 }
 .reward-group {
   display: flex;
@@ -99,12 +112,12 @@
   width: 100%;
   display: block;
   text-align: left;
-  background-color: #f9f9f9;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 8px 12px;
   font-size: 12px;
 }
+
 /* 隱藏數字輸入框的上下箭頭 */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -128,14 +141,13 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 /* 任務內容文字方塊樣式 */
 .task-content-input {
-  width: 100%; 
-  display: block; 
-  text-align: left; 
-  background-color: #f9f9f9; 
-  border: 1px solid #ced4da; 
-  border-radius: 4px; 
-  padding: 8px 12px; 
-  font-size: 12px; 
+  width: 100%;
+  display: block;
+  text-align: left;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 12px;
   resize: none; /* 禁止調整大小 */
 }
 
@@ -172,19 +184,19 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .start-date-picker,
-.end-date-picker{
+.end-date-picker {
   width: 100%;
   text-align: left;
   justify-content: flex-start;
-  background-color: #f9f9f9;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 8px 12px;
   font-size: 12px;
 }
 
 .time-label {
-  display: block; 
+  display: block;
   font-size: 16px;
   font-weight: bold;
   color: #000000;
@@ -195,13 +207,12 @@ input[type="number"]::-webkit-outer-spin-button {
 .end-time-picker {
   width: 100%;
   text-align: left;
-  justify-content: flex-start;
-  background-color: #f9f9f9;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+
+  border: 1px solid #ccc;
+
+  border-radius: 5px;
   padding: 8px 12px;
   font-size: 12px;
-  
 }
 
 .region-group {
@@ -211,7 +222,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 10px;
 }
 .region-label {
-  display: block; 
+  display: block;
   font-weight: bold;
   color: #000000;
   margin-bottom: 0;
@@ -227,7 +238,7 @@ input[type="number"]::-webkit-outer-spin-button {
   display: flex;
   align-items: center;
   margin-bottom: 4px;
-  font-size: 12px; 
+  font-size: 12px;
 }
 
 .pay-day-group {
@@ -248,9 +259,8 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   display: block;
   text-align: left;
-  background-color: #f9f9f9;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 8px 12px;
   font-size: 12px;
 }
@@ -273,9 +283,9 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   display: block;
   text-align: left;
-  background-color: #f9f9f9;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
   padding: 8px 12px;
   font-size: 12px;
 }
@@ -316,7 +326,7 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: left;
 }
 
-.footer-container {  
+.footer-container {
   display: flex;
   flex-direction: row;
   height: 60px;
@@ -325,8 +335,8 @@ input[type="number"]::-webkit-outer-spin-button {
 .footer-content {
   display: flex;
   position: relative;
-  background-color: #dabcbc;
-  border-top: 0.7px solid #614747df;
+  background-color: #40b2a4;
+  border-top: 0.7px solid rgb(126, 126, 122);
   width: 100%;
   height: 100%;
   padding: 10px;
@@ -339,13 +349,13 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 90%;
   border-radius: 12px;
   border: none;
-  background-color: #857575;
-  
-  
+  background-color: #24366e;  
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-.submit-btn:hover{
-    transform: scale(0.95);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
+.submit-btn:hover {
+  transform: scale(0.95);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
 }
 /*.submit-btn:hover {
   background-color: #4e4b4b;

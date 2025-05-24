@@ -14,7 +14,8 @@
         "date-fns": "^4.1.0",
         "datepicker": "^0.0.0",
         "jose": "^6.0.10",
-        "react-mobile-datepicker": "^4.0.2"
+        "react-mobile-datepicker": "^4.0.2",
+        "react-transition-group": "^4.4.5"
     },
     "type": "module"
 }

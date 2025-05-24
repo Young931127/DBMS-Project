@@ -27,7 +27,7 @@
 
 
 .search-button {
-  background-color: #5b5b59; 
+  background-color: #24366e; 
   color: white; 
   border: none; 
   border-radius: 5px; 
@@ -42,5 +42,5 @@
 
 
 .search-button:hover {
-  background-color: #818481; /* 滑鼠移上時的背景顏色 */
+  background-color: #344fa2; /* 滑鼠移上時的背景顏色 */
 }

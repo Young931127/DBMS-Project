@@ -66,12 +66,13 @@ function HomePage() {
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-content">
           <ul>
-            <li onClick={() => handleNavigation("/profile")} style={{ padding: "0" , marginTop: "20px" }}>
+            <li onClick={() => handleNavigation("/profile")} style={{ padding: "0" , marginTop: "13px", borderBottom: "1px solid #000000"}}>
               <i class="bi bi-person-circle" style={{ fontSize: "45px" }}></i>
             </li>
+
             <li style={{ padding: "0", marginTop: "15px" }}>
               <div className="dropdown-header" onClick={toggleDropdown}>
-                所有任務
+                <i class="bi bi-flag-fill" style={{ fontSize: "20px", marginRight: "5px" }}></i> 所有任務
                 <span className={`arrow ${isDropdownOpen ? "open" : ""}`}>
                   {isDropdownOpen ? "▲" : "▼"}
                 </span>

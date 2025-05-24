@@ -10,7 +10,7 @@
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #eff2ec;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 .form-content {
@@ -52,10 +52,10 @@
 }
 .login-input-group input:focus {
   outline: none; /* 去掉輸入框的藍色邊框 */
-  border-color: #007bff; /* 輸入框獲得焦點時的邊框顏色 */
+  border-color: #32887e; /* 輸入框獲得焦點時的邊框顏色 */
 }
 .login-input-group input.error {
-  border: 1px solid red; 
+  border: 1px solid rgb(220, 42, 42); 
 }
 .input-wrapper {
   position: relative;
@@ -81,7 +81,7 @@
   margin-top: 10px;
   border-radius: 10px;
   border: none;
-  background-color: #22950be3;
+  background-color: #40b2a4;
   font-size: 16px;
   font-weight: bold;
   text-align: center; /*按鈕內文字置中*/
@@ -91,7 +91,7 @@
 }
 
 .login-btn:hover {
-  background-color: #1c6007; /* 滑鼠懸停時的顏色 */
+  background-color: #32887e; /* 滑鼠懸停時的顏色 */
 }
 
 .divider {
@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  color: #504f4f; /* 可調整顏色 */
+  color: #504f4f; 
   font-weight: bold;
   margin-top: 10px;
   width: 100%;
@@ -115,7 +115,7 @@
 
 .register-link {
   font-size: 12px;
-  color: blue;
+  color: rgb(124, 124, 223);
   text-decoration: underline;
   cursor: pointer;
   margin-top: 10px;

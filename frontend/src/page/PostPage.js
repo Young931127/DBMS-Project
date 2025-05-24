@@ -267,7 +267,7 @@ function PostPage() {
             disabled={isSubmitting}
             onClick={handleSubmit}
           >
-            <i className="bi bi-send-fill" style={{ marginRight: "6px" }}></i>
+            <i className="bi bi-send-fill" style={{ marginRight: "6px", color: "#ffffff" }}></i>
             發佈
           </button>
         </div>

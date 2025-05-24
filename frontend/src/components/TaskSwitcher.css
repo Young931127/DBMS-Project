@@ -9,25 +9,24 @@
   width: 100%;
   height: 100%;
 }
-/* 切換按鈕容器 */
+
 .task-switcher {
   display: flex;
-  /*justify-content: center; /* 按鈕置中 */
   position: relative;
   width: 100%; 
   height: 40px;
   border-bottom: 0.8px solid #c5c5c3;
   }
 
-/* 切換按鈕樣式 */
+
 .task-btn {
   cursor: pointer;
   padding: 10px 20px;
   font-size: 16px;
   font-weight: bold;
   background-color: transparent;
-  border: none; /* 移除邊框 */
-  color: #898484; /* 預設灰色文字 */
+  border: none; 
+  color: #ab9696; 
   transition: background-color 0.3s, color 0.3s; /* 過渡效果 */
   text-align: center;
   min-width: 150px; /* 按鈕最小寬度 */
@@ -36,7 +35,6 @@
 
 .task-btn.active {
   color: #060606; /* 點擊後的黑色文字 */
-  /*border-radius: 5px;*/
   
 }
 
@@ -46,8 +44,8 @@
   align-items: center; /* 子元素水平置中 */
   width: 100%;
   height: calc(100% - 40px); /* 減去按鈕的高度 */
-  padding: 10px 20px 0px 20px; /* 上右下左 */
-  background-color: white;
+  padding: 0px 20px 0px 20px; /* 上右下左 */
+  background-color: #eff2ec; 
   overflow-y: auto;
 }
  
@@ -56,9 +54,10 @@
 }
 
 .task-list {
-  background-color: white; 
+  background-color: #eff2ec; /* 淺灰色背景 */
   list-style: none;
   padding: 0;
+  padding-top:15px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -66,13 +65,16 @@
   gap: 5px;
   transition: transform 0.3s; /* 過渡效果 */
   overflow-y: auto;
+  margin-bottom:0;
 }
-
+.task-list::-webkit-scrollbar {
+  display: none; /* 隱藏滾動軸 */
+}
 /* 列表項目 */
 .task-item {
   position: relative;
-  margin-bottom: 10px;
-  padding:10px ;
+  margin-bottom: 5px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background-color: #ffffff; /* 預設白色背景 */
@@ -80,10 +82,9 @@
   transition: background-color 0.3s; /* 背景顏色過渡效果 */
 }
 
-/* 滑鼠懸停效果 */
-.task-item:hover {
-  background-color: #ccc8c8; /* 懸停時的背景顏色 */
-}
+/* .task-item:hover {
+  background-color: #ccc8c8;
+}*/
 .task-time {
   position: absolute;
   top: 8px;
@@ -104,7 +105,7 @@
 .task-reward {
   font-size: 12px;
   font-weight: bold;
-  color: #ebca0d;
+  color: #000000;
 }
 .task-date{
   font-size: 12px;

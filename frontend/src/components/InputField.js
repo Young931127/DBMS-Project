@@ -1,12 +1,21 @@
 import React, { useState } from "react";
+import { searchTask }  from "../api/searchApi";
 import "./InputField.css";
 
 const InputField = ({ placeholder, onSearch }) => {
   const [inputValue, setInputValue] = useState("");
 
-  const handleSearch = () => {
+  const handleSearch = async() => {
     if (onSearch) {
       onSearch(inputValue);
+    }
+    try{
+      console.log("searchTask 是函數嗎？", typeof searchTask);
+      const response = await searchTask(inputValue);
+      console.log("Search results:", response);
+      
+    } catch (error) {
+      console.error("Error searching tasks:", error);
     }
   };
 

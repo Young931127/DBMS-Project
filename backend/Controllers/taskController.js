@@ -9,10 +9,11 @@ exports.getNormalTasks = async (req, res) => {
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const [normalTask] = await mysql.query(
-      `SELECT *,
+      `SELECT *
       FROM tasks
       WHERE isTop = false ORDER BY created_at DESC`
     );
+   
     res.status(200).json({
       success: true,
       data: normalTask,
@@ -36,15 +37,15 @@ exports.getTopTasks = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
-    const [topTask] = await mysql.query(
+    const [topTasks] = await mysql.query(
       `SELECT * 
             FROM tasks
-            WHERE isTop = true `
+            WHERE isTop = true ORDER BY created_at DESC`
     );
 
     res.status(200).json({
       success: true,
-      data: topTask,
+      data: topTasks,
     });
   } catch (error) {
     console.error("Error fetching top tasks:", error);
@@ -67,13 +68,15 @@ exports.submitTask = async (req, res) => {
       title,
       description,
       startDate,
-      deadline,
       reward,
       isTop,
       region,
       endDate,
       payDate,
       contactInfo,
+      startTime,
+      endTime,
+
     } = req.body;
     const created_at = new Date();
     const status = "pending";
@@ -98,20 +101,21 @@ exports.submitTask = async (req, res) => {
     }
     // 插入任務
     const [result] = await mysql.query(
-      `INSERT INTO tasks (userID, title, description, startDate, deadline, reward, isTop, region, endDate, payDate, contactInfo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO tasks (userID, title, description, startDate, reward, isTop, region, endDate, payDate, contactInfo, startTime, endTime)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         userID,
         title,
         description,
         startDate,
-        deadline,
         reward,
         isTop,
         region,
         endDate,
         payDate,
         contactInfo,
+        startTime,
+        endTime,
       ]
     );
     const newPoints = currentPoints - deduction;
@@ -180,7 +184,6 @@ exports.acceptTask = async (req, res) => {
 };
 
 exports.completeTask = async (req, res) => {
-<<<<<<< HEAD
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
@@ -266,8 +269,8 @@ exports.completeTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-=======
-    let mysql;
+
+/* let mysql;
     try {
       // 1. 取得連線 & 開 transaction
       mysql = await mysqlConnectionPool.getConnection();
@@ -352,9 +355,7 @@ exports.completeTask = async (req, res) => {
     } finally {
       // 一定要釋放連線
       if (mysql) mysql.release();
-    }
-}
->>>>>>> 112306085-frontend
+    }*/
 
 exports.searchTask = async (req, res) => {
   let mysql;
@@ -364,9 +365,9 @@ exports.searchTask = async (req, res) => {
     const [tasks] = await mysql.query(
       `SELECT * 
             FROM tasks
-            WHERE taskName LIKE ? OR taskDescription LIKE ?
+            WHERE (title LIKE ? OR description LIKE ?  OR region LIKE ?)
             AND status = 'pending'`,
-      [`%${query}%`, `%${query}%`]
+      [`%${query}%`, `%${query}%`, `%${query}%`]
     );
     res.status(200).json({
       success: true,
