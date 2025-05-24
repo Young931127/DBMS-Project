@@ -7,6 +7,7 @@ const userRoute = require("./Routes/userRoute");
 const app = express();
 
 //中間件
+
 app.use(cors()); //允許跨域請求
 app.use(express.json()); //解析JSON請求體
 
