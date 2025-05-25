@@ -49,7 +49,7 @@ const Sidebar = () => {
                     </span>
                   </div>
                   <ul className="dropdown-menu">
-                    <li onClick={() => handleNavigation("/ProgressingTask")}>
+                    <li onClick={() => handleNavigation("/DealingList")}>
                       進行中任務
                     </li>
                     <li onClick={() => handleNavigation("/WaitingTask")}>
