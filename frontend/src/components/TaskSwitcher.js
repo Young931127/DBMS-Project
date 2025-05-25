@@ -14,7 +14,7 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
   //任務點擊處理
   const navigate = useNavigate(); 
   const handleTaskClick = (task) => {
-    navigate(`/task/${task.taskID}`);
+    navigate(`/tasks/${task.taskID}`);
   };
 
   function formatDate(startDate, endDate) {
