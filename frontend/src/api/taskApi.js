@@ -37,7 +37,7 @@ export const submitTask = async (submitData) =>{
 export const fetchTaskDetails = async (taskID) => {
     try {
       // 如果你在 axiosInstance 裡把 baseURL 設成了 '/api'，這裡就直接寫路徑即可
-      const response = await api.get(`tasks/${taskID}`);
+      const response = await api.get(`tasks/details/${taskID}`);
       return response.data;       // 回傳後端整包 data
     } catch (error) {
       console.error("Error fetching task details:", error);
