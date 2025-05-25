@@ -14,7 +14,7 @@ function HomePage() {
   const [isOpen, setIsOpen] = useState(false); // 控制側欄開關
   const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 控制下拉選單開關
   const navigate = useNavigate();
-  const [result, setResult] = useState([]); // 用於存儲搜尋結果
+  const [result, setResult] = useState(null); // 用於存儲搜尋結果
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen); // 切換側欄狀態
@@ -27,12 +27,14 @@ function HomePage() {
   const handleNavigation = (path) => {
     navigate(path);
     setIsOpen(false); // 點擊後關閉側欄
+    setIsDropdownOpen(false); // 點擊後關閉下拉選單
   };
 
   const handleOverlayClick = (e) => {
     // 如果點擊的區域不是側欄，則關閉側欄
     if (!e.target.closest(".sidebar")) {
       setIsOpen(false);
+      setIsDropdownOpen(false); // 點擊遮罩層時關閉下拉選單
     }
   };
 
@@ -73,12 +75,11 @@ function HomePage() {
 
             <li style={{ padding: "0", marginTop: "15px" }}>
               <div className="dropdown-header" onClick={toggleDropdown}>
-                <i class="bi bi-flag-fill" style={{ fontSize: "20px", marginRight: "5px" }}></i> 所有任務
+                <i className="bi bi-flag-fill" style={{ fontSize: "20px", marginRight: "5px" }}></i> 所有任務
                 <span className={`arrow ${isDropdownOpen ? "open" : ""}`}>
                   {isDropdownOpen ? "▲" : "▼"}
                 </span>
-              </div>
-              <ul className="dropdown-menu">
+                <ul className={`dropdown-menu${isDropdownOpen ? " open" : ""}`}>
                 <li onClick={() => handleNavigation("/ProgressingTask")}>
                   進行中任務
                 </li>
@@ -89,6 +90,8 @@ function HomePage() {
                   已完成任務
                 </li>
               </ul>
+              </div>
+              
             </li>
           </ul>
         </div>

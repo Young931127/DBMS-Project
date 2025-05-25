@@ -278,11 +278,7 @@ exports.searchTask = async (req, res) => {
     mysql = await mysqlConnectionPool.getConnection();
     const { query } = req.query;
     const [tasks] = await mysql.query(
-<<<<<<< HEAD
-      `SELECT title, region 
-=======
       `SELECT title, description, startDate, endDate, reward, isTop, region
->>>>>>> 4173692f5fa790fc6d359339ab45c6aeebbfc2bd
             FROM tasks
             WHERE (title LIKE ? OR description LIKE ? OR region LIKE ?)
             AND status = 'pending'`,
