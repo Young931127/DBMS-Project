@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./PostPage.css";
+import Swal from "sweetalert2";
 import { submitTask } from "../api/taskApi";
 
 function PostPage() {
@@ -19,7 +21,7 @@ function PostPage() {
   const [contactInfo, setContactInfo] = useState("");
   const [isUpgrade, setIsUpgrade] = useState(false);
   const [rewardPoints, setRewardPoints] = useState("");
-
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userID = "113306089"
   const regionOption = [
@@ -95,7 +97,19 @@ function PostPage() {
     try {
       await submitTask(submitData);
       console.log("submitData", submitData);
-      alert("任務發布成功！");
+     Swal.fire({
+             icon: "success",
+             title: "任務發布成功",
+             /*text: "請登入帳號",*/
+             confirmButtonText: "返回主頁",
+             width: "300px",
+             position: "center",
+             backdrop: false
+           }).then((result) => {
+             if (result.isConfirmed) {
+               navigate("/HomePage"); // 跳轉到主頁
+             }
+           });
     } catch (error) {
       console.error("Error submitting task:", error);
       console.log("submitData", submitData);
