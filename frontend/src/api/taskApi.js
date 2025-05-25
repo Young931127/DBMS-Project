@@ -44,3 +44,13 @@ export const fetchTaskDetails = async (taskID) => {
       throw error;
     }
   };
+
+export const applyForTask = async (taskID) => {
+    try {
+        const response = await api.post(`tasks/accept/${taskID}`);
+        return response.data; // 返回後端的資料
+    } catch (error) {
+        console.error("Error applying for task:", error);
+        throw error;
+    }
+}

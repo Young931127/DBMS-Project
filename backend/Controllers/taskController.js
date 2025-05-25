@@ -171,6 +171,7 @@ exports.acceptTask = async (req, res) => {
             WHERE taskID = ?`,
       [accepterID, taskID]
     );
+    
     res.status(200).json({
       success: true,
       message: "Task accepted successfully",

@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchTaskDetails } from "../api/taskApi";
+import { applyForTask } from "../api/taskApi";
+import Swal from "sweetalert2";
 import "./TaskDetailPage.css";
 import {
   ArrowLeft,
@@ -21,6 +23,49 @@ function TaskDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const handleApplyClick = async () => {
+    try {
+      const result = Swal.fire({
+        icon: "success",
+        title: "確認要接受此任務？",
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        width: "300px",
+        position: "center",
+        backdrop: false
+      });
+
+      if(result.isConfirmed){
+        try{
+          await applyForTask(taskID);
+          Swal.fire({
+            icon: "success",
+            title: "應徵成功",
+            confirmButtonText: "返回主頁",
+            width: "300px",
+            position: "center",
+            backdrop: false
+          });
+          nav("/HomePage"); // 跳轉到主頁
+        }
+        catch (error) {
+          Swal.fire({
+            icon: "error",
+            title: "應徵失敗",
+            text: "請稍後再試",
+            confirmButtonText: "確定",
+            width: "300px",
+            position: "center",
+            backdrop: false
+          });
+        }
+      }
+      else{}
+    }
+    catch (error) {
+      alert("應徵失敗，請稍後再試");
+    }
+  }
   useEffect(() => {
     (async () => {
       try {
@@ -142,7 +187,8 @@ function TaskDetailsPage() {
 
       <div className="actions">
         
-        <button className="apply">
+        <button className="apply"
+          onClick={handleApplyClick} >
           <CheckCircle className="icon" size={20} />
           立即應徵
         </button>
