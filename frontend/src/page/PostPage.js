@@ -23,7 +23,7 @@ function PostPage() {
   const [rewardPoints, setRewardPoints] = useState("");
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const userID = "113306089"
+  const userID = "113306089";
   const regionOption = [
     "自強五六舍",
     "自強七八舍",
@@ -83,33 +83,33 @@ function PostPage() {
     const submitData = {
       userID,
       title,
-      reward:Number(reward),
+      reward: Number(reward),
       description,
       startDate: startDate.toISOString().slice(0, 10), // 格式化為 YYYY-MM-DD
       endDate: endDate.toISOString().slice(0, 10),
-      startTime:startTime.toISOString().slice(11, 16), // 格式化為 HH:mm
-      endTime:endTime.toISOString().slice(11, 16),
-      region:region.join(", "), 
+      startTime: startTime.toISOString().slice(11, 16), // 格式化為 HH:mm
+      endTime: endTime.toISOString().slice(11, 16),
+      region: region.join(", "),
       payDate,
       contactInfo,
-      isTop:isUpgrade?1:0,
+      isTop: isUpgrade ? 1 : 0,
     };
     try {
       await submitTask(submitData);
       console.log("submitData", submitData);
-     Swal.fire({
-             icon: "success",
-             title: "任務發布成功",
-             /*text: "請登入帳號",*/
-             confirmButtonText: "返回主頁",
-             width: "300px",
-             position: "center",
-             backdrop: false
-           }).then((result) => {
-             if (result.isConfirmed) {
-               navigate("/HomePage"); // 跳轉到主頁
-             }
-           });
+      Swal.fire({
+        icon: "success",
+        title: "任務發布成功",
+        /*text: "請登入帳號",*/
+        confirmButtonText: "返回主頁",
+        width: "300px",
+        position: "center",
+        backdrop: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/HomePage"); // 跳轉到主頁
+        }
+      });
     } catch (error) {
       console.error("Error submitting task:", error);
       console.log("submitData", submitData);
@@ -123,8 +123,6 @@ function PostPage() {
     <div className="post-container">
       <header className="header-container">
         <div className="header-content">
-          
-          
           <Link to="/HomePage" className="back-link">
             <i class="bi bi-arrow-left-circle-fill"></i>
           </Link>
@@ -152,7 +150,7 @@ function PostPage() {
             className="reward-input"
             value={reward}
             onChange={(e) => setReward(e.target.value)}
-            placeholder="請輸入報酬  例: 現金100元、手搖飲一杯"
+            placeholder="請輸入報酬  例: 100"
             required
             min={0}
           />
@@ -258,7 +256,7 @@ function PostPage() {
             className="contact-info-input"
             value={contactInfo}
             onChange={(e) => setContactInfo(e.target.value)}
-            placeholder="請輸入聯絡資訊 例:行動電話、LINE ID"
+            placeholder="請輸入行動電話"
             required
           />
         </div>
@@ -283,10 +281,12 @@ function PostPage() {
             className="submit-btn"
             type="submit"
             disabled={isSubmitting}
-            
             onClick={handleSubmit}
           >
-            <i className="bi bi-send-fill" style={{ marginRight: "6px", color: "#ffffff" }}></i>
+            <i
+              className="bi bi-send-fill"
+              style={{ marginRight: "6px", color: "#ffffff" }}
+            ></i>
             發佈
           </button>
         </div>

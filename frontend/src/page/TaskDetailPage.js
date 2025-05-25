@@ -1,10 +1,10 @@
 // src/page/TaskDetailsPage.js
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { fetchTaskDetails } from "../api/taskApi";
+import { applyForTask } from "../api/taskApi";
 import "./TaskDetailPage.css";
 import Swal from "sweetalert2";
-import { applyForTask } from "../api/taskApi";
 
 import {
   ArrowLeft,
@@ -81,15 +81,16 @@ function TaskDetailPage() {
 
   return (
     <div className="detail-page">
-      <div className="header-container">
-        <div className="header-content">
-          <button className="icon-btn back" onClick={() => nav(-1)}>
-            <ArrowLeft size={24} />
-          </button>
-          <div className="title">任務說明</div>
-          <button className="icon-btn share" onClick={() => {}}>
-            <Share2 size={24} />
-          </button>
+      <div className="detail-header-container">
+        <div className="detail-header-content">
+          <Link to="/HomePage" className="back-link">
+            <i
+              class="bi bi-house-door-fill"
+              style={{ color: "#24366e" , marginTop:"30px"}}
+            ></i>
+          </Link>
+          <div className="detail-header-title">任務說明</div>
+
         </div>
       </div>
 
@@ -101,66 +102,97 @@ function TaskDetailPage() {
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <i
               class="bi bi-person"
-              style={{ color: "#555", fontSize: "30px" }}
+              style={{ color: "#555", fontSize: "20px" }}
             ></i>
             <label className="section-label">任務發布者</label>
           </div>
 
-          <div className="value">{task.userID}</div>
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            {task.userID}
+          </div>
         </div>
 
         {/* 任務待遇 */}
         <div className="section">
-          <div className="section-icon">
-            <DollarSign size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-coin"
+              style={{ color: "#555", fontSize: "20px" }}
+            ></i>
+            <label className="section-label">任務待遇</label>
           </div>
-          <div className="section-body">
-            <div className="label">任務待遇</div>
-            <div className="value">單次 ${task.reward}</div>
+
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            新台幣${task.reward}
           </div>
         </div>
 
         {/* 任務內容 */}
         <div className="section">
-          <div className="section-icon">
-            <FileText size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-clipboard-check"
+              style={{ color: "#555", fontSize: "20px" }}
+            ></i>
+            <label className="section-label">任務內容</label>
           </div>
-          <div className="section-body">
-            <div className="label">任務內容</div>
-            <div className="value">{task.description}</div>
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            {task.description}
+          </div>
+        </div>
+        {/* 地點 */}
+        <div className="section">
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-pin-map"
+              style={{ color: "#555", fontSize: "20px" }}
+            ></i>
+            <label className="section-label">地點</label>
+          </div>
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            {task.region}
           </div>
         </div>
 
+        {/* 任務日期 */}
         <div className="section">
-          <div className="section-icon">
-            <FileText size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-calendar2-check"
+              style={{ color: "#555", fontSize: "20px" }}
+            ></i>
+            <label className="section-label">任務日期</label>
           </div>
-          <div className="section-body">
-            <div className="label">地點</div>
-            <div className="value">{task.region}</div>
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            {task.startDate.slice(0, 10)} ~ {task.endDate.slice(0, 10)}
           </div>
         </div>
 
-        {/* 結束日期 */}
+        {/* 任務時間 */}
         <div className="section">
-          <div className="section-icon">
-            <FileText size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-calendar2-check"
+              style={{ color: "#555", fontSize: "20px" }}
+            ></i>
+            <label className="section-label">任務時間</label>
           </div>
-          <div className="section-body">
-            <div className="label">任務日期</div>
-            <div className="date">{task.endDate}</div>
-            <div className="time">{task.endTime}</div>
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            {task.startTime.slice(0, 5)} ~ {task.endTime.slice(0, 5)}
           </div>
         </div>
 
         {/* 聯絡方式 */}
         <div className="section">
-          <div className="section-icon">
-            <FileText size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-telephone"
+              style={{ color: "#555", fontSize: "20px" }}
+            ></i>
+            <label className="section-label">聯絡方式</label>
           </div>
-          <div className="section-body">
-            <div className="label">聯絡方式</div>
-            <div className="value">{task.contactInfo}</div>
+          <div style={{ fontSize: "14px", marginLeft: "28px" }}>
+            {task.contactInfo}
           </div>
         </div>
       </div>
