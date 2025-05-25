@@ -15,6 +15,7 @@ import HomePage from "./page/HomePage";
 import RegisterPage from "./page/RegisterPage";
 import PostPage from "./page/PostPage";
 import TaskDetailsPage from "./page/TaskDetailPage";
+import DealingListPage from "./page/DealingList";
 
 
 
