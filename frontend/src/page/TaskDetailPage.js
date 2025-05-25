@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchTaskDetails } from "../api/taskApi";
-import "./TaskDetailsPage.css";
+import "./TaskDetailPage.css";
+
+
 
 import {
   ArrowLeft,

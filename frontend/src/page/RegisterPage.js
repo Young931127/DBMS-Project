@@ -69,6 +69,7 @@ function RegisterPage() {
         confirmButtonText: "重新登入",
         width: "300px",
         position: "center",
+        backdrop: false
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/Login"); // 跳轉到登入頁
@@ -88,7 +89,7 @@ function RegisterPage() {
       <div className="register-header">
         <div className="register-header-content">
           <Link to="/Login" className="back-link">
-            <i class="bi bi-arrow-left-circle-fill"></i>
+            <i class="bi bi-arrow-left-circle-fill" style={{ color: "#24366e" }}></i>
           </Link>
         </div>
       </div>
