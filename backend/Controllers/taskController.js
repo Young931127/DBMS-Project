@@ -157,7 +157,7 @@ exports.submitTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-/*
+
 exports.acceptTask = async (req, res) => {
   let mysql;
   try {
@@ -167,10 +167,11 @@ exports.acceptTask = async (req, res) => {
     // 更新任務狀態為已接受
     await mysql.query(
       `UPDATE tasks 
-            SET status = 'accepted', accepterID = ?
+            SET status = 'accepted', accepter = ?
             WHERE taskID = ?`,
       [accepterID, taskID]
     );
+    
     res.status(200).json({
       success: true,
       message: "Task accepted successfully",
@@ -185,7 +186,6 @@ exports.acceptTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-*/
 /*
 exports.completeTask = async (req, res) => {
   let mysql;
@@ -499,8 +499,8 @@ exports.getTaskDetails = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
-    const rawID = req.params.taskID;
-    const taskID = parseInt(rawID, 10); // 確保 taskID 是數字
+    //const rawID = req.params.taskID;
+    const taskID = Number(req.params.taskID); // 確保 taskID 是數字
     if (isNaN(taskID)) {
       return res.status(400).json({
         success: false,
