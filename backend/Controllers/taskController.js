@@ -162,7 +162,7 @@ exports.acceptTask = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
-    const taskID = +req.params.taskID;
+    const taskID = Number(req.params.taskID);
     if (isNaN(taskID)) {
       return res.status(400).json({
         success: false,
