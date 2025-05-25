@@ -278,7 +278,7 @@ exports.searchTask = async (req, res) => {
     mysql = await mysqlConnectionPool.getConnection();
     const { query } = req.query;
     const [tasks] = await mysql.query(
-      `SELECT title, description, startDate, endDate, reward, isTop, region
+      `SELECT taskID, title, description, startDate, endDate, reward, isTop, region
             FROM tasks
             WHERE (title LIKE ? OR description LIKE ? OR region LIKE ?)
             AND status = 'pending'`,
