@@ -163,6 +163,12 @@ exports.acceptTask = async (req, res) => {
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const taskID = +req.params.taskID;
+    if (isNaN(taskID)) {
+      return res.status(400).json({
+        success: false,
+        message: "did not find taskID",
+      });
+    }
     const accepterID = "113306089"; // 從請求中獲取 accepterID
     // 更新任務狀態為已接受
     await mysql.query(
@@ -501,13 +507,13 @@ exports.getTaskDetails = async (req, res) => {
     mysql = await mysqlConnectionPool.getConnection();
     //const rawID = req.params.taskID;
     const taskID = Number(req.params.taskID); // 確保 taskID 是數字
-    if (isNaN(taskID)) {
+    /*if (isNaN(taskID)) {
       return res.status(400).json({
         success: false,
         message: "Invalid task ID format",
       });
-    }
-    console.log("收到 taskID:", rawID);
+    }*/
+    //console.log("收到 taskID:", rawID);
     const [taskDetails] = await mysql.query(
       `SELECT * 
             FROM tasks

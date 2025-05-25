@@ -3,8 +3,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { fetchTaskDetails } from "../api/taskApi";
 import { applyForTask } from "../api/taskApi";
-import "./TaskDetailPage.css";
 import Swal from "sweetalert2";
+import "./TaskDetailPage.css";
 
 import {
   ArrowLeft,
@@ -26,44 +26,24 @@ function TaskDetailPage() {
 
   const handleApplyClick = async () => {
     try {
-      const result = Swal.fire({
-        icon: "question",
-        title: "確認要接受此任務？",
-        showCancelButton: true,
-        confirmButtonText: "是",
-        cancelButtonText: "否",
+      await applyForTask(taskID);
+      Swal.fire({
+        icon: "success",
+        title: "任務已接受",
+        confirmButtonText: "確認",
         width: "300px",
         position: "center",
         backdrop: false,
       });
-
-      if (result.isConfirmed) {
-        try {
-          await applyForTask(taskID);
-          Swal.fire({
-            icon: "success",
-            title: "應徵成功",
-            confirmButtonText: "返回主頁",
-            width: "300px",
-            position: "center",
-            backdrop: false,
-          });
-          nav("/HomePage"); // 跳轉到主頁
-        } catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "應徵失敗",
-            text: "請稍後再試",
-            confirmButtonText: "確定",
-            width: "300px",
-            position: "center",
-            backdrop: false,
-          });
-        }
-      } else {
-      }
     } catch (error) {
-      alert("應徵失敗，請稍後再試");
+      Swal.fire({
+        icon: "error",
+        title: "申請失敗",
+        confirmButtonText: "確認",
+        width: "300px",
+        position: "center",
+        backdrop: false,
+      });
     }
   };
 
@@ -81,23 +61,21 @@ function TaskDetailPage() {
 
   return (
     <div className="detail-page">
-      <div className="detail-header-container">
-        <div className="detail-header-content">
+      <div className="header-container">
+        <div className="header-content">
           <Link to="/HomePage" className="back-link">
-            <i
-              class="bi bi-house-door-fill"
-              style={{ color: "#24366e" , marginTop:"30px"}}
-            ></i>
+            <i class="bi bi-house-door-fill" style={{ color: "#24366e" }}></i>
           </Link>
           <div className="detail-header-title">任務說明</div>
-
         </div>
       </div>
 
       <div className="taskdetail-content">
+        {/* 任務標題 */}
         <div className="section-title">
           <label className="taskdetail-title">{task.title}</label>
         </div>
+        {/* 任務發布者 */}
         <div className="section">
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <i
@@ -106,13 +84,12 @@ function TaskDetailPage() {
             ></i>
             <label className="section-label">任務發布者</label>
           </div>
-
           <div style={{ fontSize: "14px", marginLeft: "28px" }}>
             {task.userID}
           </div>
         </div>
 
-        {/* 任務待遇 */}
+        {/* 任務報酬 */}
         <div className="section">
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <i
@@ -121,7 +98,6 @@ function TaskDetailPage() {
             ></i>
             <label className="section-label">任務待遇</label>
           </div>
-
           <div style={{ fontSize: "14px", marginLeft: "28px" }}>
             新台幣${task.reward}
           </div>
@@ -140,6 +116,7 @@ function TaskDetailPage() {
             {task.description}
           </div>
         </div>
+
         {/* 地點 */}
         <div className="section">
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
@@ -172,7 +149,7 @@ function TaskDetailPage() {
         <div className="section">
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <i
-              class="bi bi-calendar2-check"
+              class="bi bi-clock"
               style={{ color: "#555", fontSize: "20px" }}
             ></i>
             <label className="section-label">任務時間</label>
@@ -196,7 +173,6 @@ function TaskDetailPage() {
           </div>
         </div>
       </div>
-
       <div className="footer-container">
         <div className="footer-content">
           <button className="apply-btn" onClick={handleApplyClick}>
