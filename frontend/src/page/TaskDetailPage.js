@@ -59,30 +59,31 @@ function TaskDetailsPage() {
       {/* content */}
       <div className="content">
         <div className="time-ago">6 分鐘前</div>
-
-        {/* 刊登案主 */}
+        
+        
+        {/* 發布者*/}
         <div className="section">
           <div className="section-icon">
             <Building2 size={20} />
           </div>
           <div className="section-body">
-            <div className="label">刊登案主</div>
+            <div className="label">發布者</div>
             <div className="value">{task.userID}</div>
           </div>
         </div>
-
-        {/* 任務待遇 */}
+        
+        {/* 任務標題 */}
         <div className="section">
           <div className="section-icon">
-            <DollarSign size={20} />
+            <FileText size={20} />
           </div>
           <div className="section-body">
-            <div className="label">任務待遇</div>
-            <div className="value">單次 ${task.reward}</div>
+            <div className="label">任務標題</div>
+            <div className="value">{task.title}</div>
           </div>
         </div>
-
-        {/* 任務內容 */}
+        
+          {/* 任務內容 */}
         <div className="section">
           <div className="section-icon">
             <FileText size={20} />
@@ -92,10 +93,52 @@ function TaskDetailsPage() {
             <div className="value">{task.description}</div>
           </div>
         </div>
-
-       
       </div>
 
+          {/* 報酬 */}
+        <div className="section">
+          <div className="section-icon">
+            <DollarSign size={20} />
+          </div>
+          <div className="section-body">
+            <div className="label">報酬</div>
+            <div className="value">${task.reward}</div>
+          </div>
+        </div>
+
+        {/* 地點 */}
+        <div className="section">
+          <div className="section-icon">
+            <FileText size={20} />
+          </div>
+          <div className="section-body">
+            <div className="label">地點</div>
+            <div className="value">{task.region}</div>
+          </div>
+        </div>
+        
+          {/* 結束日期 */}
+        <div className="section">
+          <div className="section-icon">
+            <FileText size={20} />
+          </div>
+          <div className="section-body">
+            <div className="label">結束日期</div>
+            <div className="date">{task.endDate}</div>
+            <div className="time">{task.endTime}</div>
+          </div>
+        </div>
+
+        {/* 聯絡方式 */}
+        <div className="section">
+          <div className="section-icon">
+            <FileText size={20} />
+          </div>
+          <div className="section-body">
+            <div className="label">聯絡方式</div>
+            <div className="value">{task.contactInfo}</div>
+          </div>
+        </div>
 
       <div className="actions">
         
