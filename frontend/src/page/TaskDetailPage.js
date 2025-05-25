@@ -14,7 +14,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-function TaskDetailsPage() {
+function TaskDetailPage() {
   const { taskID } = useParams();
   const nav = useNavigate();
   const [task, setTask] = useState(null);
@@ -22,16 +22,10 @@ function TaskDetailsPage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetchTaskDetails(taskID);
-        setTask(res.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    // 可以在這裡 console.log(typeof taskID) 驗證是不是 "string"
+    fetchTaskDetails(taskID)
+      .then((res) => setTask(res.data))
+      .catch((err) => console.error(err));
   }, [taskID]);
 
   if (loading) return <p style={{ padding: 16 }}>載入中…</p>;
@@ -46,12 +40,7 @@ function TaskDetailsPage() {
           <ArrowLeft size={24} />
         </button>
         <div className="title">任務說明</div>
-        <button
-          className="icon-btn share"
-          onClick={() => {
-         
-          }}
-        >
+        <button className="icon-btn share" onClick={() => {}}>
           <Share2 size={24} />
         </button>
       </div>
@@ -92,13 +81,9 @@ function TaskDetailsPage() {
             <div className="value">{task.description}</div>
           </div>
         </div>
-
-       
       </div>
 
-
       <div className="actions">
-        
         <button className="apply">
           <CheckCircle className="icon" size={20} />
           立即應徵
@@ -107,4 +92,4 @@ function TaskDetailsPage() {
     </div>
   );
 }
-export default TaskDetailsPage;
+export default TaskDetailPage;

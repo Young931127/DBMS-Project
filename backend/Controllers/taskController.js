@@ -494,13 +494,20 @@ exports.deleteOvertimeTask = async (req, res) => {
   }
 };
 */
-/*
+
 exports.getTaskDetails = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
-    const { taskID } = req.params;
-    console.log("收到 taskID:", taskID); 
+    const rawID = req.params.taskID;
+    const taskID = parseInt(rawID, 10); // 確保 taskID 是數字
+    if (isNaN(taskID)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid task ID format",
+      });
+    }
+    console.log("收到 taskID:", rawID);
     const [taskDetails] = await mysql.query(
       `SELECT * 
             FROM tasks
@@ -527,7 +534,7 @@ exports.getTaskDetails = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-*/
+
 /*
 // POST /violations
 exports.violation = async (req, res) => {

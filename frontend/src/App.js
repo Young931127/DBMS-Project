@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 /*import InputField from "./components/InputField";
 import PostBtn from "./components/post_btn";
@@ -14,13 +14,9 @@ import LoginPage from "./page/LoginPage";
 import HomePage from "./page/HomePage";
 import RegisterPage from "./page/RegisterPage";
 import PostPage from "./page/PostPage";
-import TaskDetailsPage from "./page/TaskDetailPage";
-
-
-
+import TaskDetailPage from "./page/TaskDetailPage";
 
 const App = () => {
-  
   return (
     /*<div className="container mt-4">
       <InputField />
@@ -40,11 +36,9 @@ const App = () => {
             <Route path="/RegisterPage" element={<RegisterPage />} />
             <Route path="/HomePage" element={<HomePage />} />
             <Route path="/PostPage" element={<PostPage />} />
-             <Route path="/tasks/:taskID" element={<TaskDetailsPage />} />
-            {/*<Route path="/task/:taskID" element={<TaskDetailPage />} />*/}
+            <Route path="/tasks/:taskID" element={<TaskDetailPage />} />
           </Routes>
         </BrowserRouter>
-        
       </div>
     </div>
   );
