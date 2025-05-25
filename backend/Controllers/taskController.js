@@ -157,17 +157,23 @@ exports.submitTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-/*
+
 exports.acceptTask = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const taskID = +req.params.taskID;
+    if (isNaN(taskID)) {
+      return res.status(400).json({
+        success: false,
+        message: "did not find taskID",
+      });
+    }
     const accepterID = "113306089"; // 從請求中獲取 accepterID
     // 更新任務狀態為已接受
     await mysql.query(
       `UPDATE tasks 
-            SET status = 'accepted', accepterID = ?
+            SET status = 'accepted', accepter = ?
             WHERE taskID = ?`,
       [accepterID, taskID]
     );
@@ -186,7 +192,6 @@ exports.acceptTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-*/
 /*
 exports.completeTask = async (req, res) => {
   let mysql;
@@ -281,7 +286,7 @@ exports.searchTask = async (req, res) => {
     mysql = await mysqlConnectionPool.getConnection();
     const { query } = req.query;
     const [tasks] = await mysql.query(
-      `SELECT title, description, startDate, endDate, reward, isTop, region
+      `SELECT taskID, title, description, startDate, endDate, reward, isTop, region
             FROM tasks
             WHERE (title LIKE ? OR description LIKE ? OR region LIKE ?)
             AND status = 'pending'`,
@@ -495,13 +500,20 @@ exports.deleteOvertimeTask = async (req, res) => {
   }
 };
 */
-/*
+
 exports.getTaskDetails = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
-    const { taskID } = req.params;
-    console.log("收到 taskID:", taskID); 
+    //const rawID = req.params.taskID;
+    const taskID = Number(req.params.taskID); // 確保 taskID 是數字
+    if (isNaN(taskID)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid task ID format",
+      });
+    }
+    console.log("收到 taskID:", rawID);
     const [taskDetails] = await mysql.query(
       `SELECT * 
             FROM tasks
@@ -528,7 +540,7 @@ exports.getTaskDetails = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-*/
+
 /*
 // POST /violations
 exports.violation = async (req, res) => {

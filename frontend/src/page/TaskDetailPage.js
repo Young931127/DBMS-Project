@@ -5,6 +5,7 @@ import { fetchTaskDetails } from "../api/taskApi";
 import { applyForTask } from "../api/taskApi";
 import Swal from "sweetalert2";
 import "./TaskDetailPage.css";
+
 import {
   ArrowLeft,
   Share2,
@@ -16,7 +17,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-function TaskDetailsPage() {
+function TaskDetailPage() {
   const { taskID } = useParams();
   const nav = useNavigate();
   const [task, setTask] = useState(null);
@@ -25,96 +26,60 @@ function TaskDetailsPage() {
 
   const handleApplyClick = async () => {
     try {
-      const result = Swal.fire({
+      await applyForTask(taskID);
+      Swal.fire({
         icon: "success",
-        title: "確認要接受此任務？",
+        title: "任務已接受",
         confirmButtonText: "是",
-        cancelButtonText: "否",
         width: "300px",
         position: "center",
-        backdrop: false
+        backdrop: false,
       });
-
-      if(result.isConfirmed){
-        try{
-          await applyForTask(taskID);
-          Swal.fire({
-            icon: "success",
-            title: "應徵成功",
-            confirmButtonText: "返回主頁",
-            width: "300px",
-            position: "center",
-            backdrop: false
-          });
-          nav("/HomePage"); // 跳轉到主頁
-        }
-        catch (error) {
-          Swal.fire({
-            icon: "error",
-            title: "應徵失敗",
-            text: "請稍後再試",
-            confirmButtonText: "確定",
-            width: "300px",
-            position: "center",
-            backdrop: false
-          });
-        }
-      }
-      else{}
-    }
-    catch (error) {
+    } catch (error) {
       alert("應徵失敗，請稍後再試");
     }
-  }
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetchTaskDetails(taskID);
-        setTask(res.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    })();
+    setLoading(true);
+    fetchTaskDetails(taskID)
+      .then((res) => setTask(res.data))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
   }, [taskID]);
 
-  if (loading) return <p style={{ padding: 16 }}>載入中…</p>;
+  if (loading) return <p style={{ padding: 16 }}>載入中TaskDetailPage</p>;
   if (error) return <p style={{ padding: 16 }}>讀取失敗：{error.message}</p>;
   if (!task) return <p style={{ padding: 16 }}>找不到此任務</p>;
 
   return (
-    <div className="page">
-      {/* header */}
-      <div className="header">
-        <button className="icon-btn back" onClick={() => nav(-1)}>
-          <ArrowLeft size={24} />
-        </button>
-        <div className="title">任務說明</div>
-        <button
-          className="icon-btn share"
-          onClick={() => {
-         
-          }}
-        >
-          <Share2 size={24} />
-        </button>
+    <div className="detail-page">
+      <div className="header-container">
+        <div className="header-content">
+          <button className="icon-btn back" onClick={() => nav(-1)}>
+            <ArrowLeft size={24} />
+          </button>
+          <div className="title">任務說明</div>
+          <button className="icon-btn share" onClick={() => {}}>
+            <Share2 size={24} />
+          </button>
+        </div>
       </div>
 
-      {/* content */}
-      <div className="content">
-        <div className="time-ago">6 分鐘前</div>
-        
-        
-        {/* 發布者*/}
+      <div className="taskdetail-content">
+        <div className="section-title">
+          <label className="taskdetail-title">{task.title}</label>
+        </div>
         <div className="section">
-          <div className="section-icon">
-            <Building2 size={20} />
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <i
+              class="bi bi-person"
+              style={{ color: "#555", fontSize: "30px" }}
+            ></i>
+            <label className="section-label">任務發布者</label>
           </div>
-          <div className="section-body">
-            <div className="label">發布者</div>
-            <div className="value">{task.userID}</div>
-          </div>
+
+          <div className="value">{task.userID}</div>
         </div>
         
         {/* 任務標題 */}
@@ -138,20 +103,7 @@ function TaskDetailsPage() {
             <div className="value">{task.description}</div>
           </div>
         </div>
-      </div>
 
-          {/* 報酬 */}
-        <div className="section">
-          <div className="section-icon">
-            <DollarSign size={20} />
-          </div>
-          <div className="section-body">
-            <div className="label">報酬</div>
-            <div className="value">${task.reward}</div>
-          </div>
-        </div>
-
-        {/* 地點 */}
         <div className="section">
           <div className="section-icon">
             <FileText size={20} />
@@ -161,14 +113,14 @@ function TaskDetailsPage() {
             <div className="value">{task.region}</div>
           </div>
         </div>
-        
-          {/* 結束日期 */}
+
+        {/* 結束日期 */}
         <div className="section">
           <div className="section-icon">
             <FileText size={20} />
           </div>
           <div className="section-body">
-            <div className="label">結束日期</div>
+            <div className="label">任務日期</div>
             <div className="date">{task.endDate}</div>
             <div className="time">{task.endTime}</div>
           </div>
@@ -184,16 +136,20 @@ function TaskDetailsPage() {
             <div className="value">{task.contactInfo}</div>
           </div>
         </div>
+      </div>
 
-      <div className="actions">
-        
-        <button className="apply"
-          onClick={handleApplyClick} >
-          <CheckCircle className="icon" size={20} />
-          立即應徵
-        </button>
+      <div className="footer-container">
+        <div className="footer-content">
+          <button className="apply-btn" onClick={handleApplyClick}>
+            <i
+              className="bi bi-check-circle"
+              style={{ marginRight: "6px", color: "#ffffff" }}
+            ></i>
+            申請任務
+          </button>
+        </div>
       </div>
     </div>
   );
 }
-export default TaskDetailsPage;
+export default TaskDetailPage;

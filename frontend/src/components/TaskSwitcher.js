@@ -93,7 +93,7 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
                   </li>
                 ))
               ) : (
-                <p className="no-task">目前沒有任務</p>
+                <li className="no-task">目前沒有任務</li>
               )}
             </ul>
           

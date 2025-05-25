@@ -1,146 +1,162 @@
-
-/* TaskDetailPage.css */
-
-/* 整體容器 */
-.page {
-  position: relative;
+.detail-page {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background-color: transparent;
-  box-sizing: border-box;
 }
 
-/* 頂部標題列 */
-.page .header {
+.header-container {
   display: flex;
-  align-items: center;
-  width: 100%;
+  flex-direction: row;
   height: 100px;
-  background-color: #40b2a4;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  border-bottom: 0.7px solid rgb(126, 126, 122);
+  background-color: transparent;
 }
 
-/* 返回按鈕 */
-.page .header .icon-btn.back {
-  background: none;
-  border: none;
-  color: #24366e;
-  font-size: 24px;
-  cursor: pointer;
-  margin-right: 12px;
-  display: flex;
-  align-items: center;
-}
-
-/* 標題文字 */
-.page .header .title {
-  flex: 1;
-  text-align: center;
-  font-size: 20px;
-  color: #FFFFFF;
-  font-weight: bold;
-}
-
-/* 分享按鈕 */
-.page .header .icon-btn.share {
-  background: none;
-  border: none;
-  color: #FFFFFF;
-  font-size: 24px;
-  cursor: pointer;
-  margin-left: 12px;
-  display: flex;
-  align-items: center;
-}
-
-/* 主體內容區 */
-.page .content {
-  flex: 1;
+.taskdetail-content {
+  width: 100%;
+  height: calc(100% - 160px); /* 減去標題和按鈕的高度 */
+  position: relative;
+  background-color: #eff2ec;
+  margin-top: 0;
+  padding: 20px;
   overflow-y: auto;
-  padding: 16px;
-  background-color: #F1F4EF;
-  box-sizing: border-box;
 }
-
-/* 時間標註 */
-.page .content .time-ago {
-  font-size: 14px;
-  color: #555555;
-  margin-bottom: 16px;
-}
-
-/* 區塊樣式 */
-.page .content .section {
+.section {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   margin-bottom: 16px;
 }
+.section-title{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #969090d4;  
+}
+.section-label{
+  font-size: 15px;
+  font-weight: bold;
+  color: #000000;
+}
+.taskdetail-title{
+  font-size: 30px;
+  font-weight: bold;
+  color: #000000;
 
-/* 區塊圖示 */
-.page .content .section-icon {
-  color: #40b2a4;
+}
+.icon-btn {
+  background: none;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+
+
+.time-ago {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+}
+
+
+
+.section-icon {
+  margin-right: 12px;
+  color: #555;
+}
+
+.section-body {
+  flex: 1;
+}
+
+.section-body .label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.section-body .value {
+  font-size: 16px;
+  color: #000;
+}
+
+.actions {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.actions button {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-}
-
-/* 區塊內容 */
-.page .content .section-body {
-  margin-left: 12px;
-}
-
-/* 項目標籤 */
-.page .content .label {
-  font-size: 14px;
-  color: #555555;
-}
-
-/* 項目值 */
-.page .content .value {
-  margin-top: 4px;
-  font-size: 16px;
-  color: #333333;
-  line-height: 1.5;
-  word-break: break-word;
-}
-
-/* 底部操作列 */
-.page .actions {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  height: 60px;
-  background-color: #40b2a4;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  border-top: 0.7px solid rgb(126, 126, 122);
-}
-
-/* 底部按鈕通用樣式 */
-.page .actions button {
+  gap: 6px;
+  padding: 10px 0;
   background: none;
   border: none;
-  color: #FFFFFF;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
 }
 
-/* 應徵按鈕 */
-.page .actions button.apply {
-  background-color: #24315C;
-  color: #FFFFFF;
-  padding: 12px 24px;
+.actions button .icon {
+  stroke: #007bff;
+}
+
+.actions button.apply {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.actions button.apply .icon {
+  stroke: #fff;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  background-color: transparent;
+}
+.footer-content {
+  display: flex;
+  position: relative;
+  background-color: #40b2a4;
+  border-top: 0.7px solid rgb(126, 126, 122);
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  justify-content: center;
+}
+.apply-btn {
+  font-size: 15px;
+  font-weight: bold;
+  width: 50%;
+  height: 90%;
+  border-radius: 12px;
   border: none;
-  border-radius: 24px;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  background-color: #24366e;  
+  color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+.apply-btn:hover {
+  transform: scale(0.95);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 陰影效果 */
 }
