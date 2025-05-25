@@ -62,10 +62,11 @@ exports.submitTask = async (req, res) => {
   try {
     console.log("進入 submitTask controller");
     mysql = await mysqlConnectionPool.getConnection();
-    
-    const userID = req.user.sub; // 從請求中獲取 userID
-    
+
+    //const userID = req.user.sub; // 從請求中獲取 userID
+    //const userID = "113306089"; // 從請求中獲取 userID
     const {
+      userID,
       title,
       description,
       startDate,
@@ -156,13 +157,13 @@ exports.submitTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-
+/*
 exports.acceptTask = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const taskID = +req.params.taskID;
-    const accepterID  = req.user.sub;
+    const accepterID = "113306089"; // 從請求中獲取 accepterID
     // 更新任務狀態為已接受
     await mysql.query(
       `UPDATE tasks 
@@ -184,7 +185,8 @@ exports.acceptTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-
+*/
+/*
 exports.completeTask = async (req, res) => {
   let mysql;
   try {
@@ -271,7 +273,7 @@ exports.completeTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-
+*/
 exports.searchTask = async (req, res) => {
   let mysql;
   try {
@@ -298,6 +300,7 @@ exports.searchTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
+/*
 exports.getPoint = async (req, res) => {
   let conn;
   try {
@@ -335,11 +338,13 @@ exports.getPoint = async (req, res) => {
     if (conn) conn.release();
   }
 };
-
+*/
+/*
 exports.rateSubmitter = async (req, res) => {
   const taskID = +req.params.taskID;
-  const { score, comment = "" } = req.body;
-  const accepterID = req.user.sub; // 記錄評分的人(accepter)的ID
+  const { accepterID, score, comment = "" } = req.body;
+  //const accepterID = req.user.sub; // 記錄評分的人(accepter)的ID
+  
   let conn;
   try {
     conn = await mysqlPool.getConnection();
@@ -395,11 +400,12 @@ exports.rateSubmitter = async (req, res) => {
     if (conn) conn.release();
   }
 };
+*/
 
-exports.rateAccepter = async (req, res) => {
+/*exports.rateAccepter = async (req, res) => {
   const taskId = +req.params.taskId;
-  const { score, comment = "" } = req.body;
-  const reporterId = req.user.id; // 現在「誰在評分」──發佈者
+  const { reporterId,score, comment = "" } = req.body;
+  //const reporterId = req.user.id; // 現在「誰在評分」──發佈者
 
   let conn;
   try {
@@ -458,7 +464,8 @@ exports.rateAccepter = async (req, res) => {
     if (conn) conn.release();
   }
 };
-
+*/
+/*
 exports.deleteOvertimeTask = async (req, res) => {
   let mysql;
   mysql = await mysqlConnectionPool.getConnection();
@@ -486,21 +493,29 @@ exports.deleteOvertimeTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-
+*/
+/*
 exports.getTaskDetails = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
     const { taskID } = req.params;
+    console.log("收到 taskID:", taskID); 
     const [taskDetails] = await mysql.query(
       `SELECT * 
             FROM tasks
             WHERE taskID = ?`,
       [taskID]
     );
+    if (!taskDetails || taskDetails.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+      });
+    }
     res.status(200).json({
       success: true,
-      data: taskDetails,
+      data: taskDetails[0], // 返回第一筆任務詳情
     });
   } catch (error) {
     console.error("Error fetching task details:", error);
@@ -512,6 +527,8 @@ exports.getTaskDetails = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
+*/
+/*
 // POST /violations
 exports.violation = async (req, res) => {
   let mysql;
@@ -553,4 +570,6 @@ exports.violation = async (req, res) => {
     // 6. 釋放連線
     if (mysql) mysql.release();
   }
+   
 };
+ */

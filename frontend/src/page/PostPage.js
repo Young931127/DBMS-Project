@@ -21,7 +21,7 @@ function PostPage() {
   const [rewardPoints, setRewardPoints] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const userID = "113306089"
   const regionOption = [
     "自強五六舍",
     "自強七八舍",
@@ -79,6 +79,7 @@ function PostPage() {
     setIsSubmitting(true);
     // 送出表單資料
     const submitData = {
+      userID,
       title,
       reward:Number(reward),
       description,

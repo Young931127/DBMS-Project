@@ -2,10 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchTaskDetails } from "../api/taskApi";
-/*import "./TaskDetailsPage.css";*/
-
-
-
+import "./TaskDetailPage.css";
 import {
   ArrowLeft,
   Share2,
@@ -17,7 +14,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 
-export default function TaskDetailsPage() {
+function TaskDetailsPage() {
   const { taskID } = useParams();
   const nav = useNavigate();
   const [task, setTask] = useState(null);
@@ -28,8 +25,7 @@ export default function TaskDetailsPage() {
     (async () => {
       try {
         const res = await fetchTaskDetails(taskID);
-        const data = res.data.data ?? res.data;
-        setTask(data);
+        setTask(res.data);
       } catch (err) {
         setError(err);
       } finally {
@@ -53,7 +49,7 @@ export default function TaskDetailsPage() {
         <button
           className="icon-btn share"
           onClick={() => {
-            /* TODO: share */
+         
           }}
         >
           <Share2 size={24} />
@@ -62,7 +58,7 @@ export default function TaskDetailsPage() {
 
       {/* content */}
       <div className="content">
-        <div className="time-ago">{/* 例如： */}6 分鐘前</div>
+        <div className="time-ago">6 分鐘前</div>
 
         {/* 刊登案主 */}
         <div className="section">
@@ -97,19 +93,12 @@ export default function TaskDetailsPage() {
           </div>
         </div>
 
-        {/* 你還可以再加更多區塊，例如 region、deadline... */}
+       
       </div>
 
-      {/* 底部操作列 */}
+
       <div className="actions">
-        <button>
-          <Heart className="icon" size={20} />
-          收藏
-        </button>
-        <button>
-          <MessageCircle className="icon" size={20} />
-          線上詢問
-        </button>
+        
         <button className="apply">
           <CheckCircle className="icon" size={20} />
           立即應徵
@@ -118,3 +107,4 @@ export default function TaskDetailsPage() {
     </div>
   );
 }
+export default TaskDetailsPage;
