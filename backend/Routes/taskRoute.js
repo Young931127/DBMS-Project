@@ -22,6 +22,7 @@ router.get("/:taskID",getTaskDetails); //定義訪問【任務詳情】的路由
 
 
 
+router.get("/details/:taskID",getTaskDetails);//定義訪問【任務詳情】的路由，將請求發給getTaskDetails
 /*router.post("/accept",acceptTask);//定義訪問【接受任務】的路由，將請求發給acceptTask
 router.post("/complete", completeTask);//定義訪問【完成任務】的路由，將請求發給completeTask
 router.post("/point", getPoint);//定義訪問【獲取積分】的路由，將請求發給getPoint

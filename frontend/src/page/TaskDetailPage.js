@@ -3,6 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchTaskDetails } from "../api/taskApi";
 import "./TaskDetailPage.css";
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 42550cd223feb27199251eb5eef589e56d9b9dec
 import {
   ArrowLeft,
   Share2,

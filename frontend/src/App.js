@@ -14,7 +14,15 @@ import LoginPage from "./page/LoginPage";
 import HomePage from "./page/HomePage";
 import RegisterPage from "./page/RegisterPage";
 import PostPage from "./page/PostPage";
+<<<<<<< HEAD
 import TaskDetailPage from "./page/TaskDetailPage";
+=======
+import TaskDetailsPage from "./page/TaskDetailsPage";
+import MyTasksPage from "./page/MyTasksPage";
+
+
+
+>>>>>>> 42550cd223feb27199251eb5eef589e56d9b9dec
 
 const App = () => {
   return (
@@ -36,7 +44,12 @@ const App = () => {
             <Route path="/RegisterPage" element={<RegisterPage />} />
             <Route path="/HomePage" element={<HomePage />} />
             <Route path="/PostPage" element={<PostPage />} />
+<<<<<<< HEAD
             <Route path="/tasks/:taskID" element={<TaskDetailPage />} />
+=======
+             <Route path="/tasks/details/:taskID" element={<TaskDetailsPage />} />
+            {/*<Route path="/task/:taskID" element={<TaskDetailPage />} />*/}
+>>>>>>> 42550cd223feb27199251eb5eef589e56d9b9dec
           </Routes>
         </BrowserRouter>
       </div>
