@@ -10,7 +10,8 @@ export default function MyTasksPage() {
   const [dispatchedTasks, setDispatchedTasks] = useState([]);
   const [acceptedTasks, setAcceptedTasks] = useState([]);
 
-  const [tab, setTab] = useState("accepted"); // accepted or dispatched
+  const [statusTab, setStatusTab] = useState("pending"); // "pending" or "completed"
+  const [identityTab, setIdentityTab] = useState("accepted"); // "accepted" or "dispatched"
 
   // 分頁狀態
   const [acceptedPage, setAcceptedPage] = useState(0);
@@ -32,16 +33,21 @@ export default function MyTasksPage() {
     loadData();
   }, []);
 
-  // 分頁用切割函數
+  // 篩選特定狀態的任務
+  const filteredTasks = (status, identity) => {
+    const tasks = identity === "accepted" ? acceptedTasks : dispatchedTasks;
+    return tasks.filter((task) => task.status === status);
+  };
+
+  const currentTasks = filteredTasks(statusTab, identityTab);
+  const currentPage = identityTab === "accepted" ? acceptedPage : dispatchedPage;
+  const setCurrentPage = identityTab === "accepted" ? setAcceptedPage : setDispatchedPage;
+
   const paginateTasks = (tasks, page) =>
     tasks.slice(page * ITEMS_PER_PAGE, (page + 1) * ITEMS_PER_PAGE);
 
-  // 分頁按鈕處理
-  const handleAcceptedPageChange = (selectedItem) => {
-    setAcceptedPage(selectedItem.selected);
-  };
-  const handleDispatchedPageChange = (selectedItem) => {
-    setDispatchedPage(selectedItem.selected);
+  const handlePageChange = (selectedItem) => {
+    setCurrentPage(selectedItem.selected);
   };
 
   return (
@@ -58,83 +64,68 @@ export default function MyTasksPage() {
       </header>
 
       <main className="mytasks-main-content">
-        <nav className="mytasks-tabs-mine">
+
+        {/* 外層 tab：任務狀態 */}
+        <nav className="mytasks-tabs-status">
           <button
-            className={`mytasks-tab-btn-mine ${tab === "accepted" ? "active" : ""}`}
-            onClick={() => setTab("accepted")}
+            className={`mytasks-tab-btn-mine ${statusTab === "pending" ? "active" : ""}`}
+            onClick={() => setStatusTab("pending")}
           >
-            承接中任務
+            等待中任務
           </button>
           <button
-            className={`mytasks-tab-btn-mine ${tab === "dispatched" ? "active" : ""}`}
-            onClick={() => setTab("dispatched")}
+            className={`mytasks-tab-btn-mine ${statusTab === "completed" ? "active" : ""}`}
+            onClick={() => setStatusTab("completed")}
           >
-            派發中任務
+            已完成任務
           </button>
         </nav>
 
-        {/* 承接中任務列表 */}
-        {tab === "accepted" && (
-          <>
-            <ul className="mytasks-list-custom">
-              {paginateTasks(acceptedTasks, acceptedPage).map((task) => (
-                <li key={task.id} className="mytasks-list-group-item">
-                  <div className="mytasks-task-fields">
-                    <div className="mytasks-task-title">{task.title}</div>
-                    <div className="mytasks-task-content">{task.description}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+        {/* 內層 tab：我承接的 vs 我派發的 */}
+        <nav className="mytasks-tabs-identity">
+          <button
+            className={`mytasks-tab-btn-mine ${identityTab === "accepted" ? "active" : ""}`}
+            onClick={() => setIdentityTab("accepted")}
+          >
+            我承接的任務
+          </button>
+          <button
+            className={`mytasks-tab-btn-mine ${identityTab === "dispatched" ? "active" : ""}`}
+            onClick={() => setIdentityTab("dispatched")}
+          >
+            我派發的任務
+          </button>
+        </nav>
 
-            <ReactPaginate
-              pageCount={Math.ceil(acceptedTasks.length / ITEMS_PER_PAGE)}
-              onPageChange={handleAcceptedPageChange}
-              containerClassName="pagination"
-              activeClassName="active"
-              previousLabel="‹"
-              nextLabel="›"
-              breakLabel="..."
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              forcePage={acceptedPage}
-            />
-          </>
-        )}
+        {/* 任務清單 */}
+        <ul className="mytasks-list-custom">
+          {paginateTasks(currentTasks, currentPage).map((task) => (
+            <li key={task.id} className="mytasks-list-group-item">
+              <div className="mytasks-task-fields">
+                <div className="mytasks-task-title">{task.title}</div>
+                <div className="mytasks-task-content">{task.description}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
 
-        {/* 派發中任務列表 */}
-        {tab === "dispatched" && (
-          <>
-            <ul className="mytasks-list-custom">
-              {paginateTasks(dispatchedTasks, dispatchedPage).map((task) => (
-                <li key={task.id} className="mytasks-list-group-item">
-                  <div className="mytasks-task-fields">
-                    <div className="mytasks-task-title">{task.title}</div>
-                    <div className="mytasks-task-content">{task.description}</div>
-                  </div>
-                </li>
-              ))}
-            </ul>
-
-            <ReactPaginate
-              pageCount={Math.ceil(dispatchedTasks.length / ITEMS_PER_PAGE)}
-              onPageChange={handleDispatchedPageChange}
-              containerClassName="pagination"
-              activeClassName="active"
-              previousLabel="‹"
-              nextLabel="›"
-              breakLabel="..."
-              marginPagesDisplayed={2}
-              pageRangeDisplayed={5}
-              forcePage={dispatchedPage}
-            />
-          </>
-        )}
+        {/* 分頁 */}
+        <ReactPaginate
+          pageCount={Math.ceil(currentTasks.length / ITEMS_PER_PAGE)}
+          onPageChange={handlePageChange}
+          containerClassName="pagination"
+          activeClassName="active"
+          previousLabel="‹"
+          nextLabel="›"
+          breakLabel="..."
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          forcePage={currentPage}
+        />
       </main>
 
       <footer className="mytasks-footer-container">
         <div className="mytasks-footer-content">
-          {/* 可以放新增任務按鈕或其他內容 */}
           <button className="mytasks-add-btn">新增任務</button>
         </div>
       </footer>

@@ -207,3 +207,11 @@
   color: #aaa !important;
   text-align: center !important;
 }
+
+.mytasks-tabs-status,
+.mytasks-tabs-identity {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
