@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { fetchCurrentUser, fetchTasksByUser } from "./api/myTasksApi";
+import { fetchCurrentUser, fetchTasksByUser } from "../api/myTasksApi";
 import "./MyTasksPage.css";
 
 const ITEMS_PER_PAGE = 10;
