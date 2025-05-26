@@ -128,16 +128,18 @@ exports.submitTask = async (req, res) => {
       userID,
     ]);
     //記錄分數變動
-    /*await mysql.query(
-      `INSERT INTO point_transactions
+    
+    await mysql.query(
+      `INSERT INTO point_transaction
                (user_id, change_amount, reason)
              VALUES (?, ?, ?)`,
       [
         userID,
-        -deduction,
+        deduction,
         isTop ? "publish TOP task deduction" : "publish normal task deduction",
       ]
-    );*/
+    );
+    
     res.status(201).json({
       success: true,
       data: {

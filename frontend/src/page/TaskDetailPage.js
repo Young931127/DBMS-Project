@@ -23,6 +23,10 @@ function TaskDetailPage() {
         width: "300px",
         position: "center",
         backdrop: false,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/HomePage"); 
+        }
       });
     } catch (error) {
       Swal.fire({

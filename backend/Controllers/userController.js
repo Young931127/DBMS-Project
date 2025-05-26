@@ -32,7 +32,7 @@ async function signup(req, res) {
         `
     INSERT INTO users ( username, user_id, password, phoneNum, point, status)
     VALUES (?, ?, ?, ?, ?, ?)`,
-        [username, user_id, password, phoneNum, 0, "unbanned"]
+        [username, user_id, password, phoneNum, 20, "unbanned"]
       );
       res.status(201).json({ status: "created" });
     }
