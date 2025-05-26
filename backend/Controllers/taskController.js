@@ -11,7 +11,7 @@ exports.getNormalTasks = async (req, res) => {
     const [normalTask] = await mysql.query(
       `SELECT *
       FROM tasks
-      WHERE isTop = false ORDER BY created_at DESC`
+      WHERE isTop = false AND status = 'pending' ORDER BY created_at DESC`
     );
     res.status(200).json({
       success: true,
@@ -39,7 +39,7 @@ exports.getTopTasks = async (req, res) => {
     const [topTask] = await mysql.query(
       `SELECT * 
             FROM tasks
-            WHERE isTop = true `
+            WHERE isTop = true AND status = 'pending' ORDER BY created_at DESC`
     );
 
     res.status(200).json({

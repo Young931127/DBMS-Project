@@ -28,7 +28,7 @@
   color: #000000;
   text-align: center;
   margin: 0;
-  margin-top: 20px;
+  margin-top: 45px;
   line-height: 40px;
 }
 .back-link {
@@ -361,3 +361,9 @@ input[type="number"]::-webkit-outer-spin-button {
   background-color: #4e4b4b;
   color: #9a8d8d;
 }*/
+
+.swal2-confirm {
+  background-color: #40b2a4 !important;
+  color: #fff !important;
+  border: none !important;
+}

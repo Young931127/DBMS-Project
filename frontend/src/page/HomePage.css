@@ -83,6 +83,24 @@
   transform: translateX(-100%); /* 初始狀態隱藏 */
   z-index: 3000; /* 確保側欄在其他元素之上 */
 }
+.sidebar-title{
+  font-size: 24px;
+  font-weight: bold;
+
+  color: #24366e;
+  margin-top: 20px;
+  padding: 0;
+
+
+}
+.sidebar-link{
+  font-size: 15px;
+  color: #24366e;
+  text-decoration: none;
+  display: block;
+  padding: 0;
+  
+}
 
 .sidebar.open {
   transform: translateX(0);

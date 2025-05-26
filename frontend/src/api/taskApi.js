@@ -54,3 +54,24 @@ export const applyForTask = async (taskID) => {
     throw error;
   }
 };
+
+export const  fetchAcceptedTasks = async () => {
+  try {
+    const response = await api.get(`tasks/acceptedlist`);
+    return response.data; // 返回後端的資料
+  } catch (error) {
+    console.error("Error fetching accepted tasks:", error);
+    throw error;
+  }
+};
+
+//完成任務
+export const completeTask = async (taskID) => {
+  try {
+    const response = await api.post(`tasks/complete/${taskID}`);
+    return response.data; // 返回後端的資料
+  } catch (error) {
+    console.error("Error completing task:", error);
+    throw error;
+  }
+};

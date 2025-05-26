@@ -25,6 +25,9 @@ function PostPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userID = "113306089";
   const regionOption = [
+    "線上協助",
+    "山下校區",
+    "自強一二三舍",
     "自強五六舍",
     "自強七八舍",
     "自強九舍",
@@ -33,6 +36,7 @@ function PostPage() {
     "莊敬一舍",
     "莊敬二舍",
     "莊敬三舍",
+    "其他區域",
   ];
   // 區域勾選
   const handleRegionChange = (region) => {
@@ -79,6 +83,13 @@ function PostPage() {
     }
 
     setIsSubmitting(true);
+
+    function formatTime(dateObj) {
+      if (!dateObj) return "";
+      const h = dateObj.getHours().toString().padStart(2, "0");
+      const m = dateObj.getMinutes().toString().padStart(2, "0");
+      return `${h}:${m}`;
+    }
     // 送出表單資料
     const submitData = {
       userID,
@@ -87,8 +98,8 @@ function PostPage() {
       description,
       startDate: startDate.toISOString().slice(0, 10), // 格式化為 YYYY-MM-DD
       endDate: endDate.toISOString().slice(0, 10),
-      startTime: startTime.toISOString().slice(11, 16), // 格式化為 HH:mm
-      endTime: endTime.toISOString().slice(11, 16),
+      startTime: formatTime(startTime),
+      endTime: formatTime(endTime),
       region: region.join(", "),
       payDate,
       contactInfo,
@@ -271,7 +282,7 @@ function PostPage() {
               checked={isUpgrade}
               onChange={() => setIsUpgrade(!isUpgrade)}
             />
-            <p className="small-text">使用積分，剩餘X點</p>
+            <p className="small-text">使用積分</p>
           </div>
         </div>
       </div>

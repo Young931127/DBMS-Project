@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../components/InputField";
 import Postbtn from "../components/Postbtn";
 import TaskSwitcher from "../components/TaskSwitcher";
@@ -68,10 +68,45 @@ function HomePage() {
 
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-content">
+          <div
+            onClick={() => handleNavigation("/profile")}
+            style={{
+              padding: "0",
+              marginTop: "13px",
+              borderBottom: "1px solid #000000",
+            }}
+          >
+            <i class="bi bi-person-circle" style={{ fontSize: "45px" }}></i>
+          </div>
+          <div>
+            <label className="sidebar-title">
+              <i class="bi bi-flag-fill"></i>任務列表
+            </label>
+          </div>
           <ul>
-            <li onClick={() => handleNavigation("/profile")} style={{ padding: "0" , marginTop: "13px", borderBottom: "1px solid #000000"}}>
-              <i class="bi bi-person-circle" style={{ fontSize: "45px" }}></i>
+            <li
+              style={{
+                padding: "0",
+                marginLeft: "10px",
+                marginBottom: "10px",
+                marginTop: "10px",
+              }}
+            >
+              <Link to="/MyAcceptedTasks" className="sidebar-link">
+                <i class="bi bi-record-fill" style={{ gap: "8px" }}></i>
+                我接收的任務
+              </Link>
             </li>
+            <li
+              style={{ padding: "0", marginLeft: "10px", marginBottom: "10px" }}
+            >
+              <Link to="/PostPage" className="sidebar-link">
+                <i class="bi bi-record-fill"></i>我發佈的任務
+              </Link>
+            </li>
+          </ul>
+          {/*<ul>
+            
 
             <li style={{ padding: "0", marginTop: "15px" }}>
               <div className="dropdown-header" onClick={toggleDropdown}>
@@ -93,7 +128,7 @@ function HomePage() {
               </div>
               
             </li>
-          </ul>
+          </ul>*/}
         </div>
       </div>
 
@@ -105,11 +140,11 @@ function HomePage() {
         </div>
       </div>
       <div className="main-content">
-        {result&&result.length > 0 ? (
+        {result && result.length > 0 ? (
           <TaskSwitcher topTasks={[]} normalTasks={result} />
         ) : (
           // 如果沒有搜尋結果，則顯示置頂任務和一般任務
-        <TaskSwitcher topTasks={topTasks} normalTasks={normalTasks} />
+          <TaskSwitcher topTasks={topTasks} normalTasks={normalTasks} />
         )}
       </div>
       <div className="homepage-footer-container">

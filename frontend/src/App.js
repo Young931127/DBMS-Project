@@ -15,6 +15,7 @@ import HomePage from "./page/HomePage";
 import RegisterPage from "./page/RegisterPage";
 import PostPage from "./page/PostPage";
 import TaskDetailPage from "./page/TaskDetailPage";
+import MyAcceptedTasks from "./page/MyAcceptedTasks";
 /*import MyTasksPage from "./page/MyTasksPage";*/
 
 
@@ -41,6 +42,8 @@ const App = () => {
             <Route path="/HomePage" element={<HomePage />} />
             <Route path="/PostPage" element={<PostPage />} />
             <Route path="/tasks/:taskID" element={<TaskDetailPage />} />
+            <Route path="/MyAcceptedTasks" element={<MyAcceptedTasks />} />
+            {/* <Route path="/MyTasksPage" element={<MyTasksPage />} /> */}
           </Routes>
         </BrowserRouter>
       </div>

@@ -23,10 +23,11 @@ router.get("/search", searchTask);
 router.get("/:taskID", getTaskDetails);
 //router.get("/details/:taskID", getTaskDetails); //定義訪問【任務詳情】的路由，將請求發給getTaskDetails
 router.post("/accept/:taskID", acceptTask); //定義訪問【接受任務】的路由，將請求發給acceptTask
+//router.get("/acceptedlist", getAcceptedTasks); //定義訪問【我接收的任務】的路由，將請求發給getAcceptedTasks
+//router.post("/complete/:taskID", completeTask);//定義訪問【完成任務】的路由，將請求發給completeTask
 
 
-/*router.post("/complete", completeTask);//定義訪問【完成任務】的路由，將請求發給completeTask
-router.post("/point", getPoint);//定義訪問【獲取積分】的路由，將請求發給getPoint
+/*router.post("/point", getPoint);//定義訪問【獲取積分】的路由，將請求發給getPoint
 router.post("/rate/reporter/:taskId", rateReporter);//定義訪問【評價】的路由，將請求發給rateReporter
 router.post("/rate/accepter/:taskId", rateAccepter);//定義訪問【評價】的路由，將請求發給rateAccepter
 router.delete("/overtime", deleteOvertimeTask);//定義訪問【超時任務】的路由，將請求發給deleteOvertimeTask
