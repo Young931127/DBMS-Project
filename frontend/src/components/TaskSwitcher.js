@@ -7,12 +7,12 @@ import "./TaskSwitcher.css";
 const TaskSwitcher = ({ topTasks, normalTasks }) => {
   //定義狀態變數為activeTab，setActiveTab用來更新activeTab，activeTab預設為"置頂任務"
   const [activeTab, setActiveTab] = useState("置頂任務");
+  const navigate = useNavigate(); 
 
   const handleSwitch = (tab) => {
     setActiveTab(tab); //更新activeTab為點擊的選項
   };
   //任務點擊處理
-  const navigate = useNavigate(); 
   const handleTaskClick = (task) => {
     navigate(`/tasks/${task.taskID}`);
   };
@@ -83,7 +83,9 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
                     <small className="task-time">
                       {timeAgo(task.created_at)}
                     </small>
-                    <h5 className="task-title">{task.title}</h5>
+                    <div style={{ width: "80%" }}>
+                      <h5 className="task-title">{task.title}</h5>
+                    </div>
                     <div className="task-reward">報酬：{task.reward} 元</div>
                     <div className="task-region">地點：{task.region}</div>
                     <small className="task-date">
@@ -93,7 +95,7 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
                   </li>
                 ))
               ) : (
-                <li className="no-task">目前沒有任務</li>
+                <p className="no-task">目前沒有任務</p>
               )}
             </ul>
           

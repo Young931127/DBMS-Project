@@ -48,8 +48,6 @@
   height: calc(100% - 160px); /* 減去標題和按鈕的高度 */
   position: relative;
   background-color: #eff2ec;
-  /*margin-left: 20px;
-  margin-right: 20px;*/
   margin-top: 0;
   padding: 20px;
   overflow-y: auto;
@@ -73,26 +71,51 @@
   text-align: left;
 }
 
-.task-title-input {
+.task-title input {
   width: 100%;
   display: block;
   text-align: left;
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 8px 12px;
+
   font-size: 12px;
 }
-.task-title-input:focus,
-.reward-input:focus,
-.task-content-input:focus,
-.start-date-picker:focus,
-.end-date-picker:focus,
-.start-time-picker:focus,
-.end-time-picker:focus,
-.pay-day-input:focus,
-.contact-info-input:focus {
+.task-title input:focus{
   outline: none;
-  border-color: #32887e; /* 輸入框獲得焦點時的邊框顏色 */
+  border-color: #32887e; 
+}
+.reward-group input:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.task-content-group textarea:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.start-date-picker:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.end-date-picker:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.start-time-picker:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.end-time-picker:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.pay-day-group input:focus{
+  outline: none;
+  border-color: #32887e; 
+}
+.contact-info-group input:focus{
+  outline: none;
+  border-color: #32887e; 
 }
 .reward-group {
   display: flex;
@@ -108,7 +131,7 @@
   margin-bottom: 0; /* 與輸入框間距 */
   text-align: left; /* 確保標題置左 */
 }
-.reward-input {
+.reward-group input {
   width: 100%;
   display: block;
   text-align: left;
@@ -140,7 +163,7 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: left;
 }
 /* 任務內容文字方塊樣式 */
-.task-content-input {
+.task-content-group textarea {
   width: 100%;
   display: block;
   text-align: left;
@@ -176,6 +199,7 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
   gap: 20px;
   overflow: visible;
+  padding-bottom: 20px; 
 }
 .date-picker-container span {
   font-size: 20px;
@@ -183,12 +207,20 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #000000;
 }
 
+.date-picker-container DatePicker {
+  width: 100%;
+  text-align: left;
+  justify-content: flex-start;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 12px;
+}
 .start-date-picker,
 .end-date-picker {
   width: 100%;
   text-align: left;
   justify-content: flex-start;
-
   border: 1px solid #ccc;
   border-radius: 5px;
   padding: 8px 12px;
@@ -207,15 +239,15 @@ input[type="number"]::-webkit-outer-spin-button {
 .end-time-picker {
   width: 100%;
   text-align: left;
-
+  justify-content: flex-start;
   border: 1px solid #ccc;
-
   border-radius: 5px;
   padding: 8px 12px;
   font-size: 12px;
 }
 
 .region-group {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -229,6 +261,7 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: left;
 }
 .region-checkboxes {
+  padding-bottom: 20px;
   display: grid;
   grid-template-columns: repeat(2, 1fr); /* 四個一排 */
   gap: 4px; /* 減少文字與 checkbox 的間距 */
@@ -242,6 +275,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .pay-day-group {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -255,7 +289,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 0;
   text-align: left;
 }
-.pay-day-input {
+.pay-day-group input {
   width: 100%;
   display: block;
   text-align: left;
@@ -266,6 +300,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .contact-info-group {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -279,7 +314,7 @@ input[type="number"]::-webkit-outer-spin-button {
   margin-bottom: 0;
   text-align: left;
 }
-.contact-info-input {
+.contact-info-group input {
   width: 100%;
   display: block;
   text-align: left;
@@ -326,6 +361,15 @@ input[type="number"]::-webkit-outer-spin-button {
   text-align: left;
 }
 
+.post-error-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: rgba(255, 0, 0, 0.658);
+  font-size: 12px;
+  font-weight: bold;
+}
+
 .footer-container {
   display: flex;
   flex-direction: row;
@@ -349,7 +393,7 @@ input[type="number"]::-webkit-outer-spin-button {
   height: 90%;
   border-radius: 12px;
   border: none;
-  background-color: #24366e;  
+  background-color: #24366e;
   color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }

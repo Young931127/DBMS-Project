@@ -59,6 +59,7 @@ exports.getTopTasks = async (req, res) => {
 
 exports.submitTask = async (req, res) => {
   let mysql;
+  
   try {
     console.log("進入 submitTask controller");
     mysql = await mysqlConnectionPool.getConnection();
@@ -192,16 +193,40 @@ exports.acceptTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-/*
+
+exports.getAcceptedTasks = async (req, res) => {
+  let mysql;
+  try {
+    mysql = await mysqlConnectionPool.getConnection();
+    const [acceptedTasks] = await mysql.query(
+      `SELECT *
+      FROM tasks
+      WHERE status = 'accepted' AND userID = '113306089' ORDER BY created_at DESC`
+    );
+    res.status(200).json({
+      success: true,
+      data: acceptedTasks,
+    });
+  } catch (error) {
+    console.error("Error fetching accepted tasks:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch accepted tasks",
+    });
+  } finally {
+    if (mysql) mysql.release(); // 確保釋放連線
+  }
+};
+
 exports.completeTask = async (req, res) => {
   let mysql;
   try {
     mysql = await mysqlConnectionPool.getConnection();
-    const { taskID } = req.body;
+    const taskID = Number(req.params.taskID);
 
     // 先查出這筆任務的 isTop 和接案者 accepterID
     const [[taskRow]] = await mysql.query(
-      `SELECT is_top, accepterID,reporter_id
+      `SELECT isTop, accepter, userID
 
            FROM tasks 
           WHERE taskID = ?`,
@@ -214,9 +239,9 @@ exports.completeTask = async (req, res) => {
       });
     }
 
-    const isTop = taskRow.is_top;
-    const accepterID = taskRow.accepter_id;
-    const posterID = taskRow.reporter_id;
+    const isTop = taskRow.isTop;
+    const accepterID = taskRow.accepter;
+    const posterID = taskRow.userID;
     // ★ ② 根據 isTop 決定本次要加的分數
     const bonus = isTop ? 10 : 5;
     // ③ 更新任務狀態為已完成
@@ -225,7 +250,7 @@ exports.completeTask = async (req, res) => {
       success: true,
       message: "Task completed successfully",
     });
-
+    /*
     // ★ ④ 更新使用者的 point（加上 bonus）
     const [[{ score }]] = await mysql.query(
       `SELECT score 
@@ -234,6 +259,7 @@ exports.completeTask = async (req, res) => {
                 AND poster_id   = ?`,
       [accepterID, posterID]
     );
+
     // ④-2. 如果有分數，就把 score 當 bonus，加到接案者身上
     if (score != null) {
       // 更新 users.point
@@ -263,6 +289,7 @@ exports.completeTask = async (req, res) => {
         isTop ? "mission complete (top)" : "mission complete (normal)",
       ]
     );
+    */
     await mysql.query(
       `UPDATE tasks 
             SET status = 'completed' 
@@ -279,7 +306,6 @@ exports.completeTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-*/
 exports.searchTask = async (req, res) => {
   let mysql;
   try {
@@ -520,6 +546,12 @@ exports.getTaskDetails = async (req, res) => {
             WHERE taskID = ?`,
       [taskID]
     );
+    const [username] = await mysql.query(
+      `SELECT username 
+            FROM users
+            WHERE user_id = ?`,
+      [taskDetails[0].userID]
+    );
     if (!taskDetails || taskDetails.length === 0) {
       return res.status(404).json({
         success: false,
@@ -528,7 +560,8 @@ exports.getTaskDetails = async (req, res) => {
     }
     res.status(200).json({
       success: true,
-      data: taskDetails[0], // 返回第一筆任務詳情
+      data: taskDetails[0],
+      submitterName: username[0].username, // 返回第一筆任務詳情
     });
   } catch (error) {
     console.error("Error fetching task details:", error);

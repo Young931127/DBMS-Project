@@ -6,17 +6,6 @@ import { applyForTask } from "../api/taskApi";
 import Swal from "sweetalert2";
 import "./TaskDetailPage.css";
 
-import {
-  ArrowLeft,
-  Share2,
-  Building2,
-  DollarSign,
-  FileText,
-  Heart,
-  MessageCircle,
-  CheckCircle,
-} from "lucide-react";
-
 function TaskDetailPage() {
   const { taskID } = useParams();
   const nav = useNavigate();
@@ -50,7 +39,12 @@ function TaskDetailPage() {
   useEffect(() => {
     setLoading(true);
     fetchTaskDetails(taskID)
-      .then((res) => setTask(res.data))
+      .then((res) => {
+        setTask({
+          ...res.data,
+          submitterName: res.submitterName, // 把 submitterName 存進 task
+        });
+      })
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
   }, [taskID]);
@@ -85,7 +79,7 @@ function TaskDetailPage() {
             <label className="section-label">任務發布者</label>
           </div>
           <div style={{ fontSize: "14px", marginLeft: "28px" }}>
-            {task.userID}
+            {task.submitterName}
           </div>
         </div>
 

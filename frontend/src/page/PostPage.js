@@ -15,7 +15,6 @@ function PostPage() {
   const [endDate, setEndDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  /*const [selectedRegions, setSelectedRegions] = useState([]);*/
   const [region, setRegion] = useState([]);
   const [payDate, setPayDate] = useState("");
   const [contactInfo, setContactInfo] = useState("");
@@ -38,6 +37,17 @@ function PostPage() {
     "莊敬三舍",
     "其他區域",
   ];
+  const [titleError, setTitleError] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [rewardError, setRewardError] = useState(false);
+  const [startDateError, setStartDateError] = useState(false);
+  const [endDateError, setEndDateError] = useState(false);
+  const [startTimeError, setStartTimeError] = useState(false);
+  const [endTimeError, setEndTimeError] = useState(false);
+  const [regionError, setRegionError] = useState(false);
+  const [payDateError, setPayDateError] = useState(false);
+  const [contactInfoError, setContactInfoError] = useState(false);
+
   // 區域勾選
   const handleRegionChange = (region) => {
     setRegion((prev) =>
@@ -49,40 +59,85 @@ function PostPage() {
 
   // 表單送出
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isSubmitting) return;
+    let hasError = false;
+    setTitleError(false);
+    setDescriptionError(false);
+    setRewardError(false);
+    setStartDateError(false);
+    setEndDateError(false);
+    setStartTimeError(false);
+    setEndTimeError(false);
+    setRegionError(false);
+    setPayDateError(false);
+    setContactInfoError(false);
 
-    if (parseFloat(reward) <= 0 || parseFloat(rewardPoints) <= 0) {
-      alert("金額與積分皆須大於 0！");
-      return;
+    //e.preventDefault();
+    //if (isSubmitting) return;
+    if (!title) {
+      setTitleError("請填寫任務標題");
+      hasError = true;
     }
-    if (!startDate || !startTime) {
-      alert("請填寫任務開始日期與時間！");
-      return;
+
+    if (!reward) {
+      setRewardError("請填寫任務報酬");
+      hasError = true;
+    } else if (parseFloat(reward) <= 0) {
+      setRewardError("任務報酬不可為0");
     }
-    if (!endDate || !endTime) {
-      alert("請填寫任務結束日期與時間！");
-      return;
+
+    if (!description) {
+      setDescriptionError("請填寫任務內容");
+      hasError = true;
     }
+
+    function isBeforeToday(date) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      return d < today;
+    }
+    if (startDate > endDate) {
+      setStartDateError("任務開始日期不能晚於結束日期");
+      hasError = true;
+    } else if (startDate && isBeforeToday(startDate)) {
+      setStartDateError("任務開始日期不能早於當前日期");
+      hasError = true;
+    }
+
+    if (!startTime) {
+      setStartTimeError("請填寫任務開始時間");
+      hasError = true;
+    } else if (endTime && startTime >= endTime) {
+      setStartTimeError("任務開始時間不能晚於結束時間");
+      hasError = true;
+    }
+    /*
+    if (!endTime) {
+      setEndTimeError("請填寫任務結束時間");
+      hasError = true;
+    }
+    */
     if (region.length === 0) {
-      alert("請至少勾選一個區域！");
-      return;
+      setRegionError("請至少勾選一個區域");
+      hasError = true;
     }
 
-    const now = new Date();
+    if (!payDate) {
+      setPayDateError("請填寫支薪日");
+      hasError = true;
+    }
+    if (!contactInfo) {
+      setContactInfoError("請填寫聯絡資訊");
+      hasError = true;
+    }
+    if (hasError) return;
+    /*const now = new Date();
     const startDateTime = new Date(`${startDate}T${startTime}`);
     const endDateTime = new Date(`${endDate}T${endTime}`);
+    */
 
-    if (startDateTime < now) {
-      alert("任務開始時間早於當前時間，請重新選擇！");
-      return;
-    }
-    if (endDateTime <= startDateTime) {
-      alert("任務結束時間必須晚於任務開始時間！");
-      return;
-    }
-
-    setIsSubmitting(true);
+    /*setIsSubmitting(true);*/
 
     function formatTime(dateObj) {
       if (!dateObj) return "";
@@ -124,7 +179,6 @@ function PostPage() {
     } catch (error) {
       console.error("Error submitting task:", error);
       console.log("submitData", submitData);
-      alert("任務發布失敗，請稍後再試！");
     } finally {
       setIsSubmitting(false);
     }
@@ -144,37 +198,72 @@ function PostPage() {
       <div className="post-content">
         <div className="task-title">
           <label className="task-title-label">任務標題</label>
-          <input
-            type="text"
-            className="task-title-input"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="任務標題(最多20個字)"
-            maxLength={20}
-            required
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingBottom: "20px",
+            }}
+          >
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="任務標題(最多20個字)"
+              maxLength={20}
+              required
+              className={titleError ? "error" : ""}
+            />
+          </div>
+          <div className={`post-error-text ${titleError ? "" : "hidden"}`}>
+            {titleError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
         <div className="reward-group">
           <label className="reward-label">報酬</label>
-          <input
-            type="number"
-            className="reward-input"
-            value={reward}
-            onChange={(e) => setReward(e.target.value)}
-            placeholder="請輸入報酬  例: 100"
-            required
-            min={0}
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingBottom: "20px",
+            }}
+          >
+            <input
+              type="number"
+              value={reward}
+              onChange={(e) => setReward(e.target.value)}
+              placeholder="請輸入報酬  例: 100"
+              required
+              min={0}
+              className={rewardError ? "error" : ""}
+            />
+          </div>
+          <div className={`post-error-text ${rewardError ? "" : "hidden"}`}>
+            {rewardError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
         <div className="task-content-group">
           <label className="task-content-label">任務內容</label>
-          <textarea
-            className="task-content-input"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="請輸入任務內容..."
-            required
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingBottom: "20px",
+            }}
+          >
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="請輸入任務內容..."
+              required
+              className={descriptionError ? "error" : ""}
+            />
+          </div>
+          <div
+            className={`post-error-text ${descriptionError ? "" : "hidden"}`}
+          >
+            {descriptionError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
 
         <div className="date-group">
@@ -189,6 +278,11 @@ function PostPage() {
               portalId="datepicker-portal"
               popperPlacement="bottom-start"
             />
+            <div
+              className={`post-error-text ${startDateError ? "" : "hidden"}`}
+            >
+              {startDateError || "\u00A0" /* 空白保持高度 */}
+            </div>
             <span>-</span>
             <DatePicker
               className="end-date-picker"
@@ -199,6 +293,9 @@ function PostPage() {
               portalId="datepicker-portal"
               popperPlacement="bottom-end"
             />
+            <div className={`post-error-text ${endDateError ? "" : "hidden"}`}>
+              {endDateError || "\u00A0" /* 空白保持高度 */}
+            </div>
           </div>
         </div>
         <div className="time-group">
@@ -213,8 +310,15 @@ function PostPage() {
               timeIntervals={15}
               timeCaption="開始"
               dateFormat="HH:mm"
+              portalId="datepicker-portal"
               placeholderText="開始時間"
+              popperPlacement="bottom-end"
             />
+            <div
+              className={`post-error-text ${startTimeError ? "" : "hidden"}`}
+            >
+              {startTimeError || "\u00A0" /* 空白保持高度 */}
+            </div>
             <span>-</span>
             <DatePicker
               className="end-time-picker"
@@ -225,12 +329,20 @@ function PostPage() {
               timeIntervals={15}
               timeCaption="結束"
               dateFormat="HH:mm"
+              portalId="datepicker-portal"
               placeholderText="結束時間"
+              popperPlacement="bottom-end"
             />
+            {/*
+            <div className={`post-error-text ${endTimeError ? "" : "hidden"}`}>
+              {endTimeError || "\u00A0" }
+            </div>
+            */}
           </div>
         </div>
         <div className="region-group">
           <label className="region-label">區域</label>
+
           <div className="region-checkboxes">
             {regionOption.map((item, idx) => (
               <div className="checkbox-item" key={item}>
@@ -247,29 +359,57 @@ function PostPage() {
               </div>
             ))}
           </div>
+
+          <div className={`post-error-text ${regionError ? "" : "hidden"}`}>
+            {regionError || "\u00A0"}
+          </div>
         </div>
 
         <div className="pay-day-group">
           <label className="pay-day-label">支薪日</label>
-          <input
-            className="pay-day-input"
-            type="text"
-            value={payDate}
-            onChange={(e) => setPayDate(e.target.value)}
-            placeholder="請輸入支薪日 例:當日現領、月/日"
-            required
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingBottom: "20px",
+            }}
+          >
+            <input
+              type="text"
+              value={payDate}
+              onChange={(e) => setPayDate(e.target.value)}
+              placeholder="請輸入支薪日 例:當日現領、月/日"
+              required
+              className={payDateError ? "error" : ""}
+            />
+          </div>
+          <div className={`post-error-text ${payDateError ? "" : "hidden"}`}>
+            {payDateError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
         <div className="contact-info-group">
           <label className="contact-info-label">聯絡資訊</label>
-          <input
-            type="text"
-            className="contact-info-input"
-            value={contactInfo}
-            onChange={(e) => setContactInfo(e.target.value)}
-            placeholder="請輸入行動電話"
-            required
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              paddingBottom: "20px",
+            }}
+          >
+            <input
+              type="text"
+              value={contactInfo}
+              onChange={(e) => setContactInfo(e.target.value)}
+              placeholder="請輸入行動電話"
+              required
+              className={contactInfoError ? "error" : ""}
+            />
+          </div>
+          <div
+            className={`post-error-text ${contactInfoError ? "" : "hidden"}`}
+          >
+            {contactInfoError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
         <div className="upgrade-group">
           <label className="upgrade-label">升級任務</label>
