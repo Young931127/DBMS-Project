@@ -105,7 +105,7 @@
   border: 1px solid red; 
 }
 
-.error-text {
+.register-error-text {
   position: absolute;
   bottom: 0;
   left: 0;

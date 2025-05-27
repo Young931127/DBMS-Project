@@ -1,11 +1,10 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import Registerbtn from "../components/Registerbtn";
-import "./RegisterPage.css";
 import { registerUser } from "../api/userApi";
+import Registerbtn from "../components/Registerbtn";
 import Swal from "sweetalert2";
-import { set } from "lodash";
+import "./RegisterPage.css";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -69,18 +68,28 @@ function RegisterPage() {
         confirmButtonText: "重新登入",
         width: "300px",
         position: "center",
-        backdrop: false
+        backdrop: false,
       }).then((result) => {
         if (result.isConfirmed) {
           navigate("/Login"); // 跳轉到登入頁
         }
       });
     } catch (err) {
-      if (err.error=== "用戶已註冊") {
-        setUserIdError("用戶已註冊");
+      const errorMsg = err.response?.data?.error || err.error || err.message;
+      if (errorMsg === "用戶已註冊") {
+        //setUserIdError("此學號已被註冊");
+        Swal.fire({
+          icon: "error",
+          title: "註冊失敗",
+          text: "用戶已註冊",
+          confirmButtonText: "確認",
+          width: "300px",
+          position: "center",
+          backdrop: false,
+        });
       } else {
-        setMessage(err.error || "發生錯誤，請稍後再試");
-      } 
+        setMessage(errorMsg || "發生錯誤，請稍後再試");
+      }
     }
   };
 
@@ -89,7 +98,10 @@ function RegisterPage() {
       <div className="register-header">
         <div className="register-header-content">
           <Link to="/Login" className="back-link">
-            <i class="bi bi-arrow-left-circle-fill" style={{ color: "#24366e" }}></i>
+            <i
+              class="bi bi-arrow-left-circle-fill"
+              style={{ color: "#24366e" }}
+            ></i>
           </Link>
         </div>
       </div>
@@ -108,7 +120,9 @@ function RegisterPage() {
                 className={usernameError ? "error" : ""}
               />
             </div>
-            <div className={`error-text ${usernameError ? "" : "hidden"}`}>
+            <div
+              className={`register-error-text ${usernameError ? "" : "hidden"}`}
+            >
               {usernameError || "\u00A0" /* 空白保持高度 */}
             </div>
           </div>
@@ -119,11 +133,14 @@ function RegisterPage() {
                 type="text"
                 id="stu_id"
                 placeholder="請輸入學號"
+                value={user_id}
                 onChange={(e) => setUserId(e.target.value)}
                 className={userIdError ? "error" : ""}
               />
             </div>
-            <div className={`error-text ${userIdError ? "" : "hidden"}`}>
+            <div
+              className={`register-error-text ${userIdError ? "" : "hidden"}`}
+            >
               {userIdError || "\u00A0" /* 空白保持高度 */}
             </div>
           </div>
@@ -143,7 +160,9 @@ function RegisterPage() {
                 className={passwordError ? "error" : ""}
               />
             </div>
-            <div className={`error-text ${passwordError ? "" : "hidden"}`}>
+            <div
+              className={`register-error-text ${passwordError ? "" : "hidden"}`}
+            >
               {passwordError || "\u00A0" /* 空白保持高度 */}
             </div>
           </div>
@@ -158,7 +177,9 @@ function RegisterPage() {
                 className={phoneNumError ? "error" : ""}
               />
             </div>
-            <div className={`error-text ${phoneNumError ? "" : "hidden"}`}>
+            <div
+              className={`register-error-text ${phoneNumError ? "" : "hidden"}`}
+            >
               {phoneNumError || "\u00A0" /* 空白保持高度 */}
             </div>
           </div>
