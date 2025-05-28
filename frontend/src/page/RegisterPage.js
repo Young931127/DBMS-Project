@@ -43,8 +43,8 @@ function RegisterPage() {
     } else if (!/^[a-zA-Z0-9]+$/.test(password)) {
       setPasswordError("密碼僅能包含英文或數字");
       hasError = true;
-    } else if (password.length < 6) {
-      setPasswordError("密碼長度不足");
+    } else if (password.length < 8) {
+      setPasswordError("密碼長度不足(英文+數字至少8碼)");
       hasError = true;
     } else if (password.length > 20) {
       setPasswordError("密碼長度過長");
@@ -97,7 +97,7 @@ function RegisterPage() {
     <div className="register">
       <div className="register-header">
         <div className="register-header-content">
-          <Link to="/Login" className="back-link">
+          <Link to="/Login" className="register-back-link">
             <i
               class="bi bi-arrow-left-circle-fill"
               style={{ color: "#24366e" }}
@@ -105,87 +105,84 @@ function RegisterPage() {
           </Link>
         </div>
       </div>
-      <div className="signup-container">
-        <div className="signup-content">
-          <label className="title">創建帳號</label>
 
-          <div className="register-input-group">
-            <label htmlFor="username">使用者名稱</label>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <input
-                type="text"
-                id="username"
-                placeholder="請輸入使用者名稱"
-                onChange={(e) => setUsername(e.target.value)}
-                className={usernameError ? "error" : ""}
-              />
-            </div>
-            <div
-              className={`register-error-text ${usernameError ? "" : "hidden"}`}
-            >
-              {usernameError || "\u00A0" /* 空白保持高度 */}
-            </div>
-          </div>
-          <div className="register-input-group">
-            <label htmlFor="stu_id">帳號</label>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <input
-                type="text"
-                id="stu_id"
-                placeholder="請輸入學號"
-                value={user_id}
-                onChange={(e) => setUserId(e.target.value)}
-                className={userIdError ? "error" : ""}
-              />
-            </div>
-            <div
-              className={`register-error-text ${userIdError ? "" : "hidden"}`}
-            >
-              {userIdError || "\u00A0" /* 空白保持高度 */}
-            </div>
-          </div>
-          <div className="register-input-group">
-            <label htmlFor="password">密碼</label>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <input
-                type="text"
-                id="password"
-                placeholder="請輸入密碼"
-                onChange={(e) => {
-                  // 只允許輸入英文或數字
-                  const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
-                  setPassword(value);
-                }}
-                pattern="[a-zA-Z0-9]+"
-                className={passwordError ? "error" : ""}
-              />
-            </div>
-            <div
-              className={`register-error-text ${passwordError ? "" : "hidden"}`}
-            >
-              {passwordError || "\u00A0" /* 空白保持高度 */}
-            </div>
-          </div>
-          <div className="register-input-group">
-            <label htmlFor="phoneNum">行動電話</label>
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <input
-                type="tel"
-                id="phoneNum"
-                placeholder="請輸入行動電話"
-                onChange={(e) => setPhoneNum(e.target.value)}
-                className={phoneNumError ? "error" : ""}
-              />
-            </div>
-            <div
-              className={`register-error-text ${phoneNumError ? "" : "hidden"}`}
-            >
-              {phoneNumError || "\u00A0" /* 空白保持高度 */}
-            </div>
-          </div>
+      <div className="signup-content">
+        <label className="title">創建帳號</label>
 
-          <Registerbtn onClick={handleRegister} />
+        <div className="register-input-group">
+          <label htmlFor="username">使用者名稱</label>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="text"
+              id="username"
+              placeholder="請輸入使用者名稱"
+              onChange={(e) => setUsername(e.target.value)}
+              className={usernameError ? "error" : ""}
+            />
+          </div>
+          <div
+            className={`register-error-text ${usernameError ? "" : "hidden"}`}
+          >
+            {usernameError || "\u00A0" /* 空白保持高度 */}
+          </div>
         </div>
+        <div className="register-input-group">
+          <label htmlFor="stu_id">帳號</label>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="text"
+              id="stu_id"
+              placeholder="請輸入學號"
+              value={user_id}
+              onChange={(e) => setUserId(e.target.value)}
+              className={userIdError ? "error" : ""}
+            />
+          </div>
+          <div className={`register-error-text ${userIdError ? "" : "hidden"}`}>
+            {userIdError || "\u00A0" /* 空白保持高度 */}
+          </div>
+        </div>
+        <div className="register-input-group">
+          <label htmlFor="password">密碼</label>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="text"
+              id="password"
+              placeholder="請輸入密碼"
+              onChange={(e) => {
+                // 只允許輸入英文或數字
+                const value = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+                setPassword(value);
+              }}
+              pattern="[a-zA-Z0-9]+"
+              className={passwordError ? "error" : ""}
+            />
+          </div>
+          <div
+            className={`register-error-text ${passwordError ? "" : "hidden"}`}
+          >
+            {passwordError || "\u00A0" /* 空白保持高度 */}
+          </div>
+        </div>
+        <div className="register-input-group">
+          <label htmlFor="phoneNum">行動電話</label>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <input
+              type="tel"
+              id="phoneNum"
+              placeholder="請輸入行動電話"
+              onChange={(e) => setPhoneNum(e.target.value)}
+              className={phoneNumError ? "error" : ""}
+            />
+          </div>
+          <div
+            className={`register-error-text ${phoneNumError ? "" : "hidden"}`}
+          >
+            {phoneNumError || "\u00A0" /* 空白保持高度 */}
+          </div>
+        </div>
+
+        <Registerbtn onClick={handleRegister} />
       </div>
     </div>
   );

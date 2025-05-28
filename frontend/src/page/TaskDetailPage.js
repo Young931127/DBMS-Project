@@ -97,7 +97,7 @@ function TaskDetailPage() {
             <label className="section-label">任務待遇</label>
           </div>
           <div style={{ fontSize: "14px", marginLeft: "28px" }}>
-            新台幣${task.reward}
+            新台幣{task.reward}元
           </div>
         </div>
 

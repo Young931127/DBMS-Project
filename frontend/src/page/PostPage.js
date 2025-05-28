@@ -161,6 +161,7 @@ function PostPage() {
       isTop: isUpgrade ? 1 : 0,
     };
     try {
+      console.log("submitData", submitData);
       await submitTask(submitData);
       console.log("submitData", submitData);
       Swal.fire({
@@ -232,9 +233,8 @@ function PostPage() {
               type="number"
               value={reward}
               onChange={(e) => setReward(e.target.value)}
-              placeholder="請輸入報酬  例: 100"
+              placeholder="請輸入報酬  例: 100元"
               required
-              min={0}
               className={rewardError ? "error" : ""}
             />
           </div>
@@ -414,7 +414,7 @@ function PostPage() {
         <div className="upgrade-group">
           <label className="upgrade-label">升級任務</label>
           <h3 className="upgrade-text">
-            花費5點積分即可將任務升級為置頂任務，任務將優先顯示於主頁。
+            花費10點積分即可將任務升級為緊急任務，任務將優先顯示於主頁。
           </h3>
           <div className="upgrade-checkbox">
             <input

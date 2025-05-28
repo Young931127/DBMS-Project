@@ -5,8 +5,8 @@ import "./TaskSwitcher.css";
 
 
 const TaskSwitcher = ({ topTasks, normalTasks }) => {
-  //定義狀態變數為activeTab，setActiveTab用來更新activeTab，activeTab預設為"置頂任務"
-  const [activeTab, setActiveTab] = useState("置頂任務");
+  //定義狀態變數為activeTab，setActiveTab用來更新activeTab，activeTab預設為"緊急任務"
+  const [activeTab, setActiveTab] = useState("緊急任務");
   const navigate = useNavigate(); 
 
   const handleSwitch = (tab) => {
@@ -53,15 +53,15 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
     return `${diffDays} 天前發布`;
   }
 
-  const tasks = activeTab === "置頂任務" ? topTasks : normalTasks; //根據activeTab的值選擇要顯示的任務列表
+  const tasks = activeTab === "緊急任務" ? topTasks : normalTasks; //根據activeTab的值選擇要顯示的任務列表
   return (
     <div className="task-container">
       <div className="task-switcher">
         <button
-          className={`task-btn ${activeTab === "置頂任務" ? "active" : ""}`}
-          onClick={() => handleSwitch("置頂任務")}
+          className={`task-btn ${activeTab === "緊急任務" ? "active" : ""}`}
+          onClick={() => handleSwitch("緊急任務")}
         >
-          置頂任務
+          緊急任務
         </button>
         <button
           className={`task-btn ${activeTab === "一般任務" ? "active" : ""}`}
