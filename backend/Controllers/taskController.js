@@ -1,8 +1,4 @@
 const mysqlConnectionPool = require("../dbConnection");
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- */
 
 exports.getNormalTasks = async (req, res) => {
   let mysql;
@@ -28,10 +24,6 @@ exports.getNormalTasks = async (req, res) => {
   }
 };
 
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- */
 exports.getTopTasks = async (req, res) => {
   let mysql;
   try {
@@ -253,14 +245,14 @@ exports.completeTask = async (req, res) => {
       let mysql;
       try {
         mysql = await mysqlConnectionPool.getConnection();
-        const taskID = Number(req.params.taskID); 
+        const taskID = Number(req.params.taskID);
         /*if (isNaN(taskID)) {
       return res.status(400).json({
         success: false,
         message: "Invalid task ID format",
       });
     }*/
-      
+
         const [taskDetails] = await mysql.query(
           `SELECT * 
             FROM tasks

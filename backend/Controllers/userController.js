@@ -2,10 +2,6 @@ const mysqlConnectionPool = require("../dbConnection");
 
 const jwt = require("jsonwebtoken");
 
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- */
 async function signup(req, res) {
   const { username, user_id, password, phoneNum } = req.body;
   const mysql = await mysqlConnectionPool.getConnection();
@@ -43,11 +39,6 @@ async function signup(req, res) {
   }
 }
 
-
-/**
- * @param {express.Request} req
- * @param {express.Response} res
- */
 async function login(req, res) {
   const { user_id, password } = req.body;
   const mysql = await mysqlConnectionPool.getConnection();
@@ -99,7 +90,6 @@ async function getUserPoints(req, res) {
     res.status(404).json({ error: "User not Found" });
   }
 }
-
 
 module.exports = {
   signup,

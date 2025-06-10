@@ -1,13 +1,11 @@
-import { CSSTransition, SwitchTransition } from "react-transition-group";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./TaskSwitcher.css";
-
 
 const TaskSwitcher = ({ topTasks, normalTasks }) => {
   //定義狀態變數為activeTab，setActiveTab用來更新activeTab，activeTab預設為"緊急任務"
   const [activeTab, setActiveTab] = useState("緊急任務");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleSwitch = (tab) => {
     setActiveTab(tab); //更新activeTab為點擊的選項
@@ -71,34 +69,29 @@ const TaskSwitcher = ({ topTasks, normalTasks }) => {
         </button>
       </div>
       <div className="task-content">
-        
-            <ul className="task-list">
-              {Array.isArray(tasks) && tasks.length > 0 ? (
-                tasks.map((task) => (
-                  <li
-                    key={task.taskID}
-                    className="task-item"
-                    onClick={() => handleTaskClick(task)} //點擊任務時觸發handleTaskClick函數
-                  >
-                    <small className="task-time">
-                      {timeAgo(task.created_at)}
-                    </small>
-                    <div style={{ width: "80%" }}>
-                      <h5 className="task-title">{task.title}</h5>
-                    </div>
-                    <div className="task-reward">報酬：{task.reward} 元</div>
-                    <div className="task-region">地點：{task.region}</div>
-                    <small className="task-date">
-                      任務日期：{formatDate(task.startDate, task.endDate)}
-                    </small>
-                 
-                  </li>
-                ))
-              ) : (
-                <p className="no-task">目前沒有任務</p>
-              )}
-            </ul>
-          
+        <ul className="task-list">
+          {Array.isArray(tasks) && tasks.length > 0 ? (
+            tasks.map((task) => (
+              <li
+                key={task.taskID}
+                className="task-item"
+                onClick={() => handleTaskClick(task)} //點擊任務時觸發handleTaskClick函數
+              >
+                <small className="task-time">{timeAgo(task.created_at)}</small>
+                <div style={{ width: "80%" }}>
+                  <h5 className="task-title">{task.title}</h5>
+                </div>
+                <div className="task-reward">報酬：{task.reward} 元</div>
+                <div className="task-region">地點：{task.region}</div>
+                <small className="task-date">
+                  任務日期：{formatDate(task.startDate, task.endDate)}
+                </small>
+              </li>
+            ))
+          ) : (
+            <p className="no-task">目前沒有任務</p>
+          )}
+        </ul>
       </div>
     </div>
   );

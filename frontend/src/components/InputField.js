@@ -7,8 +7,6 @@ const InputField = ({ placeholder, onSearch }) => {
 
   const handleSearch = async () => {
     try {
-      
-      console.log("searchTask 是函數嗎？", typeof searchTask);
       const response = await searchTask(inputValue);
       console.log("Search results:", response);
       if (onSearch) {
@@ -23,7 +21,7 @@ const InputField = ({ placeholder, onSearch }) => {
   return (
     <div className="input-container">
       <input
-        type="text" //定義輸入框的類型為文字
+        type="text" 
         className="input"
         placeholder={placeholder || "請輸入關鍵字..."} //設定輸入框的預設文字
         value={inputValue} //綁定狀態值
@@ -31,7 +29,7 @@ const InputField = ({ placeholder, onSearch }) => {
       />
       <button
         className="search-button"
-        onClick={handleSearch} //當按鈕被點擊時，執行handleSearch函數
+        onClick={handleSearch} 
       >
         <i class="bi bi-search"></i>
       </button>

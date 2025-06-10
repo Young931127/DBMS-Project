@@ -11,9 +11,9 @@ function HomePage() {
   const [normalTasks, setNormalTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isOpen, setIsOpen] = useState(false); 
+  const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const [result, setResult] = useState(null); 
+  const [result, setResult] = useState(null);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen); // 切換側欄狀態
@@ -22,20 +22,17 @@ function HomePage() {
   const handleNavigation = (path) => {
     navigate(path);
     setIsOpen(false); // 點擊後關閉側欄
-    setIsDropdownOpen(false); // 點擊後關閉下拉選單
   };
 
   const handleOverlayClick = (e) => {
     // 如果點擊的區域不是側欄，則關閉側欄
     if (!e.target.closest(".sidebar")) {
       setIsOpen(false);
-      setIsDropdownOpen(false); // 點擊遮罩層時關閉下拉選單
     }
   };
 
   //useEffect 獲取資料
   useEffect(() => {
-    
     const loadTasks = async () => {
       try {
         const topData = await fetchTopTasks();

@@ -1,11 +1,10 @@
-/* 大容器樣式 */
-.input-container { 
+.input-container {
   position: absolute;
   top: 40px;
   right: 20px;
   display: flex;
-  border: 1px solid #24366e; 
-  border-radius: 10px; 
+  border: 1px solid #24366e;
+  border-radius: 10px;
   padding: 5px;
   width: 200px;
   height: 40px;
@@ -13,33 +12,30 @@
   background-color: #ffffff;
 }
 
-/* 輸入框樣式 */
 .input {
   flex: 1; /* 讓輸入框佔滿剩餘空間 */
-  border: none; 
-  padding: 3px; 
-  font-size: 12px; 
+  border: none;
+  padding: 3px;
+  font-size: 12px;
 }
 
-.input:focus{
+.input:focus {
   outline: none;
 }
 
-
 .search-button {
-  background-color: #24366e; 
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
+  background-color: #24366e;
+  color: white;
+  border: none;
+  border-radius: 5px;
   height: 100%;
   font-weight: bold;
   cursor: pointer;
   box-sizing: border-box;
   z-index: 10;
-  
+
   /*transition: background-color 0.3s; /* 背景顏色過渡效果 */
 }
-
 
 .search-button:hover {
   background-color: #344fa2; /* 滑鼠移上時的背景顏色 */

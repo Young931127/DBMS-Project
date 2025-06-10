@@ -1,8 +1,8 @@
 .task-container {
-  display : flex;
-  flex-direction:column; /* 子元素垂直排列 */
+  display: flex;
+  flex-direction: column;
   align-items: center; /* 子元素水平置中 */
-  height: 100vh; /* 高度為視窗高度 */
+  height: 100vh;
   background-color: transparent;
   box-sizing: border-box;
   margin: 0 auto;
@@ -13,11 +13,10 @@
 .task-switcher {
   display: flex;
   position: relative;
-  width: 100%; 
+  width: 100%;
   height: 40px;
   border-bottom: 0.8px solid #c5c5c3;
-  }
-
+}
 
 .task-btn {
   cursor: pointer;
@@ -25,66 +24,61 @@
   font-size: 16px;
   font-weight: bold;
   background-color: transparent;
-  border: none; 
-  color: #ab9696; 
+  border: none;
+  color: #ab9696;
   transition: background-color 0.3s, color 0.3s; /* 過渡效果 */
   text-align: center;
-  min-width: 150px; /* 按鈕最小寬度 */
-  width:100% ;
+  min-width: 150px;
+  width: 100%;
 }
 
 .task-btn.active {
   color: #060606; /* 點擊後的黑色文字 */
-  
 }
 
-.task-content{
+.task-content {
   display: flex;
-  flex-direction: column; /* 子元素垂直排列 */
+  flex-direction: column;
   align-items: center; /* 子元素水平置中 */
   width: 100%;
-  height: calc(100% - 40px); /* 減去按鈕的高度 */
+  height: calc(100% - 40px);
   padding: 0px 20px 0px 20px; /* 上右下左 */
-  background-color: #eff2ec; 
+  background-color: #eff2ec;
   overflow-y: auto;
 }
- 
+
 .task-content::-webkit-scrollbar {
-  display: none; 
+  display: none;
 }
 
 .task-list {
-  background-color: #eff2ec; /* 淺灰色背景 */
+  background-color: #eff2ec;
   list-style: none;
   padding: 0;
-  padding-top:15px;
+  padding-top: 15px;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   gap: 5px;
-  transition: transform 0.3s; /* 過渡效果 */
+  transition: transform 0.3s;
   overflow-y: auto;
-  margin-bottom:0;
+  margin-bottom: 0;
 }
 .task-list::-webkit-scrollbar {
   display: none; /* 隱藏滾動軸 */
 }
-/* 列表項目 */
+
 .task-item {
   position: relative;
   margin-bottom: 5px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #ffffff; /* 預設白色背景 */
-  cursor: pointer;
-  transition: background-color 0.3s; /* 背景顏色過渡效果 */
+  background-color: #ffffff;
+  transition: background-color 0.3s;
 }
 
-/* .task-item:hover {
-  background-color: #ccc8c8;
-}*/
 .task-time {
   position: absolute;
   top: 8px;
@@ -92,13 +86,13 @@
   color: #888;
   font-size: 10px;
 }
-.task-title{
+.task-title {
   font-size: 18px;
   font-weight: bold;
   color: #191717;
   margin-bottom: 5px;
 }
-.task-region{
+.task-region {
   font-size: 12px;
   color: #000000;
 }
@@ -107,7 +101,7 @@
   font-weight: bold;
   color: #000000;
 }
-.task-date{
+.task-date {
   font-size: 12px;
   color: #000000;
 }
