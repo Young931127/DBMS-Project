@@ -22,11 +22,9 @@ async function signup(req, res) {
       return res.status(400).json({ error: "用戶已註冊" });
     }
     if (!/^\d{10}$/.test(phoneNum)) {
-      return res
-        .status(400)
-        .json({
-          error: "Phone number must be exactly 10 digits and only numbers.",
-        });
+      return res.status(400).json({
+        error: "Phone number must be exactly 10 digits and only numbers.",
+      });
     } else {
       await mysql.query(
         `
@@ -40,12 +38,11 @@ async function signup(req, res) {
     console.error("註冊錯誤：", err);
     // return error
     return res.status(400).json({
-
       error: err.message || "error!",
     });
   }
 }
-//app.post("/user/signup", signup);
+
 
 /**
  * @param {express.Request} req
@@ -75,14 +72,15 @@ async function login(req, res) {
       { sub: user.user_id, name: user.username },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
-    ); 
+    );
 
-    res.status(200).json({ token , user: { id: user.user_id, name: user.username } });
+    res
+      .status(200)
+      .json({ token, user: { id: user.user_id, name: user.username } });
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
 }
-//app.post("/user/login", login);
 
 async function getUserPoints(req, res) {
   const { userID } = req.user.sub;
@@ -101,7 +99,7 @@ async function getUserPoints(req, res) {
     res.status(404).json({ error: "User not Found" });
   }
 }
-//app.post("/user/login", login);
+
 
 module.exports = {
   signup,

@@ -14,20 +14,6 @@
   height: 100px;
   background-color: transparent;
 }
-.menu-icon {
-  position: absolute;
-  top: 40px;
-  left: 20px;
-  display: block;  
-  font-size:45px; 
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 0;
-  line-height: 1;
-  color: #24366e;  
-}
-
 .homepage-header-content {
   display: flex;
   position: relative;
@@ -40,6 +26,20 @@
   box-sizing: border-box;
   border-bottom: 0.7px solid rgb(126, 126, 122);
 }
+.menu-icon {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  display: block;
+  font-size: 45px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 0;
+  line-height: 1;
+  color: #24366e;
+}
+
 .main-content {
   overflow: hidden;
   flex: 1;
@@ -48,7 +48,6 @@
   width: 100%;
   height: calc(100% - 140px);
   overflow-y: auto;
-
 }
 
 .homepage-footer-container {
@@ -73,102 +72,33 @@
 .sidebar {
   position: absolute;
   top: 0;
-  left: 0; 
-  width: 50%; 
+  left: 0;
+  width: 50%;
   height: 100%;
   padding: 20px;
   background-color: #d0e6da;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.3s cubic-bezier(.4,0,.2,1);;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(-100%); /* 初始狀態隱藏 */
-  z-index: 3000; /* 確保側欄在其他元素之上 */
+  z-index: 3000; /* 側欄在其他元素之上 */
 }
-.sidebar-title{
+.sidebar-title {
   font-size: 24px;
   font-weight: bold;
 
   color: #24366e;
   margin-top: 20px;
   padding: 0;
-
-
 }
-.sidebar-link{
+.sidebar-link {
   font-size: 15px;
   color: #24366e;
   text-decoration: none;
   display: block;
   padding: 0;
-  
 }
-
 .sidebar.open {
   transform: translateX(0);
-}
-
-.sidebar .close-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  margin: 10px;
-}
-
-.sidebar-content ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.sidebar-content ul li {
-  padding: 10px;
-  cursor: pointer;
-}
-
-.sidebar-content ul li:hover {
-  background-color: #ddd;
-}
-
-
-
-/* 下拉選單樣式 */
-.dropdown-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-  padding: 10px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.dropdown-menu {
-  display: none;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  box-sizing: border-box;
-  position: static;
-  border: none;
-}
-
-.dropdown-menu.open {
-  width: 30px;
-  display: block;
-}
-
-.dropdown-menu li {
-  width: 100%;
-  padding: 12px 16px;
-  box-sizing: border-box;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-  background: #fff;
-}
-
-.dropdown-menu li:hover {
-  background-color: #eee;
 }
 
 .overlay {

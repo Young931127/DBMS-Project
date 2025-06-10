@@ -11,17 +11,12 @@ function HomePage() {
   const [normalTasks, setNormalTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isOpen, setIsOpen] = useState(false); // 控制側欄開關
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 控制下拉選單開關
+  const [isOpen, setIsOpen] = useState(false); 
   const navigate = useNavigate();
-  const [result, setResult] = useState(null); // 用於存儲搜尋結果
+  const [result, setResult] = useState(null); 
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen); // 切換側欄狀態
-  };
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen); // 切換下拉選單狀態
   };
 
   const handleNavigation = (path) => {
@@ -40,7 +35,7 @@ function HomePage() {
 
   //useEffect 獲取資料
   useEffect(() => {
-    //調用fetchTopTasks和fetchNormalTasks API 函數
+    
     const loadTasks = async () => {
       try {
         const topData = await fetchTopTasks();
@@ -105,30 +100,6 @@ function HomePage() {
               </Link>
             </li>
           </ul>
-          {/*<ul>
-            
-
-            <li style={{ padding: "0", marginTop: "15px" }}>
-              <div className="dropdown-header" onClick={toggleDropdown}>
-                <i className="bi bi-flag-fill" style={{ fontSize: "20px", marginRight: "5px" }}></i> 所有任務
-                <span className={`arrow ${isDropdownOpen ? "open" : ""}`}>
-                  {isDropdownOpen ? "▲" : "▼"}
-                </span>
-                <ul className={`dropdown-menu${isDropdownOpen ? " open" : ""}`}>
-                <li onClick={() => handleNavigation("/ProgressingTask")}>
-                  進行中任務
-                </li>
-                <li onClick={() => handleNavigation("/WaitingTask")}>
-                  等待中任務
-                </li>
-                <li onClick={() => handleNavigation("/FinishedTask")}>
-                  已完成任務
-                </li>
-              </ul>
-              </div>
-              
-            </li>
-          </ul>*/}
         </div>
       </div>
 

@@ -59,13 +59,9 @@ exports.getTopTasks = async (req, res) => {
 
 exports.submitTask = async (req, res) => {
   let mysql;
-  
-  try {
-    console.log("進入 submitTask controller");
-    mysql = await mysqlConnectionPool.getConnection();
 
-    //const userID = req.user.sub; // 從請求中獲取 userID
-    //const userID = "113306089"; // 從請求中獲取 userID
+  try {
+    mysql = await mysqlConnectionPool.getConnection();
     const {
       userID,
       title,
@@ -81,7 +77,7 @@ exports.submitTask = async (req, res) => {
       endTime,
     } = req.body;
     const created_at = new Date();
-    //     const status = 'pending';
+
     // 檢查必填欄位
     if (!title || !description) {
       return res.status(400).json({
@@ -127,8 +123,8 @@ exports.submitTask = async (req, res) => {
       newPoints,
       userID,
     ]);
+
     //記錄分數變動
-    
     await mysql.query(
       `INSERT INTO point_transaction
                (user_id, change_amount, reason)
@@ -139,7 +135,7 @@ exports.submitTask = async (req, res) => {
         isTop ? "publish TOP task deduction" : "publish normal task deduction",
       ]
     );
-    
+
     res.status(201).json({
       success: true,
       data: {
@@ -157,7 +153,7 @@ exports.submitTask = async (req, res) => {
       message: error.message,
     });
   } finally {
-    if (mysql) mysql.release(); // 確保釋放連線
+    if (mysql) mysql.release();
   }
 };
 
@@ -172,7 +168,7 @@ exports.acceptTask = async (req, res) => {
         message: "did not find taskID",
       });
     }
-    const accepterID = "113306089"; // 從請求中獲取 accepterID
+    const accepterID = "113306089";
     // 更新任務狀態為已接受
     await mysql.query(
       `UPDATE tasks 
@@ -180,7 +176,7 @@ exports.acceptTask = async (req, res) => {
             WHERE taskID = ?`,
       [accepterID, taskID]
     );
-    
+
     res.status(200).json({
       success: true,
       message: "Task accepted successfully",
@@ -192,7 +188,7 @@ exports.acceptTask = async (req, res) => {
       message: "Failed to accept task",
     });
   } finally {
-    if (mysql) mysql.release(); // 確保釋放連線
+    if (mysql) mysql.release();
   }
 };
 
@@ -216,7 +212,7 @@ exports.getAcceptedTasks = async (req, res) => {
       message: "Failed to fetch accepted tasks",
     });
   } finally {
-    if (mysql) mysql.release(); // 確保釋放連線
+    if (mysql) mysql.release();
   }
 };
 
@@ -252,6 +248,52 @@ exports.completeTask = async (req, res) => {
       success: true,
       message: "Task completed successfully",
     });
+
+    exports.getTaskDetails = async (req, res) => {
+      let mysql;
+      try {
+        mysql = await mysqlConnectionPool.getConnection();
+        const taskID = Number(req.params.taskID); 
+        /*if (isNaN(taskID)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid task ID format",
+      });
+    }*/
+      
+        const [taskDetails] = await mysql.query(
+          `SELECT * 
+            FROM tasks
+            WHERE taskID = ?`,
+          [taskID]
+        );
+        const [username] = await mysql.query(
+          `SELECT username 
+            FROM users
+            WHERE user_id = ?`,
+          [taskDetails[0].userID]
+        );
+        if (!taskDetails || taskDetails.length === 0) {
+          return res.status(404).json({
+            success: false,
+            message: "Task not found",
+          });
+        }
+        res.status(200).json({
+          success: true,
+          data: taskDetails[0],
+          submitterName: username[0].username, // 返回第一筆任務詳情
+        });
+      } catch (error) {
+        console.error("Error fetching task details:", error);
+        res.status(500).json({
+          success: false,
+          message: "Failed to fetch task details",
+        });
+      } finally {
+        if (mysql) mysql.release(); // 確保釋放連線
+      }
+    };
     /*
     // ★ ④ 更新使用者的 point（加上 bonus）
     const [[{ score }]] = await mysql.query(
@@ -334,7 +376,8 @@ exports.searchTask = async (req, res) => {
     if (mysql) mysql.release(); // 確保釋放連線
   }
 };
-/*
+
+/*獲取資料庫使用者積分
 exports.getPoint = async (req, res) => {
   let conn;
   try {
@@ -373,6 +416,7 @@ exports.getPoint = async (req, res) => {
   }
 };
 */
+
 /*
 exports.rateSubmitter = async (req, res) => {
   const taskID = +req.params.taskID;
@@ -528,53 +572,6 @@ exports.deleteOvertimeTask = async (req, res) => {
   }
 };
 */
-
-exports.getTaskDetails = async (req, res) => {
-  let mysql;
-  try {
-    mysql = await mysqlConnectionPool.getConnection();
-    //const rawID = req.params.taskID;
-    const taskID = Number(req.params.taskID); // 確保 taskID 是數字
-    /*if (isNaN(taskID)) {
-      return res.status(400).json({
-        success: false,
-        message: "Invalid task ID format",
-      });
-    }*/
-    //console.log("收到 taskID:", rawID);
-    const [taskDetails] = await mysql.query(
-      `SELECT * 
-            FROM tasks
-            WHERE taskID = ?`,
-      [taskID]
-    );
-    const [username] = await mysql.query(
-      `SELECT username 
-            FROM users
-            WHERE user_id = ?`,
-      [taskDetails[0].userID]
-    );
-    if (!taskDetails || taskDetails.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Task not found",
-      });
-    }
-    res.status(200).json({
-      success: true,
-      data: taskDetails[0],
-      submitterName: username[0].username, // 返回第一筆任務詳情
-    });
-  } catch (error) {
-    console.error("Error fetching task details:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch task details",
-    });
-  } finally {
-    if (mysql) mysql.release(); // 確保釋放連線
-  }
-};
 
 /*
 // POST /violations

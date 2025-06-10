@@ -19,7 +19,6 @@ function PostPage() {
   const [payDate, setPayDate] = useState("");
   const [contactInfo, setContactInfo] = useState("");
   const [isUpgrade, setIsUpgrade] = useState(false);
-  const [rewardPoints, setRewardPoints] = useState("");
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const userID = "113306089";
@@ -71,8 +70,6 @@ function PostPage() {
     setPayDateError(false);
     setContactInfoError(false);
 
-    //e.preventDefault();
-    //if (isSubmitting) return;
     if (!title) {
       setTitleError("請填寫任務標題");
       hasError = true;
@@ -112,12 +109,6 @@ function PostPage() {
       setStartTimeError("任務開始時間不能晚於結束時間");
       hasError = true;
     }
-    /*
-    if (!endTime) {
-      setEndTimeError("請填寫任務結束時間");
-      hasError = true;
-    }
-    */
     if (region.length === 0) {
       setRegionError("請至少勾選一個區域");
       hasError = true;
@@ -132,12 +123,6 @@ function PostPage() {
       hasError = true;
     }
     if (hasError) return;
-    /*const now = new Date();
-    const startDateTime = new Date(`${startDate}T${startTime}`);
-    const endDateTime = new Date(`${endDate}T${endTime}`);
-    */
-
-    /*setIsSubmitting(true);*/
 
     function formatTime(dateObj) {
       if (!dateObj) return "";
@@ -186,7 +171,7 @@ function PostPage() {
   };
 
   return (
-    <div className="post-container">
+    <div className="post-page">
       <header className="header-container">
         <div className="header-content">
           <Link to="/HomePage" className="back-link">
@@ -333,11 +318,6 @@ function PostPage() {
               placeholderText="結束時間"
               popperPlacement="bottom-end"
             />
-            {/*
-            <div className={`post-error-text ${endTimeError ? "" : "hidden"}`}>
-              {endTimeError || "\u00A0" }
-            </div>
-            */}
           </div>
         </div>
         <div className="region-group">

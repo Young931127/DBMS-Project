@@ -10,7 +10,7 @@ export async function registerUser({ username, user_id, password, phoneNum }) {
     });
     return response.data;
   } catch (error) {
-    console.log("registerUser error:", error.response?.data); // 加這行
+    console.log("registerUser error:", error.response?.data); 
     if (error.response && error.response.data && error.response.data.error) {
       throw new Error(error.response.data.error);
     } else {

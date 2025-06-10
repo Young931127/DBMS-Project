@@ -23,7 +23,7 @@
   position: absolute;
   font-size: 30px;
   font-weight: bold;
-  color: #24366e; 
+  color: #24366e;
   cursor: pointer;
   margin-top: 25px;
 }
@@ -33,9 +33,6 @@
   color: #000000;
   text-align: center;
   margin-top: 34px;
-
-  
- 
 }
 
 .accepted-main-content {
@@ -50,7 +47,6 @@
 .accepted-main-content::-webkit-scrollbar {
   display: none; /* 隱藏滾動軸 */
 }
-
 
 .accepted-footer-container {
   display: flex;

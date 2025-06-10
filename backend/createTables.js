@@ -1,7 +1,6 @@
-const db = require('./dbConnection'); // Import the database connection module
+const db = require("./dbConnection"); 
 //建Tables
-const createUsersTable = 
-`CREATE TABLE IF NOT EXISTS users (
+const createUsersTable = `CREATE TABLE IF NOT EXISTS users (
     user_id char(9) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
@@ -9,10 +8,8 @@ const createUsersTable =
     point INT DEFAULT 20,
     rate INT DEFAULT 0,
     status VARCHAR(50) DEFAULT 'unbanned'
-);`
-;
-const createTasksTable =
-`CREATE TABLE IF NOT EXISTS tasks (
+);`;
+const createTasksTable = `CREATE TABLE IF NOT EXISTS tasks (
     Task_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id char(9) NOT NULL,
     task_name VARCHAR(255) NOT NULL,
@@ -23,27 +20,24 @@ const createTasksTable =
     status ENUM("pending", "completed") DEFAULT "pending",
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);`
-const createPoint_transactionTable =
-`CREATE TABLE IF NOT EXISTS point_transactions (
+);`;
+const createPoint_transactionTable = `CREATE TABLE IF NOT EXISTS point_transactions (
    user_id char(9) UNSIGNED NOT NULL,
    transaction_id   INT AUTO_INCREMENT PRIMARY KEY,
    change_amount    INT            NOT NULL,
    reason           VARCHAR(255),
    create_time      TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);`
-const createViolationTable =
-`CREATE TABLE IF NOT EXISTS violation (
+);`;
+const createViolationTable = `CREATE TABLE IF NOT EXISTS violation (
     violation_id   INT AUTO_INCREMENT PRIMARY KEY,
     user_id        char(9) UNSIGNED NOT NULL, 
     count          INT            NOT NULL DEFAULT 1,
     reason         VARCHAR(255),
     create_time    TIMESTAMP      NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE
-);`
-const creatRateTable =
-`CREATE TABLE IF NOT EXISTS rate (
+);`;
+const creatRateTable = `CREATE TABLE IF NOT EXISTS rate (
   rate_id     INT AUTO_INCREMENT PRIMARY KEY,
   accepter_id char(9) UNSIGNED NOT NULL,
   poster_id   char(9) UNSIGNED NOT NULL,
@@ -57,9 +51,8 @@ const creatRateTable =
   FOREIGN KEY (poster_id)   REFERENCES users(user_id)
     ON DELETE CASCADE
     ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`
- const creatUserAccepterRatingTable =
-`CREATE TABLE IF NOT EXISTS accepter_ratings (
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;`;
+const creatUserAccepterRatingTable = `CREATE TABLE IF NOT EXISTS accepter_ratings (
   rate_id    INT            AUTO_INCREMENT PRIMARY KEY,
   accepter_id  char(9) UNSIGNED NOT NULL,                       -- 接單者的 user_id
   score         TINYINT       NOT NULL,                       -- 評分分數 (1~5)
@@ -69,9 +62,8 @@ const creatRateTable =
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4; 
-`
-const createReporterRatingTable=
-`CREATE TABLE IF NOT EXISTS reporter_ratings (
+`;
+const createReporterRatingTable = `CREATE TABLE IF NOT EXISTS reporter_ratings (
   rate_id    INT            AUTO_INCREMENT PRIMARY KEY,
   reporter_id  char(9) UNSIGNED NOT NULL,                       -- 發布者的 user_id
   score         TINYINT       NOT NULL,                       -- 評分分數 (1~5)
@@ -81,92 +73,7 @@ const createReporterRatingTable=
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-`
-
-;
-
-//資料庫操作邏輯 這裡是舊的
-/**db.query(createUsersTable, (err, result) => {
-    if (err) {
-        console.error('Error creating users table:', err);
-        return;
-    }
-    console.log('Users table created or already exists.');
-
-    db.query(createTasksTable, (err, result) => {
-        if (err) {
-            console.error('Error creating tasks table:', err);
-            return;
-        }
-        console.log('Tasks table created or already exists.');
-
-        //關閉連線
-        db.end(() => {
-            console.log('Database connection closed.');
-        });
-    });
-
-});
-db.query(createUsersTable, (err,result) => {
-  if (err) {
-    console.error('Error creating users table:', err);
-    return;
-  }
-  console.log('Users table created or already exists.');
-
-  db.query(createTasksTable, (err,result) => {
-    if (err) {
-      console.error('Error creating tasks table:', err);
-      return;
-    }
-    console.log('Tasks table created or already exists.');
-
-    db.query(createPoint_transactionTable , (err,result) => {
-      if (err) {
-        console.error('Error creating point_transactions table:', err);
-        return;
-      }
-      console.log('Point_transactions table created or already exists.');
-
-      db.query(createViolationTable, (err,result) => {
-        if (err) {
-          console.error('Error creating violation table:', err);
-          return;
-        }
-        console.log('Violation table created or already exists.');
-
-        db.query(creatRateTable, (err,result) => {
-          if (err) {
-            console.error('Error creating rate table:', err);
-            return;
-          }
-          console.log('Rate table created or already exists.');
-
-          db.query(creatUserAccepterRatingTable, (err,result) => {
-            if (err) {
-              console.error('Error creating accepter_ratings table:', err);
-              return;
-            }
-            console.log('Accepter_ratings table created or already exists.');
-
-            db.query(createReporterRatingTable, (err,result) => {
-              if (err) {
-                console.error('Error creating reporter_ratings table:', err);
-                return;
-              }
-              console.log('Reporter_ratings table created or already exists.');
-
-              // 全部建完，關閉連線
-              db.end(() => {
-                console.log('Database connection closed.');
-              });
-            });
-          });
-        });
-      });
-    });
-  });
-}); */
+`;
 
 async function init() {
   try {
@@ -177,13 +84,13 @@ async function init() {
       createViolationTable,
       creatRateTable,
       creatUserAccepterRatingTable,
-      createReporterRatingTable
+      createReporterRatingTable,
     ]) {
       await db.query(sql);
-      console.log('Executed:', sql.split('\n')[0]);
+      console.log("Executed:", sql.split("\n")[0]);
     }
   } catch (err) {
-    console.error('Error creating tables:', err);
+    console.error("Error creating tables:", err);
   } finally {
     db.end();
   }

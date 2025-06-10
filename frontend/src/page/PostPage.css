@@ -1,4 +1,4 @@
-.post-container {
+.post-page {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -81,41 +81,41 @@
 
   font-size: 12px;
 }
-.task-title input:focus{
+.task-title input:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.reward-group input:focus{
+.reward-group input:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.task-content-group textarea:focus{
+.task-content-group textarea:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.start-date-picker:focus{
+.start-date-picker:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.end-date-picker:focus{
+.end-date-picker:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.start-time-picker:focus{
+.start-time-picker:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.end-time-picker:focus{
+.end-time-picker:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.pay-day-group input:focus{
+.pay-day-group input:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
-.contact-info-group input:focus{
+.contact-info-group input:focus {
   outline: none;
-  border-color: #32887e; 
+  border-color: #32887e;
 }
 .reward-group {
   display: flex;
@@ -199,7 +199,7 @@ input[type="number"]::-webkit-outer-spin-button {
   align-items: center;
   gap: 20px;
   overflow: visible;
-  padding-bottom: 20px; 
+  padding-bottom: 20px;
 }
 .date-picker-container span {
   font-size: 20px;

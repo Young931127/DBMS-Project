@@ -23,7 +23,7 @@
   position: absolute;
   font-size: 30px;
   font-weight: bold;
-  color: #24366e; 
+  color: #24366e;
   cursor: pointer;
   margin-top: 25px;
 }
@@ -33,9 +33,6 @@
   color: #000000;
   text-align: center;
   margin-top: 50px;
-
-  
- 
 }
 
 .taskdetail-content {
@@ -56,40 +53,24 @@
   align-items: flex-start;
   margin-bottom: 16px;
 }
-.section-title{
+.section-title {
   display: flex;
   flex-direction: column;
   width: 100%;
   position: relative;
   margin-bottom: 20px;
-  border-bottom: 1px solid #969090d4;  
+  border-bottom: 1px solid #969090d4;
 }
-.section-label{
+.section-label {
   font-size: 15px;
   font-weight: bold;
   color: #000000;
 }
-.taskdetail-title{
+.taskdetail-title {
   font-size: 30px;
   font-weight: bold;
   color: #000000;
-
 }
-
-
-
-/*
-.time-ago {
-  font-size: 12px;
-  color: #888;
-  margin-bottom: 12px;
-}
-*/
-
-
-
-
-
 
 .footer-container {
   display: flex;
@@ -114,7 +95,7 @@
   height: 90%;
   border-radius: 12px;
   border: none;
-  background-color: #24366e;  
+  background-color: #24366e;
   color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
