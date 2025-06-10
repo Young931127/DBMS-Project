@@ -152,7 +152,6 @@ function PostPage() {
       Swal.fire({
         icon: "success",
         title: "任務發布成功",
-        /*text: "請登入帳號",*/
         confirmButtonText: "返回主頁",
         width: "300px",
         position: "center",

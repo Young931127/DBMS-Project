@@ -184,7 +184,7 @@ input[type="number"]::-webkit-outer-spin-button {
   overflow: visible;
 }
 .date-label {
-  display: block; /* 確保標題在獨立一行 */
+  display: block; 
   font-size: 16px;
   font-weight: bold;
   color: #000000;

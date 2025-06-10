@@ -24,16 +24,16 @@
   font-size: 30px;
   font-weight: bold;
   margin-top: 1px;
-  color: #333; /* 標題顏色 */
+  color: #333;
   text-align: center; /* 文字置中 */
 }
 .login-input-group {
   position: relative;
   display: flex;
-  flex-direction: column; /* 標籤、輸入框垂直排列 */
+  flex-direction: column;
   margin-bottom: 10px;
   padding-bottom: 20px;
-  width: 100%; /* 讓輸入框和標籤佔滿整個容器的寬度 */
+  width: 100%;
 }
 
 .login-input-group label {
@@ -55,7 +55,7 @@
   border-color: #32887e; /* 輸入框獲得焦點時的邊框顏色 */
 }
 .login-input-group input.error {
-  border: 1px solid rgb(220, 42, 42); 
+  border: 1px solid rgb(220, 42, 42);
 }
 .input-wrapper {
   position: relative;
@@ -74,7 +74,7 @@
 }
 
 .login-btn {
-  display: block; /* 按鈕獨佔一行 */
+  display: block;
   padding: 8px 24px;
   width: 50%;
   margin: auto;
@@ -84,14 +84,14 @@
   background-color: #40b2a4;
   font-size: 16px;
   font-weight: bold;
-  text-align: center; /*按鈕內文字置中*/
+  text-align: center;
   line-height: 1.5;
   color: #fbf9f7;
   cursor: pointer;
 }
 
 .login-btn:hover {
-  background-color: #32887e; /* 滑鼠懸停時的顏色 */
+  background-color: #32887e;
 }
 
 .divider {
@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
   text-align: center;
-  color: #504f4f; 
+  color: #504f4f;
   font-weight: bold;
   margin-top: 10px;
   width: 100%;
@@ -133,7 +133,4 @@
   color: rgba(255, 0, 0, 0.658);
   font-size: 12px;
   font-weight: bold;
-  
-  
-
 }

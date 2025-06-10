@@ -1,4 +1,4 @@
-/* 整個註冊頁面的容器 */
+
 .register {
   display: flex;
   flex-direction: column;
@@ -65,14 +65,13 @@
 .register-input-group {
   position: relative;
   display: flex;
-  flex-direction: column; /* 標籤、輸入框垂直排列 */
+  flex-direction: column; 
   margin-bottom: 15px;
   padding-bottom: 17px;
   width: 100%;
   
 }
 
-/* 標籤樣式 */
 .register-input-group label {
   display: block;
   margin-bottom: 0;
@@ -95,7 +94,7 @@
   
 }
 
-/* 輸入框聚焦時的樣式 */
+
 .register-input-group input:focus {
   border-color: #32887e;
   outline: none;
@@ -113,7 +112,7 @@
   font-weight: bold;
 }
 
-/* 提交按鈕樣式 */
+
 .register-btn {
   width: 100%;
   max-width: 400px;
@@ -127,8 +126,6 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
-/* 提交按鈕懸停時的樣式 */
 .register-btn:hover {
   background-color: #32887e;
 }
